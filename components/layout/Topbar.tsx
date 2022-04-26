@@ -1,8 +1,13 @@
 import { AppBar, Box, Button, Container, IconButton, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
 import React from "react";
 import MenuIcon from "@mui/icons-material/Menu";
+import Link from "next/link";
 
-const pages = ["Products", "Pricing", "Blog"];
+const pages = [
+  { label: "Settings", href: "/admin/setting" },
+  { label: "Calendar", href: "/admin/calendar" },
+  { label: "Tickets", href: "/admin/ticket" },
+];
 
 const Topbar: React.FC = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -10,14 +15,17 @@ const Topbar: React.FC = () => {
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
+    console.log(anchorElNav);
   };
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
+    console.log(anchorElNav);
   };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
+    console.log(anchorElNav);
   };
 
   return (
@@ -43,9 +51,11 @@ const Topbar: React.FC = () => {
               sx={{ display: { xs: "block", md: "none" } }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
+                <Link key={page.label} href={page.href} passHref>
+                  <MenuItem key={page.label} onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">{page.label}</Typography>
+                  </MenuItem>
+                </Link>
               ))}
             </Menu>
           </Box>
@@ -54,11 +64,16 @@ const Topbar: React.FC = () => {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
-              <Button key={page} onClick={handleCloseNavMenu} sx={{ my: 2, color: "white", display: "block" }}>
-                {page}
-              </Button>
+              <Link key={page.label} href={page.href} passHref>
+                <Button onClick={handleCloseNavMenu} sx={{ my: 2, color: "white", display: "block" }}>
+                  {page.label}
+                </Button>
+              </Link>
             ))}
           </Box>
+          <Link href={"/auth"} passHref>
+            <Button color="inherit">Sign Out</Button>
+          </Link>
         </Toolbar>
       </Container>
     </AppBar>

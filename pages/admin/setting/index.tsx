@@ -14,7 +14,6 @@ function a11yProps(index: number) {
   };
 }
 
-
 const QueueSetting: NextPage = () => {
   const [value, setValue] = React.useState(0);
 
@@ -45,15 +44,8 @@ const QueueSetting: NextPage = () => {
           display: "flex",
         }}
       >
-        <Tabs
-          orientation="vertical"
-          variant="scrollable"
-          value={value}
-          onChange={handleChange}
-          aria-label="Vertical tabs example"
-          sx={{ borderRight: 1, borderColor: "divider" }}
-        >
-          <Tab  label="Account" {...a11yProps(0)} />
+        <Tabs orientation="vertical" variant="scrollable" value={value} onChange={handleChange} aria-label="Vertical tabs example" sx={{ borderRight: 1, borderColor: "divider" }}>
+          <Tab label="Account" {...a11yProps(0)} />
           <Tab label="LINE Setting" {...a11yProps(1)} />
           <Tab label="Ticket Group" {...a11yProps(2)} />
           <Tab label="Item Four" {...a11yProps(3)} />
