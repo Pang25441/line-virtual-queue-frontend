@@ -1,7 +1,7 @@
 export default interface LineConfig {
-  id: number;
-  line_id: string;
-  channel_id: string;
-  channel_access_token: string;
-  login_channel_id: string;
+  id: number | null | undefined;
+  line_id: string | null | undefined;
+  channel_id: string | null | undefined;
+  channel_access_token: string | null | undefined;
+  login_channel_id: string | null | undefined;
 }
