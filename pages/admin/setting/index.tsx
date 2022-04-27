@@ -6,10 +6,12 @@ import Container from "@mui/material/Container";
 import { Box, Tab, Tabs, Typography } from "@mui/material";
 
 import TabPanel from "../../../components/ui/TabPanel";
-import QueueSettingFrom from "../../../components/settings/queue_setting/queue_setting_form";
+import QueueSettingFrom from "../../../components/settings/QueueSetting/QueueSettingForm";
 import QueueSetting from "../../../models/QueueSetting";
-import LineConfigForm from "../../../components/settings/line_setting/line_config_form";
+import LineConfigForm from "../../../components/settings/LineSetting/LineConfigForm";
 import LineConfig from "../../../models/LineConfig";
+import TicketGroupForm from "../../../components/settings/TicketGroup/TicketGroupForm";
+import TicketGroup from "../../../models/TicketGroup";
 
 function a11yProps(index: number) {
   return {
@@ -17,6 +19,14 @@ function a11yProps(index: number) {
     "aria-controls": `vertical-tabpanel-${index}`,
   };
 }
+
+const LINE_CONFIG_DUMMY: LineConfig = {
+  id: 1,
+  line_id: "@abcd",
+  channel_id: "12345678",
+  channel_access_token: "asjhqibfsbdfasfasfasf",
+  login_channel_id: "6543210"
+};
 
 const QUEUE_SETTING_DUMMY: QueueSetting = {
   id: 1,
@@ -26,13 +36,12 @@ const QUEUE_SETTING_DUMMY: QueueSetting = {
   line_config_id: 1,
 };
 
-const LINE_CONFIG_DUMMY: LineConfig = {
-  id: 1,
-  line_id: "@abcd",
-  channel_id: "12345678",
-  channel_access_token: "asjhqibfsbdfasfasfasf",
-  login_channel_id: "6543210"
-};
+const TICKET_GROUP_LIST: TicketGroup[] = [
+  {id:1, queue_setting_id:1, ticket_group_code:'hsmdtgras', ticket_group_prefix:'A', active_count:11, active:0, description:'', updated_at: ''},
+  {id:2, queue_setting_id:1, ticket_group_code:'5h6wbtby3', ticket_group_prefix:'B', active_count:35, active:0, description:'', updated_at: ''},
+  {id:3, queue_setting_id:1, ticket_group_code:'gfhjlhsdc', ticket_group_prefix:'C', active_count:12, active:1, description:'', updated_at: ''},
+  {id:4, queue_setting_id:1, ticket_group_code:'xmys54esr', ticket_group_prefix:'D', active_count:90, active:0, description:'', updated_at: ''},
+];
 
 const QueueSetting: NextPage = () => {
   const [value, setValue] = React.useState(0);
@@ -65,7 +74,7 @@ const QueueSetting: NextPage = () => {
         }}
       >
         <Tabs orientation="vertical" variant="standard" value={value} onChange={handleChange} aria-label="Vertical tabs example" sx={{ borderRight: 1, borderColor: "divider" }}>
-          <Tab label="Line Setting" sx={{ alignSelf: "end" }} {...a11yProps(0)} />
+          <Tab label="Line Configuration" sx={{ alignSelf: "end" }} {...a11yProps(0)} />
           <Tab label="Account Detail" sx={{ alignSelf: "end" }} {...a11yProps(1)} />
           <Tab label="Ticket Group" sx={{ alignSelf: "end" }} {...a11yProps(2)} />
           <Tab label="Booking Calendar" sx={{ alignSelf: "end" }} {...a11yProps(3)} />
@@ -78,7 +87,7 @@ const QueueSetting: NextPage = () => {
             <QueueSettingFrom onSaveQueueSetting={() => {}} queueSetting={QUEUE_SETTING_DUMMY}></QueueSettingFrom>
           </TabPanel>
           <TabPanel value={value} index={2}>
-            Item Three
+            <TicketGroupForm ticketGroups={TICKET_GROUP_LIST}></TicketGroupForm>
           </TabPanel>
           <TabPanel value={value} index={3}>
             Item Four
