@@ -8,6 +8,7 @@ import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
+import { LangAdminDesc } from "../../../lang/en/admin";
 
 interface Props extends OriginProps {
 	ticketGroups: TicketGroup[] | null;
@@ -27,7 +28,7 @@ const TicketGroupForm: React.FC<Props> = (props) => {
 		alert("delete " + id);
 	};
 
-	const actionPanel = (id: number) => {
+	const actionColumn = (id: number) => {
 		return (
 			<Fragment>
 				<IconButton onClick={handleEdit.bind(null, id)} color="default">
@@ -59,7 +60,7 @@ const TicketGroupForm: React.FC<Props> = (props) => {
 		// { field: "active_count", headerName: "Count", headerAlign: "center", align: "right", flex: 1 },
 		{ field: "active", headerName: "Active", headerAlign: "center", align: "center", flex: 1, renderCell: (params: GridValueGetterParams) => activeStatus(params.row.active) },
 		{ field: "description", headerName: "Description", headerAlign: "center", sortable: false, flex: 2 },
-		{ field: "action", headerName: "Action", headerAlign: "center", align: "center", sortable: false, flex: 1, renderCell: (params: GridValueGetterParams) => actionPanel(params.row.id) },
+		{ field: "action", headerName: "Action", headerAlign: "center", align: "center", sortable: false, flex: 1, renderCell: (params: GridValueGetterParams) => actionColumn(params.row.id) },
 	];
 
 	const heading = <TabHeading heading="Ticket Group"></TabHeading>;
@@ -67,8 +68,17 @@ const TicketGroupForm: React.FC<Props> = (props) => {
 	const emptyOutput = (
 		<Box component="div" sx={{ mt: 1 }}>
 			<Typography variant="h5" component="p" sx={{ my: fieldLabelMargin, alignContent: "center" }}>
-				hhhhh
+				{LangAdminDesc.listDataEmpty}
 			</Typography>
+		</Box>
+	);
+
+	const controlPanel = (
+		<Box component="div" sx={{ my: 1 }}>
+			<Button color="primary" variant="contained" sx={{ fontWeight: "bold" }}>
+				<AddIcon></AddIcon>
+				Add Group
+			</Button>
 		</Box>
 	);
 
@@ -76,6 +86,7 @@ const TicketGroupForm: React.FC<Props> = (props) => {
 		return (
 			<Fragment>
 				{heading}
+				{controlPanel}
 				{emptyOutput}
 			</Fragment>
 		);
@@ -84,12 +95,7 @@ const TicketGroupForm: React.FC<Props> = (props) => {
 	return (
 		<Box component="div" sx={{ mt: 1 }}>
 			{heading}
-			<Box component="div" sx={{ my: 1 }}>
-				<Button color="primary" variant="contained" sx={{ fontWeight: "bold" }}>
-					<AddIcon></AddIcon>
-					Add Group
-				</Button>
-			</Box>
+			{controlPanel}
 			<DataGrid rows={ticketGroups} columns={columns} disableSelectionOnClick autoHeight showColumnRightBorder showCellRightBorder hideFooterSelectedRowCount hideFooter disableColumnSelector />
 		</Box>
 	);

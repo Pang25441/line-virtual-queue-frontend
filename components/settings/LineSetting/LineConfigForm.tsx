@@ -21,7 +21,7 @@ const LineConfigForm: React.FC<Props> = (props) => {
 	const emptyOutput = (
 		<Box component="div" sx={{ mt: 1 }}>
 			<Typography variant="h5" component="p" sx={{ my: fieldLabelMargin, alignContent: "center" }}>
-				hhhhh
+				{LangAdminDesc.listDataEmpty}
 			</Typography>
 		</Box>
 	);

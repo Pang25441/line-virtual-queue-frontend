@@ -1,4 +1,6 @@
 export const LangAdminDesc = {
+  listDataEmpty : "No Data",
+
   // Line Config
   lineConfig: {
     line_id: "LINE Official Account ID for info",
