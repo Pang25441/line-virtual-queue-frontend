@@ -45,7 +45,56 @@ const TICKET_GROUP_DUMMY: TicketGroup[] = [
 	{ id: 4, queue_setting_id: 1, ticket_group_code: "xmys54esr", ticket_group_prefix: "D", active_count: 90, active: 0, description: "", updated_at: "" },
 ];
 
-const CALENDAR_SETTING_DUMMY: CalendarSetting[] = [];
+const CALENDAR_SETTING_DUMMY: CalendarSetting[] = [
+	{
+		id: 1,
+		queue_setting_id: 1,
+		calendar_date: "2022-02-01",
+		business_time_open: "09:30:00",
+		business_time_close: "17:00:00",
+		day_off: [1, 2, 3],
+		allocate_time: "00:30:00",
+		booking_limit: 1,
+		active: 1,
+		updated_at: "",
+	},
+	{
+		id: 2,
+		queue_setting_id: 1,
+		calendar_date: "2022-03-01",
+		business_time_open: "09:30:00",
+		business_time_close: "17:00:00",
+		day_off: [1, 2, 3],
+		allocate_time: "00:30:00",
+		booking_limit: 1,
+		active: 1,
+		updated_at: "",
+	},
+	{
+		id: 3,
+		queue_setting_id: 1,
+		calendar_date: "2022-04-01",
+		business_time_open: "09:30:00",
+		business_time_close: "17:00:00",
+		day_off: [1, 2, 3],
+		allocate_time: "00:30:00",
+		booking_limit: 1,
+		active: 1,
+		updated_at: "",
+	},
+	{
+		id: 4,
+		queue_setting_id: 1,
+		calendar_date: "2022-04-01",
+		business_time_open: "09:30:00",
+		business_time_close: "17:00:00",
+		day_off: [1, 2, 3],
+		allocate_time: "00:30:00",
+		booking_limit: 1,
+		active: 1,
+		updated_at: "",
+	},
+];
 
 const QueueSetting: NextPage = () => {
 	const [value, setValue] = React.useState(0);

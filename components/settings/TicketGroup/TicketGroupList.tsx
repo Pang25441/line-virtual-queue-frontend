@@ -9,6 +9,7 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import { LangAdminDesc } from "../../../lang/en/admin";
+import { EmptyBox } from "../../layout/EmptyBox";
 
 interface Props extends OriginProps {
 	ticketGroups: TicketGroup[] | null;
@@ -65,13 +66,7 @@ const TicketGroupForm: React.FC<Props> = (props) => {
 
 	const heading = <TabHeading heading="Ticket Group"></TabHeading>;
 
-	const emptyOutput = (
-		<Box component="div" sx={{ mt: 1 }}>
-			<Typography variant="h5" component="p" sx={{ my: fieldLabelMargin, alignContent: "center" }}>
-				{LangAdminDesc.listDataEmpty}
-			</Typography>
-		</Box>
-	);
+	const emptyOutput = <EmptyBox>{LangAdminDesc.listDataEmpty}</EmptyBox>;
 
 	const controlPanel = (
 		<Box component="div" sx={{ my: 1 }}>
