@@ -55,11 +55,22 @@ const CalendarSettingList: React.FC<Props> = (props) => {
 		);
 	};
 
+	const business_time = (business_time_open: string, business_time_close: string) => {
+		return <Fragment></Fragment>;
+	};
+
 	const columns: GridColDef[] = [
 		{ field: "id", headerName: "ID", maxWidth: 40, headerAlign: "center", align: "right" },
 		{ field: "calendar_date", headerName: "Calendar", headerAlign: "center", align: "center", flex: 1 },
-		{ field: "buisiness_time", headerName: "Buisiness Time", headerAlign: "center", align: "center", flex: 1 },
-		{ field: "day_off", headerName: "Day off", headerAlign: "center", align: "center", flex: 1 },
+		{
+			field: "buisiness_time",
+			headerName: "Buisiness Time",
+			headerAlign: "center",
+			align: "center",
+			flex: 1,
+			renderCell: (params: GridValueGetterParams) => business_time(params.row.business_time_open, params.row.business_time_close),
+		},
+		{ field: "day_off", headerName: "Day off", headerAlign: "center", align: "center", flex: 1, valueGetter: (params: GridValueGetterParams) => params.row.day_off.length },
 		{ field: "active", headerName: "Active", headerAlign: "center", align: "center", flex: 1, renderCell: (params: GridValueGetterParams) => activeStatus(params.row.active) },
 		{ field: "action", headerName: "Action", headerAlign: "center", align: "center", sortable: false, flex: 1, renderCell: (params: GridValueGetterParams) => actionColumn(params.row.id) },
 	];
