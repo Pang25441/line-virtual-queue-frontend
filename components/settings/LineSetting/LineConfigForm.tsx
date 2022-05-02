@@ -1,7 +1,7 @@
 import { Divider, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 
-import { OriginProps } from "../../../models/util/OriginProps";
+import OriginProps from "../../../models/util/OriginProps";
 import React, { Fragment } from "react";
 import { LangAdminDesc } from "../../../lang/en/admin";
 import LineConfig from "../../../models/LineConfig";

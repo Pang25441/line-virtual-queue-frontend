@@ -14,6 +14,7 @@ import TicketGroupList from "../../../components/settings/TicketGroup/TicketGrou
 import TicketGroup from "../../../models/TicketGroup";
 import CalendarSettingList from "../../../components/settings/CalendarSetting/CalendarSettingList";
 import CalendarSetting from "../../../models/CalendarSetting";
+import TicketGroupComponent from "../../../components/settings/TicketGroup/TicketGroupComponent";
 
 function a11yProps(index: number) {
 	return {
@@ -99,7 +100,7 @@ const CALENDAR_SETTING_DUMMY: CalendarSetting[] = [
 const QueueSetting: NextPage = () => {
 	const [value, setValue] = React.useState(0);
 
-	const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+	const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
 		setValue(newValue);
 	};
 
@@ -109,24 +110,11 @@ const QueueSetting: NextPage = () => {
 				<title>LVQ - Account Setting</title>
 				<meta name="description" content="Account Settings" />
 			</Head>
-			<Typography
-				component="h1"
-				variant="h5"
-				sx={{
-					marginTop: 4,
-				}}
-			>
+			<Typography component="h1" variant="h5" sx={{ marginTop: 4 }}>
 				Account Settings
 			</Typography>
-			<Box
-				sx={{
-					marginTop: 4,
-					flexGrow: 1,
-					bgcolor: "background.paper",
-					display: "flex",
-				}}
-			>
-				<Tabs orientation="vertical" variant="standard" value={value} onChange={handleChange} aria-label="Vertical tabs example" sx={{ borderRight: 1, borderColor: "divider" }}>
+			<Box sx={{ marginTop: 4, flexGrow: 1, bgcolor: "background.paper", display: "flex" }}>
+				<Tabs orientation="vertical" variant="standard" value={value} onChange={handleTabChange} aria-label="Vertical tabs example" sx={{ borderRight: 1, borderColor: "divider" }}>
 					<Tab label="Line Configuration" sx={{ alignSelf: "end" }} {...a11yProps(0)} />
 					<Tab label="Account Detail" sx={{ alignSelf: "end" }} {...a11yProps(1)} />
 					<Tab label="Ticket Group" sx={{ alignSelf: "end" }} {...a11yProps(2)} />
@@ -140,7 +128,8 @@ const QueueSetting: NextPage = () => {
 						<QueueSettingFrom onSaveQueueSetting={() => {}} queueSetting={QUEUE_SETTING_DUMMY}></QueueSettingFrom>
 					</TabPanel>
 					<TabPanel value={value} index={2}>
-						<TicketGroupList ticketGroups={TICKET_GROUP_DUMMY}></TicketGroupList>
+						{/* <TicketGroupList ticketGroups={TICKET_GROUP_DUMMY}></TicketGroupList> */}
+						<TicketGroupComponent></TicketGroupComponent>
 					</TabPanel>
 					<TabPanel value={value} index={3}>
 						<CalendarSettingList calendarSettings={CALENDAR_SETTING_DUMMY}></CalendarSettingList>

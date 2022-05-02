@@ -2,7 +2,7 @@ import React from "react";
 import NextLink from "next/link";
 import MuiLink from "@mui/material/Link";
 
-import { OriginProps } from "../../models/util/OriginProps";
+import OriginProps from "../../models/util/OriginProps";
 
 interface Props extends OriginProps { href: string; variant: string }
 

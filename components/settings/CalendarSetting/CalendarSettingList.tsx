@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 
-import { OriginProps } from "../../../models/util/OriginProps";
+import OriginProps from "../../../models/util/OriginProps";
 import CalendarSetting from "../../../models/CalendarSetting";
 import { Box, Button, IconButton, Typography } from "@mui/material";
 

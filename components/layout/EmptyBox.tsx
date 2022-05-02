@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { Box } from "@mui/system";
 import { Typography } from "@mui/material";
-import { OriginProps } from "../../models/util/OriginProps";
+import OriginProps from "../../models/util/OriginProps";
 
 interface Props extends OriginProps {}
 
