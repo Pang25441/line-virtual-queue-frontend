@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
-// eslint-disable-next-line @next/next/no-document-import-in-page
-import { OriginProps } from "next/document";
+
+import { OriginProps } from "../../../models/util/OriginProps";
 import CalendarSetting from "../../../models/CalendarSetting";
 import { Box, Button, IconButton, Typography } from "@mui/material";
 
@@ -11,6 +11,10 @@ import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import TabHeading from "../../layout/TabHeading";
 import { LangAdminDesc } from "../../../lang/en/admin";
 import { EmptyBox } from "../../layout/EmptyBox";
+
+import dayjs from "dayjs";
+var customParseFormat = require("dayjs/plugin/customParseFormat");
+dayjs.extend(customParseFormat);
 
 interface Props extends OriginProps {
 	calendarSettings: CalendarSetting[] | null;
@@ -56,12 +60,18 @@ const CalendarSettingList: React.FC<Props> = (props) => {
 	};
 
 	const business_time = (business_time_open: string, business_time_close: string) => {
-		return <Fragment></Fragment>;
+		const time_open = dayjs(business_time_open, "HH:mm:ss");
+		const time_close = dayjs(business_time_close, "HH:mm:ss");
+		return (
+			<Fragment>
+				{time_open.format("HH:mm")} - {time_close.format("HH:mm")}
+			</Fragment>
+		);
 	};
 
 	const columns: GridColDef[] = [
 		{ field: "id", headerName: "ID", maxWidth: 40, headerAlign: "center", align: "right" },
-		{ field: "calendar_date", headerName: "Calendar", headerAlign: "center", align: "center", flex: 1 },
+		{ field: "calendar_date", headerName: "Calendar", headerAlign: "center", align: "center", flex: 1, valueGetter: (params:GridValueGetterParams) => dayjs(params.row.calendar_date, "YYYY-MM-DD").format("YYYY / MM") },
 		{
 			field: "buisiness_time",
 			headerName: "Buisiness Time",

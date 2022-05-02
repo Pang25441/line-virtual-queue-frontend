@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
-// eslint-disable-next-line @next/next/no-document-import-in-page
-import { OriginProps } from "next/document";
+
+import { OriginProps } from "../../models/util/OriginProps";
 import { Divider, Typography } from "@mui/material";
 
 interface Props extends OriginProps {

@@ -1,8 +1,8 @@
 import React from "react";
 import NextLink from "next/link";
 import MuiLink from "@mui/material/Link";
-// eslint-disable-next-line @next/next/no-document-import-in-page
-import { OriginProps } from "next/document";
+
+import { OriginProps } from "../../models/util/OriginProps";
 
 interface Props extends OriginProps { href: string; variant: string }
 

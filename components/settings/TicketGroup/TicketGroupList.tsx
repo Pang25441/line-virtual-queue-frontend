@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
-// eslint-disable-next-line @next/next/no-document-import-in-page
-import { OriginProps } from "next/document";
+
+import { OriginProps } from "../../../models/util/OriginProps";
 import TicketGroup from "../../../models/TicketGroup";
 import { Box, Button, IconButton, Typography } from "@mui/material";
 import TabHeading from "../../layout/TabHeading";

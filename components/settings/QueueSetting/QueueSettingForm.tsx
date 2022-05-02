@@ -1,6 +1,6 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
-// eslint-disable-next-line @next/next/no-document-import-in-page
-import { OriginProps } from "next/document";
+
+import { OriginProps } from "../../../models/util/OriginProps";
 import React, { Fragment } from "react";
 import QueueSetting from "../../../models/QueueSetting";
 import Divider from "@mui/material/Divider";

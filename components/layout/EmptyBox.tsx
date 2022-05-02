@@ -1,8 +1,7 @@
 import React, { Fragment } from "react";
-// eslint-disable-next-line @next/next/no-document-import-in-page
-import { OriginProps } from "next/document";
 import { Box } from "@mui/system";
 import { Typography } from "@mui/material";
+import { OriginProps } from "../../models/util/OriginProps";
 
 interface Props extends OriginProps {}
 
