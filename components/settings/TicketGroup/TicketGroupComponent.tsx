@@ -1,15 +1,10 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import TicketGroup from "../../../models/TicketGroup";
 import OriginProps from "../../../models/util/OriginProps";
+import { useContextTicketGroup } from "../../../store/TicketGroupContext";
+import ConfirmDialog from "../../ui/ConfirmDialog";
 import TicketGroupForm from "./TicketGroupForm";
 import TicketGroupList from "./TicketGroupList";
-
-const TICKET_GROUP_DUMMY: TicketGroup[] = [
-	{ id: 1, queue_setting_id: 1, ticket_group_code: "hsmdtgras", ticket_group_prefix: "A", active_count: 11, active: 0, description: "", updated_at: "" },
-	{ id: 2, queue_setting_id: 1, ticket_group_code: "5h6wbtby3", ticket_group_prefix: "B", active_count: 35, active: 0, description: "", updated_at: "" },
-	{ id: 3, queue_setting_id: 1, ticket_group_code: "gfhjlhsdc", ticket_group_prefix: "C", active_count: 12, active: 1, description: "", updated_at: "" },
-	{ id: 4, queue_setting_id: 1, ticket_group_code: "xmys54esr", ticket_group_prefix: "D", active_count: 90, active: 0, description: "", updated_at: "" },
-];
 
 interface Props extends OriginProps {}
 
@@ -17,11 +12,25 @@ const TicketGroupComponent: React.FC<Props> = (props) => {
 	// const [isInit, setIsInit] = useState(false);
 	const [selectedTicketGroup, setSelectedTicketGroup] = useState<TicketGroup | null>(null);
 	const [formOpen, setFormOpen] = useState(false);
+	const [deleteDialog, setDeleteDialog] = useState(false);
+	const [deletingID, setDeletingID] = useState<number>(0);
 	const [ticketGroups, setTicketGroups] = useState<TicketGroup[]>([]);
 
+	const ticketGroupCtx = useContextTicketGroup();
+
 	useEffect(() => {
-		setTicketGroups(TICKET_GROUP_DUMMY);
-	}, []);
+		if (ticketGroupCtx.isInitial) {
+			console.log("TicketGroupComponent", "reloadTicketGroupList");
+			reloadTicketGroupList();
+		}
+	}, [ticketGroupCtx.isInitial, ticketGroupCtx.ticketGroupList]);
+
+	const reloadTicketGroupList = async () => {
+		const result = await ticketGroupCtx.getTicketGroupList();
+		console.log("reloadTicketGroupList", result);
+		const list = result || [];
+		setTicketGroups(list);
+	};
 
 	const handleOpenCreateForm = () => {
 		setSelectedTicketGroup(null);
@@ -39,12 +48,36 @@ const TicketGroupComponent: React.FC<Props> = (props) => {
 		setFormOpen(true);
 	};
 
-	const handleSave = (data: TicketGroup) => {};
+	const handleSave = (data: TicketGroup) => {
+		console.log("handleSave", "data", data);
+		const result = data.id ? ticketGroupCtx.updateTicketGroup(data) : ticketGroupCtx.createTicketGroup(data);
+		console.log("handleSave", "result", result);
+		setFormOpen(false);
+		if (result) {
+		}
+	};
+
+	const handleDelete = (id: number) => {
+		setDeletingID(id);
+		setDeleteDialog(true);
+	};
+
+	const handleConfirmDelete = () => {
+		const result = ticketGroupCtx.deleteTicketGroup(deletingID);
+		setDeleteDialog(false);
+	};
+
+	const handleDeleteDialogClose = () => {
+		setDeleteDialog(false);
+	};
 
 	return (
 		<Fragment>
-			<TicketGroupList onCreateAction={handleOpenCreateForm} onUpdateAction={handleOpenUpdateForm} ticketGroups={ticketGroups} />
+			<TicketGroupList onCreateAction={handleOpenCreateForm} onUpdateAction={handleOpenUpdateForm} onDeleteAction={handleDelete} ticketGroups={ticketGroups} />
 			<TicketGroupForm ticketGroup={selectedTicketGroup} onSave={handleSave} onClose={handleCloseForm} open={formOpen}></TicketGroupForm>
+			<ConfirmDialog open={deleteDialog} onConfirm={handleConfirmDelete} onReject={handleDeleteDialogClose}>
+				Confirm To Delete
+			</ConfirmDialog>
 		</Fragment>
 	);
 };

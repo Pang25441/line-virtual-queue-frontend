@@ -15,6 +15,7 @@ import TicketGroup from "../../../models/TicketGroup";
 import CalendarSettingList from "../../../components/settings/CalendarSetting/CalendarSettingList";
 import CalendarSetting from "../../../models/CalendarSetting";
 import TicketGroupComponent from "../../../components/settings/TicketGroup/TicketGroupComponent";
+import TicketGroupContextProvider from "../../../store/TicketGroupContext";
 
 function a11yProps(index: number) {
 	return {
@@ -128,8 +129,9 @@ const QueueSetting: NextPage = () => {
 						<QueueSettingFrom onSaveQueueSetting={() => {}} queueSetting={QUEUE_SETTING_DUMMY}></QueueSettingFrom>
 					</TabPanel>
 					<TabPanel value={value} index={2}>
-						{/* <TicketGroupList ticketGroups={TICKET_GROUP_DUMMY}></TicketGroupList> */}
-						<TicketGroupComponent></TicketGroupComponent>
+						<TicketGroupContextProvider>
+							<TicketGroupComponent></TicketGroupComponent>
+						</TicketGroupContextProvider>
 					</TabPanel>
 					<TabPanel value={value} index={3}>
 						<CalendarSettingList calendarSettings={CALENDAR_SETTING_DUMMY}></CalendarSettingList>

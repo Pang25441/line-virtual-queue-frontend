@@ -43,7 +43,7 @@ const TicketGroupForm: React.FC<Props> = (props) => {
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const formData = new FormData(event.currentTarget);
-		const data: TicketGroup = {
+		const data: TicketGroup = {...ticketGroup,
 			id: ticketGroup ? ticketGroup.id : null,
 			active: activeStatus,
 			ticket_group_prefix: formData.get("ticket_group_prefix")?.toString(),
@@ -73,6 +73,12 @@ const TicketGroupForm: React.FC<Props> = (props) => {
 						Ticket Group Prefix
 					</Typography>
 					<TextField type="text" id="ticket_group_prefix" name="ticket_group_prefix" defaultValue={ticketGroup?.ticket_group_prefix} label="Required" variant="outlined" required fullWidth />
+
+					<Typography variant="h5" component="p" sx={{ my: fieldLabelMargin }}>
+						Description
+					</Typography>
+					<TextField type="text" id="description" name="description" defaultValue={ticketGroup?.description} label="" variant="outlined" fullWidth />
+
 				</DialogContent>
 				<DialogActions>
 					<Button onClick={handleClose}>Cancel</Button>

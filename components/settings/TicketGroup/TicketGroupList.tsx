@@ -37,13 +37,14 @@ const TicketGroupList: React.FC<Props> = (props) => {
 		if (typeof props.onDeleteAction == "function") props.onDeleteAction(id);
 	};
 
-	const gridActionColumn = (id: number) => {
+	const gridActionColumn = (ticketGroup: TicketGroup) => {
+		const id = ticketGroup.id || 0;
 		return (
 			<Fragment>
 				<IconButton onClick={handleUpdate.bind(null, id)} color="default">
 					<EditIcon />
 				</IconButton>
-				<IconButton onClick={handleDelete.bind(null, id)} color="error">
+				<IconButton disabled={ticketGroup.active == 1} onClick={handleDelete.bind(null, id)} color="error">
 					<DeleteForeverIcon />
 				</IconButton>
 			</Fragment>
@@ -63,13 +64,13 @@ const TicketGroupList: React.FC<Props> = (props) => {
 	};
 
 	const columns: GridColDef[] = [
-		{ field: "id", headerName: "ID", maxWidth: 40, headerAlign: "center", align: "right" },
-		{ field: "ticket_group_prefix", headerName: "Prefix", headerAlign: "center", align: "center", flex: 1 },
-		{ field: "ticket_group_code", headerName: "Code", headerAlign: "center", sortable: false, flex: 2 },
+		// { field: "id", headerName: "ID", maxWidth: 40, headerAlign: "center", align: "right" },
+		{ field: "ticket_group_prefix", headerName: "Group Prefix", headerAlign: "center", align: "center", flex: 1 },
+		// { field: "ticket_group_code", headerName: "Code", headerAlign: "center", sortable: false, flex: 2 },
 		// { field: "active_count", headerName: "Count", headerAlign: "center", align: "right", flex: 1 },
-		{ field: "active", headerName: "Active", headerAlign: "center", align: "center", flex: 1, renderCell: (params: GridValueGetterParams) => gridActiveStatus(params.row.active) },
 		{ field: "description", headerName: "Description", headerAlign: "center", sortable: false, flex: 2 },
-		{ field: "action", headerName: "Action", headerAlign: "center", align: "center", sortable: false, flex: 1, renderCell: (params: GridValueGetterParams) => gridActionColumn(params.row.id) },
+		{ field: "active", headerName: "Active", headerAlign: "center", align: "center", flex: 1, renderCell: (params: GridValueGetterParams) => gridActiveStatus(params.row.active) },
+		{ field: "action", headerName: "Action", headerAlign: "center", align: "center", sortable: false, flex: 1, renderCell: (params: GridValueGetterParams) => gridActionColumn(params.row) },
 	];
 
 	const heading = <TabHeading heading="Ticket Group"></TabHeading>;

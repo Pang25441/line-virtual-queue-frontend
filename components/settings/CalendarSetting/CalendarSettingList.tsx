@@ -70,7 +70,7 @@ const CalendarSettingList: React.FC<Props> = (props) => {
 	};
 
 	const columns: GridColDef[] = [
-		{ field: "id", headerName: "ID", maxWidth: 40, headerAlign: "center", align: "right" },
+		// { field: "id", headerName: "ID", maxWidth: 40, headerAlign: "center", align: "right" },
 		{ field: "calendar_date", headerName: "Calendar", headerAlign: "center", align: "center", flex: 1, valueGetter: (params:GridValueGetterParams) => dayjs(params.row.calendar_date, "YYYY-MM-DD").format("YYYY / MM") },
 		{
 			field: "buisiness_time",
