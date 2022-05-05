@@ -15,7 +15,7 @@ import TicketGroup from "../../../models/TicketGroup";
 import CalendarSettingList from "../../../components/settings/CalendarSetting/CalendarSettingList";
 import CalendarSetting from "../../../models/CalendarSetting";
 import TicketGroupComponent from "../../../components/settings/TicketGroup/TicketGroupComponent";
-import TicketGroupContextProvider from "../../../store/TicketGroupContext";
+import TicketGroupContextProvider from "../../../contexts/TicketGroupContext";
 
 function a11yProps(index: number) {
 	return {

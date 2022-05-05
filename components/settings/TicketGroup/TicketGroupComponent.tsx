@@ -1,7 +1,7 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import TicketGroup from "../../../models/TicketGroup";
 import OriginProps from "../../../models/util/OriginProps";
-import { useContextTicketGroup } from "../../../store/TicketGroupContext";
+import { useContextTicketGroup } from "../../../contexts/TicketGroupContext";
 import ConfirmDialog from "../../ui/ConfirmDialog";
 import TicketGroupForm from "./TicketGroupForm";
 import TicketGroupList from "./TicketGroupList";
