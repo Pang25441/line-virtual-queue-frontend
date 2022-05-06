@@ -144,7 +144,7 @@ const QueueSettingFrom: React.FC<Props> = (props) => {
 		return (
 			<Fragment>
 				{heading}
-				<Box component="div" sx={{ mt: 1, display: "flex" }}>
+				<Box component="div" sx={{ mt: 1, display: "flex", justifyContent: "center" }}>
 					<CircularProgress color="inherit" />
 				</Box>
 			</Fragment>

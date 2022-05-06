@@ -5,10 +5,11 @@ import Link from "next/link";
 import { useContextAuth } from "../../contexts/AuthContext";
 import ProgressBackdrop from "../ui/ProgressBackdrop";
 import { useRouter } from "next/router";
+import ConfirmDialog from "../ui/ConfirmDialog";
 
 const pages = [
 	{ label: "Settings", href: "/admin/setting" },
-	{ label: "Calendar", href: "/admin/calendar" },
+	// { label: "Calendar", href: "/admin/calendar" },
 	{ label: "Tickets", href: "/admin/ticket" },
 ];
 
@@ -16,6 +17,7 @@ const Topbar: React.FC = () => {
 	const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
 	const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 	const [isLoading, setIsLoading] = React.useState(false);
+	const [logoutDialog, setLogoutDialog] = React.useState(false);
 
 	const auth = useContextAuth();
 	const router = useRouter();
@@ -36,15 +38,24 @@ const Topbar: React.FC = () => {
 
 	const handleLogout = async (event: React.MouseEvent<HTMLElement>) => {
 		event.preventDefault();
-		setIsLoading(true);
-		const isLogout = await auth.onLogout();
-		setIsLoading(false);
-		router.replace("/auth")
+		setLogoutDialog(true);
 	};
 
 	const handleCloseNavMenu = () => {
 		setAnchorElNav(null);
 		console.log(anchorElNav);
+	};
+
+	const handleConfirmLogout = async () => {
+		setLogoutDialog(false);
+		setIsLoading(true);
+		const isLogout = await auth.onLogout();
+		setIsLoading(false);
+		await router.replace("/auth");
+	};
+
+	const handleLogoutDialog = () => {
+		setLogoutDialog(false);
 	};
 
 	if (!auth.isLogin) {
@@ -101,6 +112,9 @@ const Topbar: React.FC = () => {
 						</Button>
 					</Link>
 				</Toolbar>
+				<ConfirmDialog open={logoutDialog} title="Sign Out" confirmLabel="Sign Out" rejectLabel="Stay On" onConfirm={handleConfirmLogout} onReject={handleLogoutDialog} maxWidth="xs">
+					Please confirm to Sign out
+				</ConfirmDialog>
 			</Container>
 		</AppBar>
 	);

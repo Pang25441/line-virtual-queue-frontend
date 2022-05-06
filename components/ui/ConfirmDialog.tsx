@@ -9,13 +9,16 @@ interface Props extends OriginProps {
 	title?: string;
 	confirmLabel?: string;
 	rejectLabel?: string;
+	maxWidth?: string;
 }
 
 const ConfirmDialog: React.FC<Props> = (props) => {
-	const { open, rejectLabel, confirmLabel, title, children, onConfirm, onReject } = props;
+	const { open, rejectLabel, confirmLabel, title, children, onConfirm, onReject, maxWidth } = props;
+
+	const maxWidthParam:any = maxWidth ? maxWidth : "sm";
 
 	return (
-		<Dialog open={open} onClose={onReject} fullWidth={true} maxWidth="sm" aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
+		<Dialog open={open} onClose={onReject} fullWidth={true} maxWidth={maxWidthParam} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
 			<DialogTitle id="alert-dialog-title">{title ? title : "Confirm?"}</DialogTitle>
 			<DialogContent>
 				<DialogContentText id="alert-dialog-description">{children ? children : "Confirm?"}</DialogContentText>

@@ -11,6 +11,8 @@ import LineConfigForm from "../../../components/settings/LineSetting/LineConfigF
 import TicketGroupComponent from "../../../components/settings/TicketGroup/TicketGroupComponent";
 import TicketGroupContextProvider from "../../../contexts/TicketGroupContext";
 import CalendarSettingComponent from "../../../components/settings/CalendarSetting/CalendarSettingComponent";
+import { useContextAuth } from "../../../contexts/AuthContext";
+import { useRouter } from "next/router";
 
 function a11yProps(index: number) {
 	return {
@@ -22,9 +24,18 @@ function a11yProps(index: number) {
 const QueueSettingPage: NextPage = () => {
 	const [value, setValue] = React.useState(0);
 
+	const auth = useContextAuth();
+
+	const router = useRouter();
+
 	const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
 		setValue(newValue);
 	};
+
+	if (!auth.isLogin) {
+		router.push("/auth");
+		return null;
+	}
 
 	return (
 		<Container component="main" maxWidth="lg">
@@ -40,7 +51,7 @@ const QueueSettingPage: NextPage = () => {
 					<Tab label="Line Configuration" sx={{ alignSelf: "end" }} {...a11yProps(0)} />
 					<Tab label="Account Detail" sx={{ alignSelf: "end" }} {...a11yProps(1)} />
 					<Tab label="Ticket Group" sx={{ alignSelf: "end" }} {...a11yProps(2)} />
-					<Tab label="Booking Calendar" sx={{ alignSelf: "end" }} {...a11yProps(3)} />
+					{/* <Tab label="Booking Calendar" sx={{ alignSelf: "end" }} {...a11yProps(3)} /> */}
 				</Tabs>
 				<Box sx={{ flexGrow: 1 }}>
 					<TabPanel value={value} index={0}>

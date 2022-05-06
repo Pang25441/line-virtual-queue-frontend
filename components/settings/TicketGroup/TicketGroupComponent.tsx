@@ -5,24 +5,34 @@ import { useContextTicketGroup } from "../../../contexts/TicketGroupContext";
 import ConfirmDialog from "../../ui/ConfirmDialog";
 import TicketGroupForm from "./TicketGroupForm";
 import TicketGroupList from "./TicketGroupList";
+import TabHeading from "../../layout/TabHeading";
+import { Alert, Box, Button, CircularProgress } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import ProgressBackdrop from "../../ui/ProgressBackdrop";
+import { useSnackbar } from "notistack";
 
 interface Props extends OriginProps {}
 
 const TicketGroupComponent: React.FC<Props> = (props) => {
-	// const [isInit, setIsInit] = useState(false);
+	const [isInit, setIsInit] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
 	const [selectedTicketGroup, setSelectedTicketGroup] = useState<TicketGroup | null>(null);
 	const [formOpen, setFormOpen] = useState(false);
 	const [deleteDialog, setDeleteDialog] = useState(false);
 	const [deletingID, setDeletingID] = useState<number>(0);
 	const [ticketGroups, setTicketGroups] = useState<TicketGroup[]>([]);
+	const [errMessage, setErrMessage] = useState<string | null>(null);
 
 	const ticketGroupCtx = useContextTicketGroup();
+	const { enqueueSnackbar } = useSnackbar();
 
 	const reloadTicketGroupList = useCallback(async () => {
+		setIsLoading(true);
 		const result = await ticketGroupCtx.getTicketGroupList();
 		console.log("reloadTicketGroupList", result);
 		const list = result || [];
-		await setTicketGroups(list);
+		setTicketGroups(list);
+		setIsLoading(false);
 	}, [ticketGroupCtx]);
 
 	const handleOpenCreateForm = () => {
@@ -31,6 +41,7 @@ const TicketGroupComponent: React.FC<Props> = (props) => {
 	};
 
 	const handleCloseForm = () => {
+		setSelectedTicketGroup(null);
 		setFormOpen(false);
 	};
 
@@ -41,12 +52,17 @@ const TicketGroupComponent: React.FC<Props> = (props) => {
 		setFormOpen(true);
 	};
 
-	const handleSave = (data: TicketGroup) => {
+	const handleSave = async (data: TicketGroup) => {
+		setIsLoading(true);
 		console.log("handleSave", "data", data);
-		const result = data.id ? ticketGroupCtx.updateTicketGroup(data) : ticketGroupCtx.createTicketGroup(data);
+		const result = data.id ? await ticketGroupCtx.updateTicketGroup(data) : await ticketGroupCtx.createTicketGroup(data);
 		console.log("handleSave", "result", result);
 		setFormOpen(false);
+		enqueueSnackbar("Ticket Group Saved Successful", { variant: "success" });
 		if (result) {
+			reloadTicketGroupList().finally(() => {
+				setIsLoading(false);
+			});
 		}
 	};
 
@@ -55,9 +71,21 @@ const TicketGroupComponent: React.FC<Props> = (props) => {
 		setDeleteDialog(true);
 	};
 
-	const handleConfirmDelete = () => {
-		const result = ticketGroupCtx.deleteTicketGroup(deletingID);
+	const handleConfirmDelete = async () => {
 		setDeleteDialog(false);
+		if (!deletingID) {
+			enqueueSnackbar("Ticket Group deleted failed", { variant: "error" });
+			return;
+		}
+		setIsLoading(true);
+		const result = await ticketGroupCtx.deleteTicketGroup(deletingID);
+		setDeletingID(0);
+		if (result) {
+			reloadTicketGroupList().finally(() => {
+				setIsLoading(false);
+				enqueueSnackbar("Ticket Group Deleted Successful", { variant: "success" });
+			});
+		}
 	};
 
 	const handleDeleteDialogClose = () => {
@@ -65,19 +93,62 @@ const TicketGroupComponent: React.FC<Props> = (props) => {
 	};
 
 	useEffect(() => {
-		if (ticketGroupCtx.isInitial) {
-			console.log("TicketGroupComponent", "reloadTicketGroupList");
-			reloadTicketGroupList().then(() => {});
-		}
-	}, [reloadTicketGroupList, ticketGroupCtx.isInitial, ticketGroupCtx.ticketGroupList]);
+		// Initial Component
+		console.log("TicketGroupComponent", "reloadTicketGroupList");
+		reloadTicketGroupList()
+			.then(() => {
+				setIsInit(true);
+			})
+			.catch(() => {
+				setIsInit(true);
+			});
+	}, []);
+
+	useEffect(() => {
+		// On Error Message Changed
+		setErrMessage(ticketGroupCtx.errMessage);
+		if(ticketGroupCtx.errMessage) enqueueSnackbar(ticketGroupCtx.errMessage, { variant: "error" });
+	}, [ticketGroupCtx.errMessage]);
+
+	const heading = <TabHeading heading="Ticket Group"></TabHeading>;
+
+	const controlPanel = (
+		<Box component="div" sx={{ my: 1 }}>
+			<Button onClick={handleOpenCreateForm} color="primary" variant="contained" sx={{ fontWeight: "bold" }}>
+				<AddIcon></AddIcon>
+				Add Ticket Group
+			</Button>
+		</Box>
+	);
+
+	const errBox = (
+		<Alert variant="filled" severity="error">
+			{errMessage}
+		</Alert>
+	);
+
+	if (!isInit) {
+		return (
+			<Fragment>
+				{heading}
+				<Box component="div" sx={{ mt: 1, display: "flex", justifyContent: "center" }}>
+					<CircularProgress color="inherit" />
+				</Box>
+			</Fragment>
+		);
+	}
 
 	return (
 		<Fragment>
-			<TicketGroupList onCreateAction={handleOpenCreateForm} onUpdateAction={handleOpenUpdateForm} onDeleteAction={handleDelete} ticketGroups={ticketGroups} />
-			<TicketGroupForm ticketGroup={selectedTicketGroup} onSave={handleSave} onClose={handleCloseForm} open={formOpen}></TicketGroupForm>
+			{heading}
+			{errMessage && errBox}
+			{controlPanel}
+			{ticketGroups.length > 0 && <TicketGroupList onUpdateAction={handleOpenUpdateForm} onDeleteAction={handleDelete} ticketGroups={ticketGroups} />}
+			<TicketGroupForm ticketGroup={selectedTicketGroup} onSave={handleSave} onClose={handleCloseForm} open={formOpen} isLoading={isLoading}></TicketGroupForm>
 			<ConfirmDialog open={deleteDialog} onConfirm={handleConfirmDelete} onReject={handleDeleteDialogClose}>
 				Confirm To Delete
 			</ConfirmDialog>
+			{isLoading && <ProgressBackdrop></ProgressBackdrop>}
 		</Fragment>
 	);
 };
