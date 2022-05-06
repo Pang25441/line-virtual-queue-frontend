@@ -2,6 +2,8 @@ import { formLabelClasses } from "@mui/material";
 import React from "react";
 import TicketGroup from "../models/TicketGroup";
 import OriginProps from "../models/util/OriginProps";
+import StatusCode from "../models/util/StatusCode";
+import { useContextHttp } from "./HttpContext";
 
 const TICKET_GROUP_DUMMY: TicketGroup[] = [
 	{ id: 1, queue_setting_id: 1, ticket_group_code: "hsmdtgras", ticket_group_prefix: "A", active_count: 11, active: 0, description: "qoemsdif nvioue bnrnwn dsfa,s", updated_at: "" },
@@ -12,17 +14,17 @@ const TICKET_GROUP_DUMMY: TicketGroup[] = [
 
 type TicketGroupContextObj = {
 	isInitial: boolean;
-    ticketGroupList: TicketGroup[];
+	ticketGroupList: TicketGroup[];
 	getTicketGroupList: () => Promise<TicketGroup[] | false> | false;
 	getTicketGroup: (ticketGroupId: number) => TicketGroup | false;
-	createTicketGroup: (data: TicketGroup) => TicketGroup| false;
+	createTicketGroup: (data: TicketGroup) => TicketGroup | false;
 	updateTicketGroup: (data: TicketGroup) => TicketGroup | false;
 	deleteTicketGroup: (ticketGroupId: number) => boolean;
 };
 
 export const TicketGroupContext = React.createContext<TicketGroupContextObj>({
 	isInitial: false,
-    ticketGroupList: [],
+	ticketGroupList: [],
 	getTicketGroupList: () => false,
 	getTicketGroup: () => false,
 	createTicketGroup: () => false,
@@ -34,19 +36,25 @@ const TicketGroupContextProvider: React.FC<OriginProps> = (props) => {
 	const [initialized, setInitialized] = React.useState(false);
 	const [ticketGroupList, setTicketGroupList] = React.useState<TicketGroup[]>([]);
 
-	React.useEffect(() => {
-		console.log("TicketGroupContextProvider", "useEffect");
-        const list = getTicketGroupListHandler()
-        list.then((data)=>{
-            setTicketGroupList(data);
-            setInitialized(true);
-        })
-	}, []);
+	const http = useContextHttp();
 
-	const getTicketGroupListHandler = async () => {
-        if(!initialized) return TICKET_GROUP_DUMMY
-		return ticketGroupList;
-	};
+	const getTicketGroupListHandler = React.useCallback(async () => {
+		if (initialized) return ticketGroupList;
+
+		const response = await http.get("admin/setting/ticket");
+
+		if (response.status != 200) {
+			return false;
+		}
+
+		const content = response.data;
+
+		if (content.status !== StatusCode.ok) {
+			return false;
+		}
+
+		return content.data;
+	}, [http, initialized, ticketGroupList]);
 
 	const getTicketGroupHandler = (ticketGroupId: number) => {
 		return ticketGroupList.find((value) => value.id === ticketGroupId) || false;
@@ -84,9 +92,18 @@ const TicketGroupContextProvider: React.FC<OriginProps> = (props) => {
 		return true;
 	};
 
+	React.useEffect(() => {
+		console.log("TicketGroupContextProvider", "useEffect");
+		const list = getTicketGroupListHandler();
+		list.then((data) => {
+			setTicketGroupList(data);
+			setInitialized(true);
+		});
+	}, [getTicketGroupListHandler]);
+
 	const contextValue: TicketGroupContextObj = {
 		isInitial: initialized,
-        ticketGroupList: ticketGroupList,
+		ticketGroupList: ticketGroupList,
 		getTicketGroupList: getTicketGroupListHandler,
 		getTicketGroup: getTicketGroupHandler,
 		createTicketGroup: createTicketGroupHandler,

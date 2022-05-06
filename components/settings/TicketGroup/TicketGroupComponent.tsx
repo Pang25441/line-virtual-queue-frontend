@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect, useState } from "react";
+import React, { Fragment, useCallback, useEffect, useState } from "react";
 import TicketGroup from "../../../models/TicketGroup";
 import OriginProps from "../../../models/util/OriginProps";
 import { useContextTicketGroup } from "../../../contexts/TicketGroupContext";
@@ -18,19 +18,12 @@ const TicketGroupComponent: React.FC<Props> = (props) => {
 
 	const ticketGroupCtx = useContextTicketGroup();
 
-	useEffect(() => {
-		if (ticketGroupCtx.isInitial) {
-			console.log("TicketGroupComponent", "reloadTicketGroupList");
-			reloadTicketGroupList();
-		}
-	}, [ticketGroupCtx.isInitial, ticketGroupCtx.ticketGroupList]);
-
-	const reloadTicketGroupList = async () => {
+	const reloadTicketGroupList = useCallback(async () => {
 		const result = await ticketGroupCtx.getTicketGroupList();
 		console.log("reloadTicketGroupList", result);
 		const list = result || [];
-		setTicketGroups(list);
-	};
+		await setTicketGroups(list);
+	}, [ticketGroupCtx]);
 
 	const handleOpenCreateForm = () => {
 		setSelectedTicketGroup(null);
@@ -70,6 +63,13 @@ const TicketGroupComponent: React.FC<Props> = (props) => {
 	const handleDeleteDialogClose = () => {
 		setDeleteDialog(false);
 	};
+
+	useEffect(() => {
+		if (ticketGroupCtx.isInitial) {
+			console.log("TicketGroupComponent", "reloadTicketGroupList");
+			reloadTicketGroupList().then(() => {});
+		}
+	}, [reloadTicketGroupList, ticketGroupCtx.isInitial, ticketGroupCtx.ticketGroupList]);
 
 	return (
 		<Fragment>
