@@ -8,11 +8,13 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 import { LangAdminDesc } from "../../../lang/en/admin";
 import { EmptyBox } from "../../layout/EmptyBox";
+import InfoIcon from '@mui/icons-material/Info';
 
 interface Props extends OriginProps {
 	ticketGroups: TicketGroup[] | null;
 	onUpdateAction?: (ticketGroupId: number) => void;
 	onDeleteAction?: (ticketGroupId: number) => void;
+	onDetailAction?: (ticketGroupId: number) => void;
 }
 
 const TicketGroupList: React.FC<Props> = (props) => {
@@ -30,10 +32,17 @@ const TicketGroupList: React.FC<Props> = (props) => {
 		if (typeof props.onDeleteAction == "function") props.onDeleteAction(id);
 	};
 
+	const handleDetail = (id: number) => {
+		if (typeof props.onDetailAction == "function") props.onDetailAction(id);
+	};
+
 	const gridActionColumn = (ticketGroup: TicketGroup) => {
 		const id = ticketGroup.id || 0;
 		return (
 			<Fragment>
+				<IconButton onClick={handleDetail.bind(null, id)} color="default">
+					<InfoIcon />
+				</IconButton>
 				<IconButton onClick={handleUpdate.bind(null, id)} color="default">
 					<EditIcon />
 				</IconButton>

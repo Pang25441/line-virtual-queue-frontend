@@ -10,6 +10,7 @@ import { Alert, Box, Button, CircularProgress } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import ProgressBackdrop from "../../ui/ProgressBackdrop";
 import { useSnackbar } from "notistack";
+import TicketGroupDetail from "./TicketGroupDetail";
 
 interface Props extends OriginProps {}
 
@@ -19,6 +20,7 @@ const TicketGroupComponent: React.FC<Props> = (props) => {
 	const [selectedTicketGroup, setSelectedTicketGroup] = useState<TicketGroup | null>(null);
 	const [formOpen, setFormOpen] = useState(false);
 	const [deleteDialog, setDeleteDialog] = useState(false);
+	const [detailDialog, setDetailDialog] = useState(false);
 	const [deletingID, setDeletingID] = useState<number>(0);
 	const [ticketGroups, setTicketGroups] = useState<TicketGroup[]>([]);
 	const [errMessage, setErrMessage] = useState<string | null>(null);
@@ -92,6 +94,17 @@ const TicketGroupComponent: React.FC<Props> = (props) => {
 		setDeleteDialog(false);
 	};
 
+	const handleDetail = (ticketGroupId: number) => {
+		let selected = ticketGroups.find((data) => data.id === ticketGroupId) || null;
+		setSelectedTicketGroup(selected);
+		setDetailDialog(true);
+	};
+
+	const handleDetailClose = () => {
+		setSelectedTicketGroup(null);
+		setDetailDialog(false);
+	}
+
 	useEffect(() => {
 		// Initial Component
 		console.log("TicketGroupComponent", "reloadTicketGroupList");
@@ -107,7 +120,7 @@ const TicketGroupComponent: React.FC<Props> = (props) => {
 	useEffect(() => {
 		// On Error Message Changed
 		setErrMessage(ticketGroupCtx.errMessage);
-		if(ticketGroupCtx.errMessage) enqueueSnackbar(ticketGroupCtx.errMessage, { variant: "error" });
+		if (ticketGroupCtx.errMessage) enqueueSnackbar(ticketGroupCtx.errMessage, { variant: "error" });
 	}, [ticketGroupCtx.errMessage]);
 
 	const heading = <TabHeading heading="Ticket Group"></TabHeading>;
@@ -143,7 +156,8 @@ const TicketGroupComponent: React.FC<Props> = (props) => {
 			{heading}
 			{errMessage && errBox}
 			{controlPanel}
-			{ticketGroups.length > 0 && <TicketGroupList onUpdateAction={handleOpenUpdateForm} onDeleteAction={handleDelete} ticketGroups={ticketGroups} />}
+			{ticketGroups.length > 0 && <TicketGroupList onUpdateAction={handleOpenUpdateForm} onDeleteAction={handleDelete} onDetailAction={handleDetail} ticketGroups={ticketGroups} />}
+			<TicketGroupDetail ticketGroup={selectedTicketGroup} onClose={handleDetailClose} open={detailDialog} />
 			<TicketGroupForm ticketGroup={selectedTicketGroup} onSave={handleSave} onClose={handleCloseForm} open={formOpen} isLoading={isLoading}></TicketGroupForm>
 			<ConfirmDialog open={deleteDialog} onConfirm={handleConfirmDelete} onReject={handleDeleteDialogClose}>
 				Confirm To Delete
