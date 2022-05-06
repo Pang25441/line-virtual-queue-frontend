@@ -1,18 +1,31 @@
-import { Divider, TextField, Typography } from "@mui/material";
+import { CircularProgress, Divider, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 
 import OriginProps from "../../../models/util/OriginProps";
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { LangAdminDesc } from "../../../lang/en/admin";
 import LineConfig from "../../../models/LineConfig";
 import TabHeading from "../../layout/TabHeading";
 
-interface Props extends OriginProps {
-	lineConfig: LineConfig;
-}
+const LINE_CONFIG_DUMMY: LineConfig = {
+	id: 1,
+	line_id: "@abcd",
+	channel_id: "12345678",
+	channel_access_token: "asjhqibfsbdfasfasfasf",
+	login_channel_id: "6543210",
+};
+
+interface Props extends OriginProps {}
 
 const LineConfigForm: React.FC<Props> = (props) => {
-	const { lineConfig } = props;
+	const [isLoading, setIsLoading] = useState(true);
+	const [lineConfig, setLineConfig] = useState<LineConfig | null>(null);
+
+	useEffect(() => {
+		// Loading Config
+		setLineConfig(LINE_CONFIG_DUMMY);
+		setIsLoading(false);
+	}, []);
 
 	const fieldLabelMargin = 3;
 	const fieldDescMargin = 2;
@@ -27,6 +40,17 @@ const LineConfigForm: React.FC<Props> = (props) => {
 	);
 
 	const heading = <TabHeading heading="LINE Configuration"></TabHeading>;
+
+	if (isLoading) {
+		return (
+			<Fragment>
+				{heading}
+				<Box component="div" sx={{ mt: 1, display: "flex" }}>
+					<CircularProgress color="inherit" />
+				</Box>
+			</Fragment>
+		);
+	}
 
 	if (!lineConfig) {
 		return (

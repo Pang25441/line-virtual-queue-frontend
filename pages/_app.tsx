@@ -7,6 +7,7 @@ import Topbar from "../components/layout/Topbar";
 import AuthContextProvider from "../contexts/AuthContext";
 import Head from "next/head";
 import { SnackbarProvider } from "notistack";
+import HttpContextProvider from "../contexts/HttpContext";
 
 const theme = createTheme({ palette: { mode: "dark" } });
 
@@ -15,13 +16,15 @@ function MyApp({ Component, pageProps }: AppProps) {
 		<ThemeProvider theme={theme}>
 			<CssBaseline />
 			<SnackbarProvider maxSnack={5} anchorOrigin={{ vertical: "bottom", horizontal: "center" }} autoHideDuration={5000}>
-				<AuthContextProvider>
-					<Topbar></Topbar>
-					<Head>
-						<title>LVQ</title>
-					</Head>
-					<Component {...pageProps} />
-				</AuthContextProvider>
+				<HttpContextProvider>
+					<AuthContextProvider>
+						<Topbar></Topbar>
+						<Head>
+							<title>LVQ</title>
+						</Head>
+						<Component {...pageProps} />
+					</AuthContextProvider>
+				</HttpContextProvider>
 			</SnackbarProvider>
 		</ThemeProvider>
 	);

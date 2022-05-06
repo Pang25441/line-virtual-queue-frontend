@@ -12,7 +12,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Link from "../../components/ui/Link";
 
-const Register: NextPage = () => {
+const RegisterPage: NextPage = () => {
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const data = new FormData(event.currentTarget);
@@ -72,4 +72,4 @@ const Register: NextPage = () => {
 	);
 };
 
-export default Register;
+export default RegisterPage;

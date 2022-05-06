@@ -17,7 +17,7 @@ import { useContextAuth } from "../../contexts/AuthContext";
 import { useSnackbar } from "notistack";
 import { Alert, CircularProgress } from "@mui/material";
 
-const Signin: NextPage = () => {
+const LoginPage: NextPage = () => {
 	const [loginResult, setLoginResult] = useState<null | boolean>(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const [tempEmail, setTempEmail] = useState<string | null>("");
@@ -150,4 +150,4 @@ const Signin: NextPage = () => {
 	);
 };
 
-export default Signin;
+export default LoginPage;

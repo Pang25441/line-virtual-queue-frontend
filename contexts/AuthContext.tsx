@@ -7,6 +7,7 @@ import User from "../models/User";
 import LoginCredential from "../models/util/LoginCredential";
 import OriginProps from "../models/util/OriginProps";
 import StatusCode from "../models/util/StatusCode";
+import { useContextHttp } from "./HttpContext";
 
 type AuthContextObject = {
 	isInit: boolean;
@@ -44,46 +45,15 @@ const AuthContextProvider: React.FC<OriginProps> = (props) => {
 	const [currentUser, setCurrentUser] = React.useState<User | null>(null);
 	const [message, setMessage] = React.useState<string | null>(null);
 
-	React.useEffect(() => {
-		console.log(isInit, isLogin, currentUser, message);
-		setup()
-			.then(() => {
-				setProfile()
-					.then(() => {
-						setIsinit(true);
-					})
-					.catch();
-			})
-			.catch();
-	}, []);
+	const http = useContextHttp();
 
-	const endpoint = process.env.NEXT_PUBLIC_API_ENDPOINT;
-	const apiBase = process.env.NEXT_PUBLIC_API_BASE;
-	const cookieName = process.env.NEXT_PUBLIC_COOKIE_NAME;
+	const setup = React.useCallback(async () => {
+		await http.getBase("sanctum/csrf-cookie");
+	}, [http]);
 
-	const GET_HEADER = { Accept: "application/json" };
-	const POST_HEADER = { ...GET_HEADER, "Content-Type": "application/json" };
-	const FETCH_OPTION: AxiosRequestConfig = { withCredentials: true, xsrfCookieName: cookieName };
-
-	const setup = async () => {
-		await axios.get(apiBase + "sanctum/csrf-cookie", { ...FETCH_OPTION, headers: GET_HEADER });
-	};
-
-	const setProfile = async () => {
-		const user = await getProfile();
-
-		if (user) {
-			setCurrentUser(user);
-			setIsLogin(true);
-			return user;
-		}
-
-		return false;
-	};
-
-	const getProfile = async () => {
+	const getProfile = React.useCallback(async () => {
 		try {
-			const response = await axios.get(endpoint + "profile", { ...FETCH_OPTION, headers: GET_HEADER });
+			const response = await http.get("profile");
 			if (response.status != 200) return false;
 			const content = await response.data;
 			if (content.status == StatusCode.ok) {
@@ -102,13 +72,22 @@ const AuthContextProvider: React.FC<OriginProps> = (props) => {
 		}
 
 		return false;
-	};
+	}, [http]);
+
+	const setProfile = React.useCallback(async () => {
+		const user = await getProfile();
+
+		if (user) {
+			setCurrentUser(user);
+			setIsLogin(true);
+			return user;
+		}
+
+		return false;
+	}, [getProfile]);
 
 	const loginHandler = async (credential: LoginCredential) => {
-		const response = await axios.post(endpoint + "auth/login", credential, {
-			...FETCH_OPTION,
-			headers: POST_HEADER,
-		});
+		const response = await http.post("auth/login", credential);
 
 		console.log(response);
 		if (response.status != 200) return false;
@@ -133,7 +112,7 @@ const AuthContextProvider: React.FC<OriginProps> = (props) => {
 	};
 
 	const logoutHandler = async () => {
-		const response = await axios.get(endpoint + "auth/logout", { ...FETCH_OPTION, headers: GET_HEADER });
+		const response = await http.get("auth/logout");
 
 		if (response.status != 200) return false;
 
@@ -148,6 +127,18 @@ const AuthContextProvider: React.FC<OriginProps> = (props) => {
 		return false;
 	};
 
+	React.useEffect(() => {
+		setup()
+			.then(() => {
+				setProfile()
+					.then(() => {
+						setIsinit(true);
+					})
+					.catch();
+			})
+			.catch();
+	}, [setProfile, setup]);
+
 	const contextValue: AuthContextObject = {
 		isInit,
 		isLogin,
@@ -160,9 +151,7 @@ const AuthContextProvider: React.FC<OriginProps> = (props) => {
 	};
 
 	if (!isInit) {
-		return (
-			<ProgressBackdrop open={!isInit} />
-		);
+		return <ProgressBackdrop open={!isInit} />;
 	}
 
 	return <AuthContext.Provider value={contextValue}>{props.children}</AuthContext.Provider>;

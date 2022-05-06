@@ -7,15 +7,10 @@ import { Box, Tab, Tabs, Typography } from "@mui/material";
 
 import TabPanel from "../../../components/ui/TabPanel";
 import QueueSettingFrom from "../../../components/settings/QueueSetting/QueueSettingForm";
-import QueueSetting from "../../../models/QueueSetting";
 import LineConfigForm from "../../../components/settings/LineSetting/LineConfigForm";
-import LineConfig from "../../../models/LineConfig";
-import TicketGroupList from "../../../components/settings/TicketGroup/TicketGroupList";
-import TicketGroup from "../../../models/TicketGroup";
-import CalendarSettingList from "../../../components/settings/CalendarSetting/CalendarSettingList";
-import CalendarSetting from "../../../models/CalendarSetting";
 import TicketGroupComponent from "../../../components/settings/TicketGroup/TicketGroupComponent";
 import TicketGroupContextProvider from "../../../contexts/TicketGroupContext";
+import CalendarSettingComponent from "../../../components/settings/CalendarSetting/CalendarSettingComponent";
 
 function a11yProps(index: number) {
 	return {
@@ -24,81 +19,7 @@ function a11yProps(index: number) {
 	};
 }
 
-const LINE_CONFIG_DUMMY: LineConfig = {
-	id: 1,
-	line_id: "@abcd",
-	channel_id: "12345678",
-	channel_access_token: "asjhqibfsbdfasfasfasf",
-	login_channel_id: "6543210",
-};
-
-const QUEUE_SETTING_DUMMY: QueueSetting = {
-	id: 1,
-	user_id: 1,
-	display_name: "Queue Setting Dummy",
-	detail: "Queue Setting Detail",
-	line_config_id: 1,
-};
-
-const TICKET_GROUP_DUMMY: TicketGroup[] = [
-	{ id: 1, queue_setting_id: 1, ticket_group_code: "hsmdtgras", ticket_group_prefix: "A", active_count: 11, active: 0, description: "", updated_at: "" },
-	{ id: 2, queue_setting_id: 1, ticket_group_code: "5h6wbtby3", ticket_group_prefix: "B", active_count: 35, active: 0, description: "", updated_at: "" },
-	{ id: 3, queue_setting_id: 1, ticket_group_code: "gfhjlhsdc", ticket_group_prefix: "C", active_count: 12, active: 1, description: "", updated_at: "" },
-	{ id: 4, queue_setting_id: 1, ticket_group_code: "xmys54esr", ticket_group_prefix: "D", active_count: 90, active: 0, description: "", updated_at: "" },
-];
-
-const CALENDAR_SETTING_DUMMY: CalendarSetting[] = [
-	{
-		id: 1,
-		queue_setting_id: 1,
-		calendar_date: "2022-02-01",
-		business_time_open: "09:30:00",
-		business_time_close: "17:00:00",
-		day_off: [1, 2, 3],
-		allocate_time: "00:30:00",
-		booking_limit: 1,
-		active: 1,
-		updated_at: "",
-	},
-	{
-		id: 2,
-		queue_setting_id: 1,
-		calendar_date: "2022-03-01",
-		business_time_open: "09:30:00",
-		business_time_close: "17:00:00",
-		day_off: [1, 2, 3],
-		allocate_time: "00:30:00",
-		booking_limit: 1,
-		active: 1,
-		updated_at: "",
-	},
-	{
-		id: 3,
-		queue_setting_id: 1,
-		calendar_date: "2022-04-01",
-		business_time_open: "09:30:00",
-		business_time_close: "17:00:00",
-		day_off: [1, 2, 3],
-		allocate_time: "00:30:00",
-		booking_limit: 1,
-		active: 1,
-		updated_at: "",
-	},
-	{
-		id: 4,
-		queue_setting_id: 1,
-		calendar_date: "2022-04-01",
-		business_time_open: "09:30:00",
-		business_time_close: "17:00:00",
-		day_off: [1, 2, 3],
-		allocate_time: "00:30:00",
-		booking_limit: 1,
-		active: 1,
-		updated_at: "",
-	},
-];
-
-const QueueSetting: NextPage = () => {
+const QueueSettingPage: NextPage = () => {
 	const [value, setValue] = React.useState(0);
 
 	const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -123,10 +44,10 @@ const QueueSetting: NextPage = () => {
 				</Tabs>
 				<Box sx={{ flexGrow: 1 }}>
 					<TabPanel value={value} index={0}>
-						<LineConfigForm lineConfig={LINE_CONFIG_DUMMY}></LineConfigForm>
+						<LineConfigForm />
 					</TabPanel>
 					<TabPanel value={value} index={1}>
-						<QueueSettingFrom onSaveQueueSetting={() => {}} queueSetting={QUEUE_SETTING_DUMMY}></QueueSettingFrom>
+						<QueueSettingFrom />
 					</TabPanel>
 					<TabPanel value={value} index={2}>
 						<TicketGroupContextProvider>
@@ -134,7 +55,7 @@ const QueueSetting: NextPage = () => {
 						</TicketGroupContextProvider>
 					</TabPanel>
 					<TabPanel value={value} index={3}>
-						<CalendarSettingList calendarSettings={CALENDAR_SETTING_DUMMY}></CalendarSettingList>
+						<CalendarSettingComponent />
 					</TabPanel>
 				</Box>
 			</Box>
@@ -142,4 +63,4 @@ const QueueSetting: NextPage = () => {
 	);
 };
 
-export default QueueSetting;
+export default QueueSettingPage;
