@@ -6,9 +6,9 @@ import { Box, IconButton, Typography } from "@mui/material";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
-import { LangAdminDesc } from "../../../lang/en/admin";
 import { EmptyBox } from "../../layout/EmptyBox";
-import InfoIcon from '@mui/icons-material/Info';
+import InfoIcon from "@mui/icons-material/Info";
+import { useContextLang } from "../../../contexts/LangContext";
 
 interface Props extends OriginProps {
 	ticketGroups: TicketGroup[] | null;
@@ -19,6 +19,8 @@ interface Props extends OriginProps {
 
 const TicketGroupList: React.FC<Props> = (props) => {
 	const { ticketGroups } = props;
+
+	const lang = useContextLang();
 
 	const fieldLabelMargin = 3;
 	const fieldDescMargin = 2;
@@ -54,28 +56,40 @@ const TicketGroupList: React.FC<Props> = (props) => {
 	};
 
 	const gridActiveStatus = (active: any) => {
-		return active == 1 ? (
-			<Typography color="green" component="span" fontWeight="bold">
-				Active
-			</Typography>
-		) : (
-			<Typography color="error" component="span" fontWeight="bold">
-				Inactive
+		return (
+			<Typography color={active === 1 ? "green" : "error"} component="span" fontWeight="bold">
+				{active === 1 && lang.admin.ticketGroup.status.active}
+				{active === 0 && lang.admin.ticketGroup.status.inactive}
 			</Typography>
 		);
 	};
 
 	const columns: GridColDef[] = [
 		// { field: "id", headerName: "ID", maxWidth: 40, headerAlign: "center", align: "right" },
-		{ field: "ticket_group_prefix", headerName: "Group Prefix", headerAlign: "center", align: "center", flex: 1 },
+		{ field: "ticket_group_prefix", headerName: lang.admin.ticketGroup.column.prefix, headerAlign: "center", align: "center", flex: 1 },
 		// { field: "ticket_group_code", headerName: "Code", headerAlign: "center", sortable: false, flex: 2 },
 		// { field: "active_count", headerName: "Count", headerAlign: "center", align: "right", flex: 1 },
-		{ field: "description", headerName: "Description", headerAlign: "center", sortable: false, flex: 2 },
-		{ field: "active", headerName: "Active", headerAlign: "center", align: "center", flex: 1, renderCell: (params: GridValueGetterParams) => gridActiveStatus(params.row.active) },
-		{ field: "action", headerName: "Action", headerAlign: "center", align: "center", sortable: false, flex: 1, renderCell: (params: GridValueGetterParams) => gridActionColumn(params.row) },
+		{ field: "description", headerName: lang.admin.ticketGroup.column.description, headerAlign: "center", sortable: false, flex: 2 },
+		{
+			field: "active",
+			headerName: lang.admin.ticketGroup.column.active,
+			headerAlign: "center",
+			align: "center",
+			flex: 1,
+			renderCell: (params: GridValueGetterParams) => gridActiveStatus(params.row.active),
+		},
+		{
+			field: "action",
+			headerName: lang.admin.ticketGroup.column.action,
+			headerAlign: "center",
+			align: "center",
+			sortable: false,
+			flex: 1,
+			renderCell: (params: GridValueGetterParams) => gridActionColumn(params.row),
+		},
 	];
 
-	const emptyOutput = <EmptyBox>{LangAdminDesc.listDataEmpty}</EmptyBox>;
+	const emptyOutput = <EmptyBox>{lang.admin.listDataEmpty}</EmptyBox>;
 
 	if (!ticketGroups) {
 		return <Fragment>{emptyOutput}</Fragment>;

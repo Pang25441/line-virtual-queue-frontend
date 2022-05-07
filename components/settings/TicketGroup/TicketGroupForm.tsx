@@ -4,6 +4,7 @@
  */
 import { Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from "@mui/material";
 import React, { Fragment, useEffect, useState } from "react";
+import { useContextLang } from "../../../contexts/LangContext";
 import { useContextTicketGroup } from "../../../contexts/TicketGroupContext";
 import TicketGroup from "../../../models/TicketGroup";
 import OriginProps from "../../../models/util/OriginProps";
@@ -28,6 +29,7 @@ const TicketGroupForm: React.FC<Props> = (props) => {
 	const dividerMargin = 3;
 
 	const ticketGroupCtx = useContextTicketGroup();
+	const lang = useContextLang();
 
 	useEffect(() => {
 		console.log("TicketGroupForm", "useEffect");
@@ -95,7 +97,7 @@ const TicketGroupForm: React.FC<Props> = (props) => {
 	const formElement = (
 		<Fragment>
 			<Typography variant="h5" component="p" sx={{ my: fieldLabelMargin }}>
-				Active Status
+				{lang.admin.ticketGroup.column.active}
 			</Typography>
 			{/* {ticketGroupData != null && (
 				<ToggleButtonGroup disabled={ticketGroupData == null} color="primary" value={activeStatus} exclusive onChange={handleActiveStatusChange}>
@@ -108,31 +110,25 @@ const TicketGroupForm: React.FC<Props> = (props) => {
 				</ToggleButtonGroup>
 			)} */}
 
-			{activeStatus===1 && 
-				<Typography variant="body1" component="p" color="success">
-					Active
-				</Typography>
-			}
-			{activeStatus===0 && 
-				<Typography variant="body1" component="p" color="error">
-					Inactive
-				</Typography>
-			}
+			<Typography variant="body1" component="p" color={activeStatus == 1 ? "success" : "error"}>
+				{activeStatus === 1 && lang.admin.ticketGroup.status.active}
+				{activeStatus === 0 && lang.admin.ticketGroup.status.inactive}
+			</Typography>
 
 			<Typography variant="h5" component="p" sx={{ my: fieldLabelMargin }}>
-				Ticket Group Prefix
+				{lang.admin.ticketGroup.column.prefix}
 			</Typography>
 			<TextField type="text" id="ticket_group_prefix" name="ticket_group_prefix" defaultValue={ticketGroupData?.ticket_group_prefix} label="Required" variant="outlined" required fullWidth />
 
 			<Typography variant="h5" component="p" sx={{ my: fieldLabelMargin }}>
-				Description
+				{lang.admin.ticketGroup.column.description}
 			</Typography>
 			<TextField type="text" id="description" name="description" defaultValue={ticketGroupData?.description} label="" variant="outlined" fullWidth />
 		</Fragment>
 	);
 
 	return (
-		<Dialog open={open} onClose={handleClose} fullWidth={true} maxWidth="md">
+		<Dialog open={open} onClose={handleClose} fullWidth={true} maxWidth={isLoading || !isInit ? "sm" : "md"}>
 			<Box component="form" onSubmit={handleSubmit}>
 				<DialogTitle>Ticket Group Setting</DialogTitle>
 				<DialogContent>

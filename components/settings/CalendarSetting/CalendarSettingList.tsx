@@ -9,10 +9,10 @@ import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import TabHeading from "../../layout/TabHeading";
-import { LangAdminDesc } from "../../../lang/en/admin";
 import { EmptyBox } from "../../layout/EmptyBox";
 
 import dayjs from "dayjs";
+import { useContextLang } from "../../../contexts/LangContext";
 var customParseFormat = require("dayjs/plugin/customParseFormat");
 dayjs.extend(customParseFormat);
 
@@ -22,6 +22,7 @@ interface Props extends OriginProps {
 
 const CalendarSettingList: React.FC<Props> = (props) => {
 	const { calendarSettings } = props;
+	const lang = useContextLang();
 
 	const fieldLabelMargin = 3;
 	const fieldDescMargin = 2;
@@ -87,7 +88,7 @@ const CalendarSettingList: React.FC<Props> = (props) => {
 
 	const heading = <TabHeading heading="Booking Calendar" />;
 
-	const emptyOutput = <EmptyBox>{LangAdminDesc.listDataEmpty}</EmptyBox>;
+	const emptyOutput = <EmptyBox>{lang.admin.listDataEmpty}</EmptyBox>;
 
 	const controlPanel = (
 		<Box component="div" sx={{ my: 1 }}>

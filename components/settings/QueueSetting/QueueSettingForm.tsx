@@ -4,14 +4,13 @@ import OriginProps from "../../../models/util/OriginProps";
 import React, { Fragment, useCallback, useEffect, useState } from "react";
 import QueueSetting from "../../../models/QueueSetting";
 import Divider from "@mui/material/Divider";
-import { LangAdminDesc } from "../../../lang/en/admin";
 import TabHeading from "../../layout/TabHeading";
-import axios from "axios";
 import { useContextHttp } from "../../../contexts/HttpContext";
 import { useSnackbar } from "notistack";
 import ProgressBackdrop from "../../ui/ProgressBackdrop";
 import StatusCode from "../../../models/util/StatusCode";
 import { useRouter } from "next/router";
+import { useContextLang } from "../../../contexts/LangContext";
 
 const QUEUE_SETTING_DUMMY: QueueSetting = {
 	id: 1,
@@ -34,6 +33,7 @@ const QueueSettingFrom: React.FC<Props> = (props) => {
 	const http = useContextHttp();
 	const router = useRouter();
 	const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+	const lang = useContextLang();
 
 	const getQueueSetting = useCallback(async () => {
 		const response = await http.get("admin/setting/queue");
@@ -128,7 +128,7 @@ const QueueSettingFrom: React.FC<Props> = (props) => {
 	const emptyOutput = (
 		<Box component="div" sx={{ mt: 1 }}>
 			<Typography variant="h5" component="p" sx={{ my: fieldLabelMargin, alignContent: "center" }}>
-				{LangAdminDesc.listDataEmpty}
+				{lang.admin.listDataEmpty}
 			</Typography>
 		</Box>
 	);
@@ -172,7 +172,7 @@ const QueueSettingFrom: React.FC<Props> = (props) => {
 				</Typography>
 				<TextField type="text" name="display_name" defaultValue={queueSetting.display_name} label="Required" variant="outlined" required fullWidth></TextField>
 				<Typography variant="subtitle2" component="p" sx={{ mt: fieldDescMargin }}>
-					{LangAdminDesc.queueSetting.display_name}
+					{lang.admin.queueSetting.display_name}
 				</Typography>
 
 				<Divider sx={{ my: dividerMargin }}></Divider>
@@ -182,7 +182,7 @@ const QueueSettingFrom: React.FC<Props> = (props) => {
 				</Typography>
 				<TextField type="text" name="detail" defaultValue={queueSetting.detail} label="Required" variant="outlined" required fullWidth></TextField>
 				<Typography variant="subtitle2" component="p" sx={{ mt: fieldDescMargin }}>
-					{LangAdminDesc.queueSetting.detail}
+					{lang.admin.queueSetting.detail}
 				</Typography>
 				<Divider sx={{ my: dividerMargin }}></Divider>
 				<Button variant="contained" type="submit" size="large" sx={{ fontWeight: "bold" }}>

@@ -1,4 +1,4 @@
-import { AppBar, Box, Button, Container, IconButton, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
+import { AppBar, Box, Button, ButtonGroup, Container, IconButton, Menu, MenuItem, Stack, Toolbar, Typography } from "@mui/material";
 import React from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import Link from "next/link";
@@ -6,12 +6,7 @@ import { useContextAuth } from "../../contexts/AuthContext";
 import ProgressBackdrop from "../ui/ProgressBackdrop";
 import { useRouter } from "next/router";
 import ConfirmDialog from "../ui/ConfirmDialog";
-
-const pages = [
-	{ label: "Settings", href: "/admin/setting" },
-	// { label: "Calendar", href: "/admin/calendar" },
-	{ label: "Tickets", href: "/admin/ticket" },
-];
+import { useContextLang } from "../../contexts/LangContext";
 
 const Topbar: React.FC = () => {
 	const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -21,6 +16,13 @@ const Topbar: React.FC = () => {
 
 	const auth = useContextAuth();
 	const router = useRouter();
+	const lang = useContextLang();
+
+	const pages = [
+		{ label: lang.common.menu.settings || "Setting", href: "/admin/setting" },
+		// { label: "Calendar", href: "/admin/calendar" },
+		{ label: lang.common.menu.tickets || "Tickets", href: "/admin/ticket" },
+	];
 
 	React.useEffect(() => {
 		console.log("Topbar Initial", auth.isInit, auth.isLogin);
@@ -56,6 +58,10 @@ const Topbar: React.FC = () => {
 
 	const handleLogoutDialog = () => {
 		setLogoutDialog(false);
+	};
+
+	const handleLangChange = (_lang: any) => {
+		lang.setLang(_lang);
 	};
 
 	if (!auth.isLogin) {
@@ -106,9 +112,19 @@ const Topbar: React.FC = () => {
 							</Link>
 						))}
 					</Box>
+					<Box sx={{ mr: 3 }}>
+						<ButtonGroup variant="text" aria-label="text button group">
+							<Button disabled={lang.currentLanguage === "en"} onClick={handleLangChange.bind(null, "en")}>
+								EN
+							</Button>
+							<Button disabled={lang.currentLanguage === "th"} onClick={handleLangChange.bind(null, "th")}>
+								TH
+							</Button>
+						</ButtonGroup>
+					</Box>
 					<Link href={"/auth"} passHref>
 						<Button onClick={handleLogout} color="inherit">
-							Sign Out
+							{lang.common.auth.logoutBtn || "Sign Out"}
 						</Button>
 					</Link>
 				</Toolbar>

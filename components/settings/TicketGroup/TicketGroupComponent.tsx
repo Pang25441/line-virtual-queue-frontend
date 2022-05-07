@@ -101,7 +101,7 @@ const TicketGroupComponent: React.FC<Props> = (props) => {
 	};
 
 	const handleDetailClose = () => {
-		setSelectedTicketGroup(null);
+		// setSelectedTicketGroup(null);
 		setDetailDialog(false);
 	}
 

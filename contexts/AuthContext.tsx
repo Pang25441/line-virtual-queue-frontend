@@ -1,6 +1,3 @@
-import { Http } from "@mui/icons-material";
-import { Backdrop, CircularProgress } from "@mui/material";
-import axios, { AxiosRequestConfig } from "axios";
 import React from "react";
 import ProgressBackdrop from "../components/ui/ProgressBackdrop";
 import User from "../models/User";
@@ -127,6 +124,7 @@ const AuthContextProvider: React.FC<OriginProps> = (props) => {
 		return false;
 	};
 
+	// Initial Component
 	React.useEffect(() => {
 		setup()
 			.then(() => {

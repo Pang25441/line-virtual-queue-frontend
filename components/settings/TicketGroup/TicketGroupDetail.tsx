@@ -1,8 +1,9 @@
 import React from "react";
-import { Box, Dialog, DialogContent, DialogTitle, Divider, Grid, Typography } from "@mui/material";
+import { Box, Dialog, DialogContent, DialogTitle, Divider, Grid, IconButton, Typography } from "@mui/material";
 import TicketGroup from "../../../models/TicketGroup";
 import OriginProps from "../../../models/util/OriginProps";
-import Image from "next/image";
+import { useContextLang } from "../../../contexts/LangContext";
+import CloseIcon from "@mui/icons-material/Close";
 
 interface Props extends OriginProps {
 	ticketGroup: TicketGroup | null;
@@ -16,12 +17,17 @@ const TicketGroupDetail: React.FC<Props> = (props) => {
 
 	if (!ticketGroup) return null;
 
+	const lang = useContextLang();
+
 	const qrCodeUrl = baseUrl + "ticket_group_code/" + ticketGroup.ticket_group_code;
 
 	return (
 		<Dialog open={open} onClose={props.onClose} maxWidth="md" fullWidth aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
-			<DialogTitle id="alert-dialog-title">Ticket Group Detail</DialogTitle>
+			<DialogTitle id="alert-dialog-title">{lang.admin.ticketGroupDetail.heading}</DialogTitle>
 			<DialogContent>
+				<IconButton aria-label="close" onClick={props.onClose} sx={{ position: "absolute", right: 8, top: 8, color: (theme) => theme.palette.grey[500] }}>
+					<CloseIcon />
+				</IconButton>
 				<Grid container spacing={2}>
 					<Grid item xs={5}>
 						<img src={qrCodeUrl} />
@@ -29,13 +35,13 @@ const TicketGroupDetail: React.FC<Props> = (props) => {
 					<Grid item xs={7}>
 						<Box component="div">
 							<Typography component="h4" variant="h4">
-								Prefix: {ticketGroup.ticket_group_prefix}
+								{lang.admin.ticketGroup.column.prefix}: {ticketGroup.ticket_group_prefix}
 							</Typography>
 						</Box>
-						<Divider  sx={{ mt: 3, mb: 3 }} />
+						<Divider sx={{ mt: 3, mb: 3 }} />
 						<Box component="div">
 							<Typography component="h5" variant="h5">
-								Description
+								{lang.admin.ticketGroup.column.description}
 							</Typography>
 						</Box>
 						<Box component="div">

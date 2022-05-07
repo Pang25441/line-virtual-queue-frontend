@@ -3,8 +3,6 @@ import type { NextPage } from "next";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -16,6 +14,7 @@ import Head from "next/head";
 import { useContextAuth } from "../../contexts/AuthContext";
 import { useSnackbar } from "notistack";
 import { Alert, CircularProgress } from "@mui/material";
+import { useContextLang } from "../../contexts/LangContext";
 
 const LoginPage: NextPage = () => {
 	const [loginResult, setLoginResult] = useState<null | boolean>(null);
@@ -23,6 +22,7 @@ const LoginPage: NextPage = () => {
 	const [tempEmail, setTempEmail] = useState<string | null>("");
 
 	const auth = useContextAuth();
+	const lang = useContextLang();
 	const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
 	useEffect(() => {
@@ -100,7 +100,7 @@ const LoginPage: NextPage = () => {
 	return (
 		<Fragment>
 			<Head>
-				<title>LVQ - Sign in</title>
+				<title>LVQ - {lang.common.auth.loginTitle || "Log in"}</title>
 			</Head>
 			<Container component="main" maxWidth="xs">
 				<Box sx={{ marginTop: 8, display: "flex", flexDirection: "column", alignItems: "center" }}>
@@ -108,7 +108,7 @@ const LoginPage: NextPage = () => {
 						<LockOutlinedIcon />
 					</Avatar>
 					<Typography component="h1" variant="h5">
-						Sign in
+						{lang.common.auth.loginTitle || "Log in"}
 					</Typography>
 					{isLoading && loadingDialog}
 					{!isLoading && (
@@ -130,7 +130,7 @@ const LoginPage: NextPage = () => {
 							)}
 
 							<Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-								Sign In
+								{lang.common.auth.loginTitle || "Log in"}
 							</Button>
 							<Grid container>
 								<Grid item xs>
