@@ -16,8 +16,8 @@ const LangContextObjectInitial = {
 	currentLanguage: 'en',
 	common: LangEn.LangCommon,
 	admin: LangEn.LangAdmin,
-	ticket: {},
-	liff: {},
+	ticket: LangEn.LangTicket,
+	liff: LangEn.LangLiff,
 	setLang: (lang: LangType) => {},
 };
 
@@ -27,8 +27,8 @@ const LangContextProvider: React.FC<OriginProps> = (props) => {
 	const [currentLanguage, setCurrentLanguage] = React.useState<string>("");
 	const [adminLang, setAdminLang] = React.useState(LangEn.LangAdmin);
 	const [commonLang, setCommonLang] = React.useState(LangEn.LangCommon);
-	const [ticketLang, setTicketLang] = React.useState({});
-	const [liffLang, setLiffLang] = React.useState({});
+	const [ticketLang, setTicketLang] = React.useState(LangEn.LangTicket);
+	const [liffLang, setLiffLang] = React.useState(LangEn.LangLiff);
 
 	const setLang = (lang: LangType) => {
 		const label: string = lang.toString().toLocaleLowerCase();

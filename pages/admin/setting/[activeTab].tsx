@@ -44,11 +44,7 @@ const QueueSettingPage: NextPage = () => {
 	const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
 		console.log("handleTabChange", newValue);
 		// setValue(newValue);
-		router.replace(
-			"/admin/setting/" + tabIdentify[newValue],
-			undefined,
-			{ shallow: true }
-		);
+		router.replace("/admin/setting/" + tabIdentify[newValue], undefined, { shallow: true });
 	};
 
 	if (!auth.isLogin) {
@@ -56,12 +52,16 @@ const QueueSettingPage: NextPage = () => {
 		return null;
 	}
 
+	const head = (
+		<Head>
+			<title>LVQ - Account Setting</title>
+			<meta name="description" content="Account Settings" />
+		</Head>
+	);
+
 	return (
 		<Container component="main" maxWidth="lg">
-			<Head>
-				<title>LVQ - Account Setting</title>
-				<meta name="description" content="Account Settings" />
-			</Head>
+			{head}
 			<Typography component="h1" variant="h5" sx={{ marginTop: 4 }}>
 				Account Settings
 			</Typography>

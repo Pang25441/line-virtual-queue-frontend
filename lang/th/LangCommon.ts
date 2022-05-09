@@ -7,6 +7,6 @@ export const LangCommon = {
 
 	menu: {
 		settings: "ตั้งค่า",
-		tickets: "บัตรคิว",
+		ticketDashboard: "แผงควบคุมบัตรคิว",
 	},
 };

@@ -7,6 +7,7 @@ export const LangCommon = {
 
 	menu: {
 		settings: "Settings",
-		tickets: "Tickets",
+		ticketDashboard: "Ticket Dashboard",
+		bookingDashboard: "Booking Dashboard"
 	},
 };
