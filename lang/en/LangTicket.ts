@@ -2,13 +2,22 @@ export const LangTicket = {
 	currentQueue: "Current Queue",
 
 	waitingQueueShort: "Waiting",
-	postponeQueueShort: "Posepone",
+	postponeQueueShort: "Postpone",
 	pastQueueShort: "Past",
 
 	button: {
 		next: "Next Queue",
-		postpone: "Posepone",
+		abort: "Abort",
+		postpone: "Postpone",
 		reject: "Reject",
 		done: "Done",
+	},
+
+	status: {
+		pending: "PENDING",
+		calling: "CALLING",
+		executed: "EXECUTED",
+		rejected: "REJECTED",
+		lost: "LOST",
 	},
 };

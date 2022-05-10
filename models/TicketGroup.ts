@@ -11,5 +11,4 @@ export default interface TicketGroup {
   updated_at?: string | null;
 
   tickets?: Ticket[];
-  current_tickets?: Ticket[];
 }
