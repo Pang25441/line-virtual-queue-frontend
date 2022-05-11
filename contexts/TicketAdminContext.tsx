@@ -53,20 +53,75 @@ const TicketAdminContextProvider: React.FC<Props> = (props) => {
 
 		return content.data;
 	};
+
 	const nextTicket = async (ticketGroupId: number): Promise<Ticket | false> => {
-		return false;
+		const response = await http.get("admin/ticket/next/" + ticketGroupId);
+
+		if (!(await handleHttpStatus(response.status))) return false;
+
+		const content = response.data;
+
+		if (content.status !== StatusCode.ok) {
+			return false;
+		}
+
+		return content.data;
 	};
+
 	const executeTicket = async (ticketId: number): Promise<Ticket | false> => {
-		return false;
+		const response = await http.get("admin/ticket/execute/" + ticketId);
+
+		if (!(await handleHttpStatus(response.status))) return false;
+
+		const content = response.data;
+
+		if (content.status !== StatusCode.ok) {
+			return false;
+		}
+
+		return content.data;
 	};
+
 	const recallTicket = async (ticketId: number): Promise<Ticket | false> => {
-		return false;
+		const response = await http.get("admin/ticket/recall/" + ticketId);
+
+		if (!(await handleHttpStatus(response.status))) return false;
+
+		const content = response.data;
+
+		if (content.status !== StatusCode.ok) {
+			return false;
+		}
+
+		return content.data;
 	};
+
 	const postponeTicket = async (ticketId: number): Promise<Ticket | false> => {
-		return false;
+		const response = await http.get("admin/ticket/postpone/" + ticketId);
+
+		if (!(await handleHttpStatus(response.status))) return false;
+
+		const content = response.data;
+
+		if (content.status !== StatusCode.ok) {
+			return false;
+		}
+
+		return content.data;
 	};
+
 	const rejectTicket = async (ticketId: number): Promise<Ticket | false> => {
-		return false;
+		const response = await http.get("admin/ticket/reject/" + ticketId);
+
+		if (!(await handleHttpStatus(response.status))) return false;
+
+		const content = response.data;
+
+		if (content.status !== StatusCode.ok) {
+			return false;
+		}
+
+		return content.data;
 	};
 
 	const handleHttpStatus = async (HttpStatus: number) => {
