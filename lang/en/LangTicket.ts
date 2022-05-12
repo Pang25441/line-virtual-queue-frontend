@@ -33,4 +33,12 @@ export const LangTicket = {
 		rejected: "Rejected",
 		lost: "Lost",
 	},
+
+	confirm: {
+		finish: "Confirm to finish queue ",
+		recall: "Confirm to Re-call queue ",
+		finishAndrecall: "Confirm to finish Current Queue and Re-call queue ",
+		reject: "Confirm to reject queue ",
+		postpone: "Postpone queue ",
+	},
 };

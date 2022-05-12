@@ -1,4 +1,5 @@
 import { Box, Paper, Stack } from "@mui/material";
+import { useSnackbar } from "notistack";
 import React, { useEffect } from "react";
 import { useContextLang } from "../../contexts/LangContext";
 import { useContextTicketAdmin } from "../../contexts/TicketAdminContext";
@@ -19,6 +20,8 @@ const TicketDashboardComponent: React.FC<Props> = (props) => {
 
 	const lang = useContextLang();
 	const ticketAdminCtx = useContextTicketAdmin();
+	const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
 	const delay = 15000;
 
 	useEffect(() => {

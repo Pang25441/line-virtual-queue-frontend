@@ -10,6 +10,8 @@ type TicketAdminContextObj = {
 	errMessage: string | null;
 	ticketStatus: any[];
 	getTicketGroupList: () => Promise<TicketGroup[] | false>;
+	activeTicketGroup: (ticketGroup: TicketGroup) => Promise<TicketGroup | false>;
+	inactiveTicketGroup: (ticketGroup: TicketGroup) => Promise<TicketGroup | false>;
 	nextTicket: (ticketGroupId: number) => Promise<Ticket | false>;
 	executeTicket: (ticketId: number) => Promise<Ticket | false>;
 	recallTicket: (ticketId: number) => Promise<Ticket | false>;
@@ -21,6 +23,8 @@ export const TicketAdminContext = React.createContext<TicketAdminContextObj>({
 	errMessage: "",
 	ticketStatus: [],
 	getTicketGroupList: async () => false,
+	activeTicketGroup: async (ticketGroup: TicketGroup) => false,
+	inactiveTicketGroup: async (ticketGroup: TicketGroup) => false,
 	nextTicket: async (ticketGroupId: number) => false,
 	executeTicket: async (ticketId: number) => false,
 	recallTicket: async (ticketId: number) => false,
@@ -48,6 +52,37 @@ const TicketAdminContextProvider: React.FC<Props> = (props) => {
 		const content = response.data;
 
 		if (content.status !== StatusCode.ok) {
+			setErrMessage(content.message);
+			return false;
+		}
+
+		return content.data;
+	};
+
+	const activeTicketGroup = async (ticketGroup: TicketGroup): Promise<TicketGroup | false> => {
+		const response = await http.get("admin/setting/ticketGroupActive/" + ticketGroup.id);
+
+		if (!(await handleHttpStatus(response.status))) return false;
+
+		const content = response.data;
+
+		if (content.status !== StatusCode.ok) {
+			setErrMessage(content.message);
+			return false;
+		}
+
+		return content.data;
+	};
+
+	const inactiveTicketGroup = async (ticketGroup: TicketGroup): Promise<TicketGroup | false> => {
+		const response = await http.get("admin/setting/ticketGroupInactive/" + ticketGroup.id);
+
+		if (!(await handleHttpStatus(response.status))) return false;
+
+		const content = response.data;
+
+		if (content.status !== StatusCode.ok) {
+			setErrMessage(content.message);
 			return false;
 		}
 
@@ -62,6 +97,7 @@ const TicketAdminContextProvider: React.FC<Props> = (props) => {
 		const content = response.data;
 
 		if (content.status !== StatusCode.ok) {
+			setErrMessage(content.message);
 			return false;
 		}
 
@@ -76,6 +112,7 @@ const TicketAdminContextProvider: React.FC<Props> = (props) => {
 		const content = response.data;
 
 		if (content.status !== StatusCode.ok) {
+			setErrMessage(content.message);
 			return false;
 		}
 
@@ -90,6 +127,7 @@ const TicketAdminContextProvider: React.FC<Props> = (props) => {
 		const content = response.data;
 
 		if (content.status !== StatusCode.ok) {
+			setErrMessage(content.message);
 			return false;
 		}
 
@@ -104,6 +142,7 @@ const TicketAdminContextProvider: React.FC<Props> = (props) => {
 		const content = response.data;
 
 		if (content.status !== StatusCode.ok) {
+			setErrMessage(content.message);
 			return false;
 		}
 
@@ -118,6 +157,7 @@ const TicketAdminContextProvider: React.FC<Props> = (props) => {
 		const content = response.data;
 
 		if (content.status !== StatusCode.ok) {
+			setErrMessage(content.message);
 			return false;
 		}
 
@@ -142,6 +182,8 @@ const TicketAdminContextProvider: React.FC<Props> = (props) => {
 		errMessage,
 		ticketStatus,
 		getTicketGroupList,
+		activeTicketGroup,
+		inactiveTicketGroup,
 		nextTicket,
 		executeTicket,
 		recallTicket,

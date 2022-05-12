@@ -78,6 +78,8 @@ const AuthContextProvider: React.FC<OriginProps> = (props) => {
 			setCurrentUser(user);
 			setIsLogin(true);
 			return user;
+		} else {
+			setIsLogin(false);
 		}
 
 		return false;
@@ -94,7 +96,7 @@ const AuthContextProvider: React.FC<OriginProps> = (props) => {
 		setMessage(content.message);
 
 		if (content.status == StatusCode.ok) {
-			await setIsLogin(true);
+			setIsLogin(true);
 			return true;
 		}
 
@@ -104,7 +106,7 @@ const AuthContextProvider: React.FC<OriginProps> = (props) => {
 		if (content.status == StatusCode.error) {
 		}
 
-		await setIsLogin(false);
+		setIsLogin(false);
 		return false;
 	};
 
@@ -116,8 +118,8 @@ const AuthContextProvider: React.FC<OriginProps> = (props) => {
 		const content = await response.data;
 
 		if (content.status == StatusCode.ok) {
-			await setCurrentUser(null);
-			await setIsLogin(false);
+			setCurrentUser(null);
+			setIsLogin(false);
 			return true;
 		}
 
