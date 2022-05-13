@@ -43,24 +43,29 @@ const TicketGroupAdminItem: React.FC<Props> = (props) => {
 	const tabPostpone = 2;
 	const tabPast = 3;
 
-	const pastStatus = [lang.ticket.status.calling, lang.ticket.status.executed, lang.ticket.status.rejected, lang.ticket.status.lost];
+	React.useEffect(() => {
+		setTicketGroup(props.ticketGroup);
+	}, [props.ticketGroup]);
 
 	React.useEffect(() => {
+		console.log("Set ticket list");
+		const ticketlang = lang.ticket;
+		const pastStatus = [ticketlang.status.calling, ticketlang.status.executed, ticketlang.status.rejected, ticketlang.status.lost];
 		const _currentQueue = ticketGroup.tickets?.filter((ticket) => ticket.status === 2 && ticket.is_postpone === 0)[0] || null;
 
-		const _waitingQueue = ticketGroup.tickets?.filter((ticket) => ticket.ticket_status.code == lang.ticket.status.pending) || [];
+		const _waitingQueue = ticketGroup.tickets?.filter((ticket) => ticket.ticket_status.code == ticketlang.status.pending) || [];
 
-		const _postponeQueue = ticketGroup.tickets?.filter((ticket) => ticket.ticket_status.code == lang.ticket.status.calling && ticket.is_postpone === 1) || [];
+		const _postponeQueue = ticketGroup.tickets?.filter((ticket) => ticket.ticket_status.code == ticketlang.status.calling && ticket.is_postpone === 1) || [];
 
 		const _pastQueue =
-			ticketGroup.tickets?.filter((ticket) => pastStatus.indexOf(ticket.ticket_status.code || "") > -1 && !(ticket.ticket_status.code == lang.ticket.status.calling && ticket.is_postpone === 1)) || [];
+			ticketGroup.tickets?.filter((ticket) => pastStatus.indexOf(ticket.ticket_status.code || "") > -1 && !(ticket.ticket_status.code == ticketlang.status.calling && ticket.is_postpone === 1)) || [];
 
 		setCurrentQueue(_currentQueue);
 
 		setWaitingQueueList(_waitingQueue);
 		setPostponeQueueList(_postponeQueue);
 		setPastQueueList(_pastQueue);
-	}, [props.ticketGroup]);
+	}, [lang.ticket, ticketGroup.tickets]);
 
 	const changeTabHandler = (newValue: number) => {
 		if (tabValue == newValue) return false;
@@ -106,7 +111,42 @@ const TicketGroupAdminItem: React.FC<Props> = (props) => {
 		setDelayRemain(3);
 	};
 
-	const nextQueueAction = async () => {
+	const finishQueueHandler = React.useCallback(
+		async (ticket: Ticket): Promise<Ticket | false> => {
+			if (!ticket.id) return false;
+
+			const snackKey = enqueueSnackbar("Finishing Queue", { variant: "default" });
+
+			setIsLoading((prevState) => {
+				return { ...prevState, finish: true };
+			});
+			const result = await ticketAdminCtx.executeTicket(ticket.id);
+			closeSnackbar(snackKey);
+			if (result) {
+				// console.log(result);
+				if (currentQueue && currentQueue.id && ticket.id === currentQueue.id) {
+					setCurrentQueue(null);
+					setPastQueueList((prevState) => {
+						const index = prevState.findIndex((item) => item.id == ticket.id);
+						let newState = [...prevState];
+						newState[index] = result;
+						return newState;
+					});
+				}
+				enqueueSnackbar("Queue " + result.ticket_number + " finished", { variant: "success" });
+			} else {
+				enqueueSnackbar(ticketAdminCtx.errMessage, { variant: "error" });
+			}
+			setIsLoading((prevState) => {
+				return { ...prevState, finish: false };
+			});
+
+			return result;
+		},
+		[closeSnackbar, currentQueue, enqueueSnackbar, ticketAdminCtx]
+	);
+
+	const nextQueueAction = React.useCallback(async () => {
 		console.log("Execute Next Queue Trigger");
 		if (ticketGroup.id && waitingQueueList.length > 0) {
 			setNextQueueDelay(false);
@@ -140,39 +180,7 @@ const TicketGroupAdminItem: React.FC<Props> = (props) => {
 				return { ...prevState, nextQueue: false };
 			});
 		}
-	};
-
-	const finishQueueHandler = async (ticket: Ticket): Promise<Ticket | false> => {
-		if (!ticket.id) return false;
-
-		const snackKey = enqueueSnackbar("Finishing Queue", { variant: "default" });
-
-		setIsLoading((prevState) => {
-			return { ...prevState, finish: true };
-		});
-		const result = await ticketAdminCtx.executeTicket(ticket.id);
-		closeSnackbar(snackKey);
-		if (result) {
-			// console.log(result);
-			if (currentQueue && currentQueue.id && ticket.id === currentQueue.id) {
-				setCurrentQueue(null);
-				setPastQueueList((prevState) => {
-					const index = prevState.findIndex((item) => item.id == ticket.id);
-					let newState = [...prevState];
-					newState[index] = result;
-					return newState;
-				});
-			}
-			enqueueSnackbar("Queue " + result.ticket_number + " finished", { variant: "success" });
-		} else {
-			enqueueSnackbar(ticketAdminCtx.errMessage, { variant: "error" });
-		}
-		setIsLoading((prevState) => {
-			return { ...prevState, finish: false };
-		});
-
-		return result;
-	};
+	}, [closeSnackbar, currentQueue, enqueueSnackbar, finishQueueHandler, ticketAdminCtx, ticketGroup.id, waitingQueueList.length]);
 
 	const aboartQueueHandler = () => {
 		console.log("Next Queue Abort");
@@ -286,10 +294,13 @@ const TicketGroupAdminItem: React.FC<Props> = (props) => {
 				setDelayRemain(delayRemain - 1);
 			}, 1000);
 		}
+	}, [delayRemain, nextQueueDelay]);
+
+	useEffect(() => {
 		if (nextQueueDelay && delayRemain === 0) {
 			nextQueueAction();
 		}
-	}, [delayRemain]);
+	}, [delayRemain, nextQueueAction, nextQueueDelay]);
 
 	const inactiveContents = (
 		<Box component="div" sx={{ marginTop: 3, textAlign: "center" }}>

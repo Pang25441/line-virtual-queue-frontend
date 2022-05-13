@@ -25,6 +25,8 @@ const TicketDashboardComponent: React.FC<Props> = (props) => {
 	const delay = 15000;
 
 	useEffect(() => {
+		if(isInit) return;
+		
 		const init = async () => {
 			const result = await ticketAdminCtx.getTicketGroupList();
 			return result;
@@ -35,22 +37,27 @@ const TicketDashboardComponent: React.FC<Props> = (props) => {
 			setCountdown(delay);
 			setIsInit(true);
 		});
-	}, []);
+	}, [isInit, ticketAdminCtx]);
 
 	useEffect(() => {
-		if (!isInit) return;
+		const timeout = 100;
 		if (countdown > 0) {
-			const timeout = 100;
 			setTimeout(() => {
 				const newValue = countdown - timeout;
 				const oldPercentage = Math.ceil((countdown / delay) * 100);
 				const newPercentage = Math.ceil((newValue / delay) * 100);
-				if (oldPercentage != newPercentage) {
-					if (onCountdownUpdate) onCountdownUpdate(newPercentage);
-				}
+
 				setCountdown(newValue);
 			}, timeout);
 		}
+	}, [countdown]);
+
+	useEffect(() => {
+		const newPercentage = Math.ceil((countdown / delay) * 100);
+		if (onCountdownUpdate) onCountdownUpdate(newPercentage);
+	}, [countdown, onCountdownUpdate]);
+
+	useEffect(() => {
 		if (countdown === 0) {
 			console.log("Refresh");
 			ticketAdminCtx.getTicketGroupList().then((result) => {
@@ -58,7 +65,7 @@ const TicketDashboardComponent: React.FC<Props> = (props) => {
 				setCountdown(delay);
 			});
 		}
-	}, [countdown]);
+	}, [countdown, ticketAdminCtx]);
 
 	return (
 		<Stack direction="row" justifyContent="flex-start" alignItems="flex-start" spacing={2}>
