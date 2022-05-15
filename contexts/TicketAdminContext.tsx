@@ -1,3 +1,4 @@
+import axios, { AxiosRequestConfig } from "axios";
 import { useRouter } from "next/router";
 import React from "react";
 import Ticket from "../models/Ticket";
@@ -199,9 +200,14 @@ export default TicketAdminContextProvider;
 export async function getStaticProps() {
 	let ticketStatus: any;
 
-	const http = useContextHttp();
+	const endpoint = process.env.NEXT_PUBLIC_API_ENDPOINT;
+	const cookieName = process.env.NEXT_PUBLIC_COOKIE_NAME;
+	
+	const HTTP_HEADER = { Accept: "application/json", "Content-Type": "application/json" };
+	const FETCH_OPTION: AxiosRequestConfig = { withCredentials: true, xsrfCookieName: cookieName };
+	const AXIOS_CONFIG = { ...FETCH_OPTION, Headers: HTTP_HEADER };
 
-	const response = await http.get("admin/ticket/status");
+	const response = await axios.get(endpoint + "admin/ticket/status", AXIOS_CONFIG);
 
 	if (response.status != 200) ticketStatus = false;
 
