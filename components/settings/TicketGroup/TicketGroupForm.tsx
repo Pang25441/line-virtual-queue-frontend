@@ -83,7 +83,7 @@ const TicketGroupForm: React.FC<Props> = (props) => {
 			id: ticketGroupData ? ticketGroupData.id : null,
 			active: activeStatus,
 			ticket_group_prefix: formData.get("ticket_group_prefix")?.toString(),
-			description: formData.get("description")?.toString(),
+			description: formData.get("description")?.toString() || "",
 		};
 		props.onSave(data);
 	};
