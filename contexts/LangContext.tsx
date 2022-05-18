@@ -30,7 +30,8 @@ const LangContextProvider: React.FC<OriginProps> = (props) => {
 	const [ticketLang, setTicketLang] = React.useState(LangEn.LangTicket);
 	const [liffLang, setLiffLang] = React.useState(LangEn.LangLiff);
 
-	const setLang = (lang: LangType) => {
+	
+	const setLang = React.useCallback((lang: LangType) => {
 		const label: string = lang.toString().toLocaleLowerCase();
 
 		let language: any;
@@ -48,16 +49,17 @@ const LangContextProvider: React.FC<OriginProps> = (props) => {
 		}
 
 		if (language) {
-			if (currentLanguage != label) {
-				localStorage.setItem("language", label);
-			}
+			// if (currentLanguage != label) {
+			// 	localStorage.setItem("language", label);
+			// }
+			localStorage.setItem("language", label);
 			setCurrentLanguage(label);
 			setCommonLang(language?.LangCommon);
 			setAdminLang(language?.LangAdmin);
 			setTicketLang(language?.LangTicket);
 			setLiffLang(language?.LangLiff);
 		}
-	};
+	},[]);
 
 	React.useEffect(() => {
 		const getSetting = async () => {
@@ -77,7 +79,7 @@ const LangContextProvider: React.FC<OriginProps> = (props) => {
 				setLang("en");
 			}
 		});
-	}, []);
+	}, [setLang]);
 
 	const contextValue = {
 		currentLanguage,

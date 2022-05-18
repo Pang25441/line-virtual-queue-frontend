@@ -4,6 +4,7 @@ import TicketGroup from "../../../models/TicketGroup";
 import OriginProps from "../../../models/util/OriginProps";
 import { useContextLang } from "../../../contexts/LangContext";
 import CloseIcon from "@mui/icons-material/Close";
+import Image from "next/image";
 
 interface Props extends OriginProps {
 	ticketGroup: TicketGroup | null;
@@ -15,11 +16,11 @@ const TicketGroupDetail: React.FC<Props> = (props) => {
 	const { ticketGroup, open } = props;
 	const baseUrl = process.env.NEXT_PUBLIC_API_BASE;
 
-	if (!ticketGroup) return null;
-
 	const lang = useContextLang();
 
-	const qrCodeUrl = baseUrl + "ticket_group_code/" + ticketGroup.ticket_group_code;
+	if (!ticketGroup) return null;
+
+	const qrCodeUrl = baseUrl + "ticket_group_code/" + ticketGroup.ticket_group_code + ".svg";
 
 	return (
 		<Dialog open={open} onClose={props.onClose} maxWidth="md" fullWidth aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
@@ -30,7 +31,7 @@ const TicketGroupDetail: React.FC<Props> = (props) => {
 				</IconButton>
 				<Grid container spacing={2}>
 					<Grid item xs={5}>
-						<img src={qrCodeUrl} />
+						{qrCodeUrl && <Image src={qrCodeUrl} alt="Ticket Group QR Code" objectFit="contain" layout="responsive" width="100%" height="100%" />}
 					</Grid>
 					<Grid item xs={7}>
 						<Box component="div">

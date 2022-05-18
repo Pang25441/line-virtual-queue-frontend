@@ -9,6 +9,7 @@ import ConfirmDialog from "../ui/ConfirmDialog";
 import { useContextLang } from "../../contexts/LangContext";
 
 const Topbar: React.FC = () => {
+	const [authState, setAuthState] = React.useState({ isInit: false, isLogin: false });
 	const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
 	const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 	const [isLoading, setIsLoading] = React.useState(false);
@@ -25,8 +26,10 @@ const Topbar: React.FC = () => {
 	];
 
 	React.useEffect(() => {
-		console.log("Topbar Initial", auth.isInit, auth.isLogin);
-	}, []);
+		setAuthState((prevState) => {
+			return { isInit: auth.isInit, isLogin: auth.isLogin }
+		});
+	}, [auth.isInit, auth.isLogin]);
 
 	const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorElNav(event.currentTarget);
@@ -64,7 +67,7 @@ const Topbar: React.FC = () => {
 		lang.setLang(_lang);
 	};
 
-	if (!auth.isLogin) {
+	if (!authState.isLogin) {
 		return null;
 	}
 

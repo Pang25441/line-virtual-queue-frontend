@@ -16,7 +16,7 @@ interface Props extends OriginProps {}
 
 const TicketGroupComponent: React.FC<Props> = (props) => {
 	const [isInit, setIsInit] = useState(false);
-	const [isLoading, setIsLoading] = useState(true);
+	const [isLoading, setIsLoading] = useState(false);
 	const [selectedTicketGroup, setSelectedTicketGroup] = useState<TicketGroup | null>(null);
 	const [formOpen, setFormOpen] = useState(false);
 	const [deleteDialog, setDeleteDialog] = useState(false);
@@ -29,12 +29,11 @@ const TicketGroupComponent: React.FC<Props> = (props) => {
 	const { enqueueSnackbar } = useSnackbar();
 
 	const reloadTicketGroupList = useCallback(async () => {
-		setIsLoading(true);
 		const result = await ticketGroupCtx.getTicketGroupList();
 		console.log("reloadTicketGroupList", result);
 		const list = result || [];
 		setTicketGroups(list);
-		setIsLoading(false);
+		return list;
 	}, [ticketGroupCtx]);
 
 	const handleOpenCreateForm = () => {
@@ -103,25 +102,31 @@ const TicketGroupComponent: React.FC<Props> = (props) => {
 	const handleDetailClose = () => {
 		// setSelectedTicketGroup(null);
 		setDetailDialog(false);
-	}
+	};
 
 	useEffect(() => {
 		// Initial Component
-		console.log("TicketGroupComponent", "reloadTicketGroupList");
-		reloadTicketGroupList()
-			.then(() => {
-				setIsInit(true);
-			})
-			.catch(() => {
-				setIsInit(true);
-			});
-	}, []);
+		console.log("Initialize Ticket Group Component");
+		if (!isInit && !isLoading) {
+			console.log("TicketGroupComponent", "reloadTicketGroupList");
+			setIsLoading(true);
+			reloadTicketGroupList()
+				.then(() => {
+					console.log("TicketGroupComponent", "ok");
+				})
+				.finally(() => {
+					console.log("TicketGroupComponent", "finally");
+					setIsInit(true);
+					setIsLoading(false);
+				});
+		}
+	}, [isInit, isLoading, reloadTicketGroupList]);
 
 	useEffect(() => {
 		// On Error Message Changed
 		setErrMessage(ticketGroupCtx.errMessage);
 		if (ticketGroupCtx.errMessage) enqueueSnackbar(ticketGroupCtx.errMessage, { variant: "error" });
-	}, [ticketGroupCtx.errMessage]);
+	}, [enqueueSnackbar, ticketGroupCtx.errMessage]);
 
 	const heading = <TabHeading heading="Ticket Group"></TabHeading>;
 

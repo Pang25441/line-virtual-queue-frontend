@@ -1,6 +1,6 @@
 import { Button, IconButton, List, ListItem, ListItemButton, ListItemText, Typography } from "@mui/material";
 import dayjs from "dayjs";
-import React, { Fragment, useEffect, useState } from "react";
+import React from "react";
 import { useContextLang } from "../../contexts/LangContext";
 import Ticket from "../../models/Ticket";
 import OriginProps from "../../models/util/OriginProps";
@@ -22,9 +22,9 @@ interface Props extends OriginProps {
 const confirmDefaultState: { open: boolean; ticket: Ticket | null; hasCurrent: boolean } = { open: false, ticket: null, hasCurrent: false };
 
 const TicketList: React.FC<Props> = (props) => {
-	const [recallConfirm, setRecallConfirm] = useState(confirmDefaultState);
-	const [rejectConfirm, setRejectConfirm] = useState(confirmDefaultState);
-	const [finishConfirm, setFinishConfirm] = useState(confirmDefaultState);
+	const [recallConfirm, setRecallConfirm] = React.useState(confirmDefaultState);
+	const [rejectConfirm, setRejectConfirm] = React.useState(confirmDefaultState);
+	const [finishConfirm, setFinishConfirm] = React.useState(confirmDefaultState);
 
 	const { tickets, label } = props;
 
@@ -102,7 +102,7 @@ const TicketList: React.FC<Props> = (props) => {
 		const isReject = ticket.ticket_status.code == lang.ticket.status.rejected;
 
 		return (
-			<Fragment>
+			<React.Fragment>
 				{rejectBtn}
 				{recallBtn}
 				{finishBtn}
@@ -116,7 +116,7 @@ const TicketList: React.FC<Props> = (props) => {
 						{lang.ticket.statusLabel.rejected}
 					</Typography>
 				)}
-			</Fragment>
+			</React.Fragment>
 		);
 	};
 
@@ -128,7 +128,7 @@ const TicketList: React.FC<Props> = (props) => {
 		);
 
 	return (
-		<Fragment>
+		<React.Fragment>
 			{/* <Typography component="h6" variant="h6">
 				{label}
 			</Typography> */}
@@ -150,7 +150,7 @@ const TicketList: React.FC<Props> = (props) => {
 					</ListItem>
 				</List>
 			))}
-		</Fragment>
+		</React.Fragment>
 	);
 };
 

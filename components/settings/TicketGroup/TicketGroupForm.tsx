@@ -59,7 +59,7 @@ const TicketGroupForm: React.FC<Props> = (props) => {
 				setTicketGroupData(null);
 			}, 500);
 		}
-	}, [open]);
+	}, [open, ticketGroup, ticketGroupCtx]);
 
 	useEffect(() => {
 		const loadingProps = props.isLoading || false;

@@ -26,7 +26,8 @@ interface Props extends OriginProps {
 }
 
 const QueueSettingFrom: React.FC<Props> = (props) => {
-	const [isLoading, setIsLoading] = useState(true);
+	const [isInit, setIsInit] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 	const [queueSetting, setQueueSetting] = useState<QueueSetting | null>(null);
 	const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
@@ -109,17 +110,24 @@ const QueueSettingFrom: React.FC<Props> = (props) => {
 	};
 
 	useEffect(() => {
-		console.log("QueueSettingFrom", "useEffect");
-		getQueueSetting()
-			.then(() => {
-				console.log("QueueSettingFrom", "useEffect ok");
-				setIsLoading(false);
-			})
-			.catch((e) => {
-				console.log("QueueSettingFrom", "useEffect error");
-				console.log(e);
-			});
-	}, [getQueueSetting, http]);
+		// Initialize Component
+		if (!isInit && !isLoading) {
+			console.log("QueueSettingFrom", "useEffect", "Initialize");
+			setIsLoading(true);
+			getQueueSetting()
+				.then(() => {
+					console.log("QueueSettingFrom", "useEffect ok");
+				})
+				.catch((e) => {
+					console.log("QueueSettingFrom", "useEffect error");
+					console.log(e);
+				})
+				.finally(() => {
+					setIsLoading(false);
+					setIsInit(true);
+				});
+		}
+	}, [getQueueSetting, isInit, isLoading]);
 
 	const fieldLabelMargin = 3;
 	const fieldDescMargin = 2;

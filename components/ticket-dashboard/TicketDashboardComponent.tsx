@@ -15,18 +15,19 @@ const TicketDashboardComponent: React.FC<Props> = (props) => {
 	const [ticketGroups, setTicketGroups] = React.useState<TicketGroup[]>([]);
 	const [countdown, setCountdown] = React.useState(0);
 	const [isInit, setIsInit] = React.useState(false);
+	const [isLoading, setIsLoading] = React.useState(false);
 
 	const { onCountdownUpdate } = props;
 
 	const lang = useContextLang();
 	const ticketAdminCtx = useContextTicketAdmin();
-	const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+	// const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
 	const delay = 15000;
 
 	useEffect(() => {
-		if(isInit) return;
-		
+		if (isInit) return;
+
 		const init = async () => {
 			const result = await ticketAdminCtx.getTicketGroupList();
 			return result;
@@ -40,32 +41,38 @@ const TicketDashboardComponent: React.FC<Props> = (props) => {
 	}, [isInit, ticketAdminCtx]);
 
 	useEffect(() => {
+		// Countdown Interval
 		const timeout = 100;
 		if (countdown > 0) {
 			setTimeout(() => {
 				const newValue = countdown - timeout;
-				const oldPercentage = Math.ceil((countdown / delay) * 100);
-				const newPercentage = Math.ceil((newValue / delay) * 100);
-
 				setCountdown(newValue);
 			}, timeout);
 		}
 	}, [countdown]);
 
 	useEffect(() => {
+		// Countdonw Progress calculate
 		const newPercentage = Math.ceil((countdown / delay) * 100);
 		if (onCountdownUpdate) onCountdownUpdate(newPercentage);
 	}, [countdown, onCountdownUpdate]);
 
 	useEffect(() => {
-		if (countdown === 0) {
+		// countdown finish
+		if (countdown === 0 && !isLoading) {
 			console.log("Refresh");
-			ticketAdminCtx.getTicketGroupList().then((result) => {
-				if (result) setTicketGroups(result);
-				setCountdown(delay);
-			});
+			setIsLoading(true);
+			ticketAdminCtx
+				.getTicketGroupList()
+				.then((result) => {
+					if (result) setTicketGroups(result);
+					setCountdown(delay);
+				})
+				.finally(() => {
+					setIsLoading(false);
+				});
 		}
-	}, [countdown, ticketAdminCtx]);
+	}, [countdown, isLoading, ticketAdminCtx]);
 
 	return (
 		<Stack direction="row" justifyContent="flex-start" alignItems="flex-start" spacing={2}>

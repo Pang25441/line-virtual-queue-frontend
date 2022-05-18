@@ -1,6 +1,6 @@
 import { Box, Button, ButtonGroup, Card, CardContent, Divider, Grid, Stack, Typography } from "@mui/material";
 import { useSnackbar } from "notistack";
-import React, { Fragment, useEffect } from "react";
+import React from "react";
 import { useContextLang } from "../../contexts/LangContext";
 import { useContextTicketAdmin } from "../../contexts/TicketAdminContext";
 import Ticket from "../../models/Ticket";
@@ -48,7 +48,9 @@ const TicketGroupAdminItem: React.FC<Props> = (props) => {
 	}, [props.ticketGroup]);
 
 	React.useEffect(() => {
-		console.log("Set ticket list");
+		// Initialize Component
+		if(props.ticketGroup.active !== 1) return
+		console.log("Initialize ticket list");
 		const ticketlang = lang.ticket;
 		const pastStatus = [ticketlang.status.calling, ticketlang.status.executed, ticketlang.status.rejected, ticketlang.status.lost];
 		const _currentQueue = ticketGroup.tickets?.filter((ticket) => ticket.status === 2 && ticket.is_postpone === 0)[0] || null;
@@ -65,7 +67,7 @@ const TicketGroupAdminItem: React.FC<Props> = (props) => {
 		setWaitingQueueList(_waitingQueue);
 		setPostponeQueueList(_postponeQueue);
 		setPastQueueList(_pastQueue);
-	}, [lang.ticket, ticketGroup.tickets]);
+	}, [lang.ticket, props.ticketGroup.active, ticketGroup.tickets]);
 
 	const changeTabHandler = (newValue: number) => {
 		if (tabValue == newValue) return false;
@@ -287,7 +289,7 @@ const TicketGroupAdminItem: React.FC<Props> = (props) => {
 		return currentQueue ? true : false;
 	};
 
-	useEffect(() => {
+	React.useEffect(() => {
 		// Delay next queue execute
 		if (nextQueueDelay && delayRemain > 0) {
 			setTimeout(() => {
@@ -296,7 +298,7 @@ const TicketGroupAdminItem: React.FC<Props> = (props) => {
 		}
 	}, [delayRemain, nextQueueDelay]);
 
-	useEffect(() => {
+	React.useEffect(() => {
 		if (nextQueueDelay && delayRemain === 0) {
 			nextQueueAction();
 		}
@@ -311,7 +313,7 @@ const TicketGroupAdminItem: React.FC<Props> = (props) => {
 	);
 
 	const contents = (
-		<Fragment>
+		<React.Fragment>
 			<ConfirmDialog maxWidth="xs" open={postPoneDialog} onConfirm={postponeQueueHandler} onReject={postponeDialogReject}>
 				<Typography component="p" variant="body1">
 					{lang.ticket.confirm.postpone} {currentQueue?.ticket_number}
@@ -377,7 +379,7 @@ const TicketGroupAdminItem: React.FC<Props> = (props) => {
 					</Button>
 				</ButtonGroup>
 			</Box>
-		</Fragment>
+		</React.Fragment>
 	);
 
 	const tabPanel = (

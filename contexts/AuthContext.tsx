@@ -128,16 +128,18 @@ const AuthContextProvider: React.FC<OriginProps> = (props) => {
 
 	// Initial Component
 	React.useEffect(() => {
-		setup()
-			.then(() => {
-				setProfile()
-					.then(() => {
-						setIsinit(true);
-					})
-					.catch();
-			})
-			.catch();
-	}, [setProfile, setup]);
+		if (!isInit) {
+			setup()
+				.then(() => {
+					setProfile()
+						.then(() => {
+							setIsinit(true);
+						})
+						.catch();
+				})
+				.catch();
+		}
+	}, [isInit, setProfile, setup]);
 
 	const contextValue: AuthContextObject = {
 		isInit,
