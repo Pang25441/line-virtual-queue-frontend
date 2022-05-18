@@ -9,7 +9,7 @@ type HttpContextObj = {
 	post: (uri: string, body?: any) => Promise<AxiosResponse>;
 	put: (uri: string, body?: any) => Promise<AxiosResponse>;
 	delete: (uri: string) => Promise<AxiosResponse>;
-    
+
 	getBase: (uri: string) => Promise<AxiosResponse>;
 };
 
@@ -30,7 +30,7 @@ export const HttpContext = React.createContext<HttpContextObj>({
 	delete: async (uri: string) => {
 		return AxiosResponseDummy;
 	},
-    getBase: async (uri: string) => {
+	getBase: async (uri: string) => {
 		return AxiosResponseDummy;
 	},
 });
@@ -38,10 +38,9 @@ export const HttpContext = React.createContext<HttpContextObj>({
 const HttpContextProvider: React.FC<OriginProps> = (props) => {
 	const endpoint = process.env.NEXT_PUBLIC_API_ENDPOINT;
 	const endpointBase = process.env.NEXT_PUBLIC_API_BASE;
-	const cookieName = process.env.NEXT_PUBLIC_COOKIE_NAME;
 
 	const HTTP_HEADER = { Accept: "application/json", "Content-Type": "application/json" };
-	const FETCH_OPTION: AxiosRequestConfig = { withCredentials: true, xsrfCookieName: cookieName };
+	const FETCH_OPTION: AxiosRequestConfig = { withCredentials: true };
 	const AXIOS_CONFIG = { ...FETCH_OPTION, Headers: HTTP_HEADER };
 
 	const getRequest = async (uri: string) => {
@@ -79,7 +78,7 @@ const HttpContextProvider: React.FC<OriginProps> = (props) => {
 		}
 	};
 
-    const getBaseRequest = async (uri: string) => {
+	const getBaseRequest = async (uri: string) => {
 		try {
 			const response = await axios.get(endpointBase + uri, AXIOS_CONFIG);
 			return response;
