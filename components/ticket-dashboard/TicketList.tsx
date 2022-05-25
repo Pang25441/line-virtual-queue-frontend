@@ -145,7 +145,7 @@ const TicketList: React.FC<Props> = (props) => {
 				<List key={"ticket-" + ticket.id} sx={{ width: "100%", bgcolor: "background.paper", fontSize: "small" }} aria-label="contacts">
 					<ListItem disablePadding secondaryAction={secondaryAction(ticket)}>
 						<ListItemButton>
-							<ListItemText primary={ticket.ticket_number + " , " + timeStr(ticket.pending_time)} secondary={ticket.line_member.display_name + "ssssssssssssssssssssssss"} />
+							<ListItemText primary={ticket.ticket_number + " , " + timeStr(ticket.pending_time)} secondary={ticket.line_member.display_name} />
 						</ListItemButton>
 					</ListItem>
 				</List>
