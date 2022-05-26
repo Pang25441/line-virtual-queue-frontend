@@ -1,8 +1,8 @@
-import { LangAdmin } from "../en/LangAdmin";
 import LangEn from "../en/LangEn";
-import { LangLiff } from "../en/LangLiff";
-import { LangTicket } from "../en/LangTicket";
+import { LangAdmin } from "./LangAdmin";
 import { LangCommon } from "./LangCommon";
+import { LangLiff } from "./LangLiff";
+import { LangTicket } from "./LangTicket";
 
 const LangTh = {
 	...LangEn,

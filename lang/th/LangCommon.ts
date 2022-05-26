@@ -9,4 +9,13 @@ export const LangCommon = {
 		settings: "ตั้งค่า",
 		ticketDashboard: "แผงควบคุมบัตรคิว",
 	},
+	
+	dialog: {
+		confirm: {
+			title: "ยืนยัน",
+			message: "โปรดยืนยันเพื่อดำเนินการต่อ",
+			confirmBtn: "ยืนยัน",
+			cancelBtn: "ยกเลิก",
+		}
+	}
 };

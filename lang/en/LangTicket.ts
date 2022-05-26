@@ -40,5 +40,7 @@ export const LangTicket = {
 		finishAndrecall: "Confirm to finish Current Queue and Re-call queue ",
 		reject: "Confirm to reject queue ",
 		postpone: "Postpone queue ",
+		active: "Please confirm to activate ticket group",
+		inactive: "Please confirm to inactivate ticket group",
 	},
 };

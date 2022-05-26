@@ -10,4 +10,13 @@ export const LangCommon = {
 		ticketDashboard: "Ticket Dashboard",
 		bookingDashboard: "Booking Dashboard"
 	},
+
+	dialog: {
+		confirm: {
+			title: "Confirm",
+			message: "Please Confirm to proceed",
+			confirmBtn: "Confirm",
+			cancelBtn: "Cancel",
+		}
+	}
 };

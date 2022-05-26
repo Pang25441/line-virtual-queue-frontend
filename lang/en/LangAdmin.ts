@@ -15,6 +15,7 @@ export const LangAdmin = {
 		heading: "Account Setting",
 		display_name: "Title to display to user",
 		detail: "Detail to display to user",
+		saveBtn: "Save",
 	},
 
 	ticketGroup: {
@@ -30,6 +31,8 @@ export const LangAdmin = {
 			active: "Active",
 			inactive: "Inactive",
 		},
+		confirmDeleteTitle: "Confirm",
+		confirmDeleteText: "Please Confirm to Delete Ticket Group",
 	},
 
 	ticketGroupDetail: {

@@ -141,7 +141,7 @@ const QueueSettingFrom: React.FC<Props> = (props) => {
 		</Box>
 	);
 
-	const heading = <TabHeading heading="Account Setting"></TabHeading>;
+	const heading = <TabHeading heading={lang.admin.queueSetting.heading}></TabHeading>;
 	const errorFeedback = errorMsg && (
 		<Alert variant="filled" severity="error">
 			{errorMsg}
@@ -176,7 +176,7 @@ const QueueSettingFrom: React.FC<Props> = (props) => {
 			{isLoading && <ProgressBackdrop open={isLoading} />}
 			<Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
 				<Typography variant="h5" component="p" sx={{ my: fieldLabelMargin }}>
-					Display Name
+					{lang.admin.queueSetting.display_name || "Display Name"}
 				</Typography>
 				<TextField type="text" name="display_name" defaultValue={queueSetting.display_name} label="Required" variant="outlined" required fullWidth></TextField>
 				<Typography variant="subtitle2" component="p" sx={{ mt: fieldDescMargin }}>
@@ -186,7 +186,7 @@ const QueueSettingFrom: React.FC<Props> = (props) => {
 				<Divider sx={{ my: dividerMargin }}></Divider>
 
 				<Typography variant="h5" component="p" sx={{ my: fieldLabelMargin }}>
-					Description
+					{lang.admin.queueSetting.detail || "Description"}
 				</Typography>
 				<TextField type="text" name="detail" defaultValue={queueSetting.detail} label="Required" variant="outlined" required fullWidth></TextField>
 				<Typography variant="subtitle2" component="p" sx={{ mt: fieldDescMargin }}>
@@ -194,7 +194,7 @@ const QueueSettingFrom: React.FC<Props> = (props) => {
 				</Typography>
 				<Divider sx={{ my: dividerMargin }}></Divider>
 				<Button variant="contained" type="submit" size="large" sx={{ fontWeight: "bold" }}>
-					Save
+					{lang.admin.queueSetting.saveBtn || "Save"}
 				</Button>
 			</Box>
 		</Fragment>
