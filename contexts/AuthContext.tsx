@@ -48,7 +48,7 @@ const AuthContextProvider: React.FC<OriginProps> = (props) => {
 		await http.getBase("sanctum/csrf-cookie");
 	}, [http]);
 
-	const getProfile = React.useCallback(async () => {
+	const getCurrentUserHandler = React.useCallback(async () => {
 		try {
 			const response = await http.get("profile");
 			if (response.status != 200) return false;
@@ -71,8 +71,8 @@ const AuthContextProvider: React.FC<OriginProps> = (props) => {
 		return false;
 	}, [http]);
 
-	const setProfile = React.useCallback(async () => {
-		const user = await getProfile();
+	const setProfileHandler = React.useCallback(async () => {
+		const user = await getCurrentUserHandler();
 
 		if (user) {
 			setCurrentUser(user);
@@ -83,7 +83,7 @@ const AuthContextProvider: React.FC<OriginProps> = (props) => {
 		}
 
 		return false;
-	}, [getProfile]);
+	}, [getCurrentUserHandler]);
 
 	const loginHandler = async (credential: LoginCredential) => {
 		const response = await http.post("auth/login", credential);
@@ -131,7 +131,7 @@ const AuthContextProvider: React.FC<OriginProps> = (props) => {
 		if (!isInit) {
 			setup()
 				.then(() => {
-					setProfile()
+					setProfileHandler()
 						.then(() => {
 							setIsinit(true);
 						})
@@ -139,7 +139,7 @@ const AuthContextProvider: React.FC<OriginProps> = (props) => {
 				})
 				.catch();
 		}
-	}, [isInit, setProfile, setup]);
+	}, [isInit, setProfileHandler, setup]);
 
 	const contextValue: AuthContextObject = {
 		isInit,
@@ -148,8 +148,8 @@ const AuthContextProvider: React.FC<OriginProps> = (props) => {
 		message,
 		onLogin: loginHandler,
 		onLogout: logoutHandler,
-		getCurrentUser: getProfile,
-		setProfile: setProfile,
+		getCurrentUser: getCurrentUserHandler,
+		setProfile: setProfileHandler,
 	};
 
 	if (!isInit) {
