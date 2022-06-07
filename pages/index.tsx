@@ -1,4 +1,4 @@
-import { Box, Button, Container, Typography } from "@mui/material";
+import { Box, Button, Container, Link, Stack, Typography } from "@mui/material";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
@@ -7,7 +7,9 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { useEffect, useState } from "react";
 import { useContextAuth } from "../contexts/AuthContext";
 import { useRouter } from "next/router";
-import Link from "../components/ui/Link";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import MenuBookRoundedIcon from '@mui/icons-material/MenuBookRounded';
+import ScienceIcon from '@mui/icons-material/Science';
 
 const Home: NextPage = () => {
 	const [isInit, setIsInit] = useState(false);
@@ -18,6 +20,10 @@ const Home: NextPage = () => {
 
 	const getStartHandler = () => {
 		if (getStartUrl) router.push(getStartUrl);
+	};
+
+	const documentHandler = () => {
+		router.push("/documents");
 	};
 
 	useEffect(() => {
@@ -31,11 +37,15 @@ const Home: NextPage = () => {
 	}, [auth.isLogin, router]);
 
 	const getStartBtn = (
-		<Box sx={{ my: 6, textAlign: "center" }}>
-			<Button onClick={getStartHandler} variant="contained" size="large" sx={{ fontWeight: "bold" }}>
-				Get Start
-			</Button>
-		</Box>
+		<Button onClick={getStartHandler} startIcon={<ScienceIcon />} color="success" variant="contained" size="large" sx={{ fontWeight: "bold" }}>
+			Get Start
+		</Button>
+	);
+
+	const documentBtn = (
+		<Button onClick={documentHandler} startIcon={<MenuBookRoundedIcon />} color="info" variant="contained" size="large" sx={{ fontWeight: "bold" }}>
+			Documents
+		</Button>
 	);
 
 	if (!isInit || auth.isLogin) {
@@ -57,7 +67,10 @@ const Home: NextPage = () => {
 					</Typography>
 				</Box>
 
-				{getStartBtn}
+				<Stack sx={{ my: 6, textAlign: "center" }} direction="row" spacing={1} justifyContent="center">
+					{documentBtn}
+					{getStartBtn}
+				</Stack>
 
 				<Box sx={{ textAlign: "center" }}>
 					<MoreHorizIcon fontSize="large" />
@@ -74,7 +87,22 @@ const Home: NextPage = () => {
 					<MoreHorizIcon fontSize="large" />
 				</Box>
 
-				{getStartBtn}
+				<Stack sx={{ my: 6, textAlign: "center" }} direction="row" spacing={1} justifyContent="center">
+					{documentBtn}
+					{getStartBtn}
+				</Stack>
+
+				<Box sx={{ textAlign: "center", py: 2, px: 2, position: "fixed", right: 0, bottom: 0 }}>
+					<Typography variant="caption" sx={{ color: "#aaa" }}>
+						Coming Soon
+					</Typography>
+					<br />
+					{/* <Link href="https://github.com/stars/Pang25441/lists/line-virtual-queue" target="_blank" underline="none"> */}
+					<Button startIcon={<GitHubIcon />} color="secondary" variant="contained" disabled>
+						Source Code
+					</Button>
+					{/* </Link> */}
+				</Box>
 			</Container>
 		</>
 	);
