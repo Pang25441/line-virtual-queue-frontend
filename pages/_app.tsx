@@ -23,6 +23,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 							<Topbar></Topbar>
 							<Head>
 								<title>LVQ</title>
+								<meta name="description" content="LVQ - LINE Virtual Queue" />
 							</Head>
 							<Component {...pageProps} />
 						</AuthContextProvider>
