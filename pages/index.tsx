@@ -1,22 +1,27 @@
-import { Box, Button, Container, Link, Stack, Typography } from "@mui/material";
 import type { NextPage } from "next";
-import Head from "next/head";
-import Image from "next/image";
-import lvqFlowEnSvg from "../public/LVQ-Flow-FlowEN.drawio.svg";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useContextAuth } from "../contexts/AuthContext";
 import { useRouter } from "next/router";
+import { useContextLang } from "../contexts/LangContext";
+import Head from "next/head";
+import Image from "next/image";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import GitHubIcon from "@mui/icons-material/GitHub";
-import MenuBookRoundedIcon from '@mui/icons-material/MenuBookRounded';
-import ScienceIcon from '@mui/icons-material/Science';
+import MenuBookRoundedIcon from "@mui/icons-material/MenuBookRounded";
+import ScienceIcon from "@mui/icons-material/Science";
+import LangChanger from "../components/ui/LangChanger";
+import lvqFlowEn from "../public/LVQ-Flow-FlowEN.drawio.svg";
+import lvqFlowTh from "../public/LVQ-Flow-FlowTH.drawio.svg";
 
 const Home: NextPage = () => {
 	const [isInit, setIsInit] = useState(false);
 	const [getStartUrl, setGetStartUrl] = useState<string | null>(null);
+	const [flowImage, setFlowImage] = useState<any>();
 
 	const auth = useContextAuth();
 	const router = useRouter();
+	const lang = useContextLang();
 
 	const getStartHandler = () => {
 		if (getStartUrl) router.push(getStartUrl);
@@ -36,9 +41,19 @@ const Home: NextPage = () => {
 		setIsInit(true);
 	}, [auth.isLogin, router]);
 
+	useEffect(() => {
+		switch (lang.currentLanguage.toLowerCase()) {
+			case "th":
+				setFlowImage(lvqFlowTh);
+				break;
+			default:
+				setFlowImage(lvqFlowEn);
+		}
+	}, [lang.currentLanguage]);
+
 	const getStartBtn = (
 		<Button onClick={getStartHandler} startIcon={<ScienceIcon />} color="success" variant="contained" size="large" sx={{ fontWeight: "bold" }}>
-			Get Start
+			{lang.common.indexPage.buttonLabel.demo || "Demo"}
 		</Button>
 	);
 
@@ -76,11 +91,13 @@ const Home: NextPage = () => {
 					<MoreHorizIcon fontSize="large" />
 				</Box>
 
-				<Box sx={{ my: 6, display: "flex", justifyContent: "center", flexDirection: "column", textAlign: "center" }}>
+				<Box sx={{ my: 6, display: "flex", justifyContent: "center", flexDirection: "column", textAlign: "center", justifyItems: "center" }}>
 					<Typography variant="h2" sx={{ mb: 3 }}>
 						Work Flow
 					</Typography>
-					<Image src={lvqFlowEnSvg} alt="Flow Chart" />
+					<Box sx={{display: "flex",flexDirection: "row", justifyContent: "center"}}>
+						{flowImage && <Image src={flowImage} alt="Flow Chart" layout="fixed" width={571} />}
+					</Box>
 				</Box>
 
 				<Box sx={{ textAlign: "center" }}>
@@ -102,6 +119,10 @@ const Home: NextPage = () => {
 						Source Code
 					</Button>
 					{/* </Link> */}
+				</Box>
+
+				<Box sx={{ textAlign: "center", py: 2, px: 2, position: "fixed", right: 0, top: 0 }}>
+					<LangChanger />
 				</Box>
 			</Container>
 		</>

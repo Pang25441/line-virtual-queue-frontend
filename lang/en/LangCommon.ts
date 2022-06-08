@@ -8,6 +8,16 @@ export const LangCommon = {
 	menu: {
 		settings: "Settings",
 		ticketDashboard: "Ticket Dashboard",
-		bookingDashboard: "Booking Dashboard"
+		bookingDashboard: "Booking Dashboard",
+	},
+
+	indexPage: {
+		text: {
+			description: "",
+		},
+		buttonLabel: {
+			documents: "Documents",
+			demo: "Start Demo",
+		},
 	},
 };

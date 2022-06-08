@@ -7,6 +7,7 @@ import ProgressBackdrop from "../ui/ProgressBackdrop";
 import { useRouter } from "next/router";
 import ConfirmDialog from "../ui/ConfirmDialog";
 import { useContextLang } from "../../contexts/LangContext";
+import LangChanger from "../ui/LangChanger";
 
 const Topbar: React.FC = () => {
 	const [authState, setAuthState] = React.useState({ isInit: false, isLogin: false });
@@ -63,10 +64,6 @@ const Topbar: React.FC = () => {
 		setLogoutDialog(false);
 	};
 
-	const handleLangChange = (_lang: any) => {
-		lang.setLang(_lang);
-	};
-
 	if (!authState.isLogin) {
 		return null;
 	}
@@ -116,14 +113,7 @@ const Topbar: React.FC = () => {
 						))}
 					</Box>
 					<Box sx={{ mr: 3 }}>
-						<ButtonGroup variant="text" aria-label="text button group">
-							<Button disabled={lang.currentLanguage === "en"} onClick={handleLangChange.bind(null, "en")}>
-								EN
-							</Button>
-							<Button disabled={lang.currentLanguage === "th"} onClick={handleLangChange.bind(null, "th")}>
-								TH
-							</Button>
-						</ButtonGroup>
+						<LangChanger />
 					</Box>
 					<Link href={"/auth"} passHref>
 						<Button onClick={handleLogout} color="inherit">
