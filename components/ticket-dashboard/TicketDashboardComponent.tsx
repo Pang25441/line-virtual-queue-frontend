@@ -75,7 +75,7 @@ const TicketDashboardComponent: React.FC<Props> = (props) => {
 	}, [countdown, isLoading, ticketAdminCtx]);
 
 	return (
-		<Stack direction="row" justifyContent="flex-start" alignItems="flex-start" spacing={2}>
+		<Stack direction="row" justifyContent="flex-start" alignItems="flex-start" flexWrap="wrap" spacing={0}>
 			{ticketGroups.map((ticketGroup) => (
 				<TicketGroupAdminItem key={ticketGroup.ticket_group_code} ticketGroup={ticketGroup}></TicketGroupAdminItem>
 			))}

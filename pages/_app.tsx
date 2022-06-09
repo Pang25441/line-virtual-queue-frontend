@@ -14,23 +14,24 @@ const theme = createTheme({ palette: { mode: "dark" } });
 
 function MyApp({ Component, pageProps }: AppProps) {
 	return (
-		<LangContextProvider>
-			<ThemeProvider theme={theme}>
-				<CssBaseline />
-				<SnackbarProvider maxSnack={5} anchorOrigin={{ vertical: "bottom", horizontal: "center" }} autoHideDuration={5000}>
-					<HttpContextProvider>
-						<AuthContextProvider>
-							<Topbar></Topbar>
-							<Head>
-								<title>LVQ</title>
-								<meta name="description" content="LVQ - LINE Virtual Queue" />
-							</Head>
-							<Component {...pageProps} />
-						</AuthContextProvider>
-					</HttpContextProvider>
-				</SnackbarProvider>
-			</ThemeProvider>
-		</LangContextProvider>
+		<>
+			<Head>
+				<title>LVQ</title>
+			</Head>
+			<LangContextProvider>
+				<ThemeProvider theme={theme}>
+					<CssBaseline />
+					<SnackbarProvider maxSnack={5} anchorOrigin={{ vertical: "bottom", horizontal: "center" }} autoHideDuration={5000}>
+						<HttpContextProvider>
+							<AuthContextProvider>
+								<Topbar />
+								<Component {...pageProps} />
+							</AuthContextProvider>
+						</HttpContextProvider>
+					</SnackbarProvider>
+				</ThemeProvider>
+			</LangContextProvider>
+		</>
 	);
 }
 

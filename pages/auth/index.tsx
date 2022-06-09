@@ -15,22 +15,34 @@ import { useContextAuth } from "../../contexts/AuthContext";
 import { useSnackbar } from "notistack";
 import { Alert, CircularProgress } from "@mui/material";
 import { useContextLang } from "../../contexts/LangContext";
+import { useRouter } from "next/router";
 
 const LoginPage: NextPage = () => {
 	const [loginResult, setLoginResult] = useState<null | boolean>(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const [tempEmail, setTempEmail] = useState<string | null>("");
+	const [isInit, setIsInit] = useState<boolean>(false);
 
 	const auth = useContextAuth();
 	const lang = useContextLang();
 	const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
+	// Initialize
 	useEffect(() => {
-		if (auth.isLogin) {
-			setLoginResult(null);
-			setIsLoading(false);
+		if (!isInit && !isLoading) {
+			setIsLoading(true);
+
+			if (auth.isLogin) {
+				auth.setProfile().then(() => {
+					setIsInit(true);
+					setIsLoading(false);
+				});
+			} else {
+				setIsInit(true);
+				setIsLoading(false);
+			}
 		}
-	}, [auth.isLogin]);
+	}, [auth, isInit, isLoading]);
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -72,6 +84,7 @@ const LoginPage: NextPage = () => {
 			const name = profile ? profile.name : "";
 			enqueueSnackbar("Welcome, " + name, { variant: "success" });
 			setLoginResult(true);
+			setIsLoading(false);
 		} else {
 			enqueueSnackbar("Something went wrong", { variant: "error" });
 			setLoginResult(false);
@@ -84,6 +97,10 @@ const LoginPage: NextPage = () => {
 			<CircularProgress color="inherit" />
 		</Box>
 	);
+
+	if (!isInit) {
+		return <Box sx={{ marginTop: 15, display: "flex", flexDirection: "column", alignItems: "center" }}>{loadingDialog}</Box>;
+	}
 
 	// Is already log in
 	if (auth.isLogin) {

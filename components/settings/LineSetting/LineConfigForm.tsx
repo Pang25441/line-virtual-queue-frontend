@@ -41,7 +41,7 @@ const LineConfigForm: React.FC<Props> = (props) => {
 		</Box>
 	);
 
-	const heading = <TabHeading heading="LINE Configuration"></TabHeading>;
+	const heading = <TabHeading heading={lang.admin.lineConfig.heading}></TabHeading>;
 
 	if (isLoading) {
 		return (

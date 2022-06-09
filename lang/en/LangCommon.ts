@@ -20,4 +20,13 @@ export const LangCommon = {
 			demo: "Start Demo",
 		},
 	},
+
+	dialog: {
+		confirm: {
+			title: "Confirm",
+			message: "Please Confirm to proceed",
+			confirmBtn: "Confirm",
+			cancelBtn: "Cancel",
+		}
+	}
 };

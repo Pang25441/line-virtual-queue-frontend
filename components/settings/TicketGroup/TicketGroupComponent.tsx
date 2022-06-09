@@ -11,6 +11,7 @@ import AddIcon from "@mui/icons-material/Add";
 import ProgressBackdrop from "../../ui/ProgressBackdrop";
 import { useSnackbar } from "notistack";
 import TicketGroupDetail from "./TicketGroupDetail";
+import { useContextLang } from "../../../contexts/LangContext";
 
 interface Props extends OriginProps {}
 
@@ -26,6 +27,7 @@ const TicketGroupComponent: React.FC<Props> = (props) => {
 	const [errMessage, setErrMessage] = useState<string | null>(null);
 
 	const ticketGroupCtx = useContextTicketGroup();
+	const lang = useContextLang();
 	const { enqueueSnackbar } = useSnackbar();
 
 	const reloadTicketGroupList = useCallback(async () => {
@@ -128,13 +130,13 @@ const TicketGroupComponent: React.FC<Props> = (props) => {
 		if (ticketGroupCtx.errMessage) enqueueSnackbar(ticketGroupCtx.errMessage, { variant: "error" });
 	}, [enqueueSnackbar, ticketGroupCtx.errMessage]);
 
-	const heading = <TabHeading heading="Ticket Group"></TabHeading>;
+	const heading = <TabHeading heading={lang.admin.ticketGroup.heading}></TabHeading>;
 
 	const controlPanel = (
 		<Box component="div" sx={{ my: 1 }}>
 			<Button onClick={handleOpenCreateForm} color="primary" variant="contained" sx={{ fontWeight: "bold" }}>
 				<AddIcon></AddIcon>
-				Add Ticket Group
+				{lang.admin.ticketGroup.addBtn || "Add Ticket Group"}
 			</Button>
 		</Box>
 	);
@@ -165,7 +167,7 @@ const TicketGroupComponent: React.FC<Props> = (props) => {
 			<TicketGroupDetail ticketGroup={selectedTicketGroup} onClose={handleDetailClose} open={detailDialog} />
 			<TicketGroupForm ticketGroup={selectedTicketGroup} onSave={handleSave} onClose={handleCloseForm} open={formOpen} isLoading={isLoading}></TicketGroupForm>
 			<ConfirmDialog open={deleteDialog} onConfirm={handleConfirmDelete} onReject={handleDeleteDialogClose}>
-				Confirm To Delete
+				{lang.admin.ticketGroup.confirmDeleteText}
 			</ConfirmDialog>
 			{isLoading && <ProgressBackdrop></ProgressBackdrop>}
 		</Fragment>
