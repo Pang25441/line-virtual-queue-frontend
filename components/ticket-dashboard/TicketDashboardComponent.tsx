@@ -1,10 +1,10 @@
-import { Box, Paper, Stack } from "@mui/material";
-import { useSnackbar } from "notistack";
+import { Alert, AlertTitle, Box, CircularProgress, Stack, Typography } from "@mui/material";
 import React, { useEffect } from "react";
 import { useContextLang } from "../../contexts/LangContext";
 import { useContextTicketAdmin } from "../../contexts/TicketAdminContext";
 import TicketGroup from "../../models/TicketGroup";
 import OriginProps from "../../models/util/OriginProps";
+import Link from "../ui/Link";
 import TicketGroupAdminItem from "./TicketGroupAdminItem";
 
 interface Props extends OriginProps {
@@ -13,20 +13,22 @@ interface Props extends OriginProps {
 
 const TicketDashboardComponent: React.FC<Props> = (props) => {
 	const [ticketGroups, setTicketGroups] = React.useState<TicketGroup[]>([]);
-	const [countdown, setCountdown] = React.useState(0);
+	const [countdown, setCountdown] = React.useState(15000);
 	const [isInit, setIsInit] = React.useState(false);
+	const [isInitDone, setIsInitDone] = React.useState(false);
 	const [isLoading, setIsLoading] = React.useState(false);
 
 	const { onCountdownUpdate } = props;
 
 	const lang = useContextLang();
 	const ticketAdminCtx = useContextTicketAdmin();
-	// const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
 	const delay = 15000;
 
 	useEffect(() => {
 		if (isInit) return;
+		setIsInit(true);
+		console.log("initial");
 
 		const init = async () => {
 			const result = await ticketAdminCtx.getTicketGroupList();
@@ -34,22 +36,24 @@ const TicketDashboardComponent: React.FC<Props> = (props) => {
 		};
 
 		init().then((result) => {
-			if (result) setTicketGroups(result);
-			setCountdown(delay);
-			setIsInit(true);
+			setIsInitDone(true);
+			if (result) {
+				setTicketGroups(result);
+				setCountdown(delay);
+			}
 		});
 	}, [isInit, ticketAdminCtx]);
 
 	useEffect(() => {
 		// Countdown Interval
 		const timeout = 100;
-		if (countdown > 0) {
+		if (countdown > 0 && ticketGroups.length > 0) {
 			setTimeout(() => {
 				const newValue = countdown - timeout;
 				setCountdown(newValue);
 			}, timeout);
 		}
-	}, [countdown]);
+	}, [countdown, ticketGroups.length]);
 
 	useEffect(() => {
 		// Countdonw Progress calculate
@@ -59,6 +63,7 @@ const TicketDashboardComponent: React.FC<Props> = (props) => {
 
 	useEffect(() => {
 		// countdown finish
+		if (!isInitDone) return;
 		if (countdown === 0 && !isLoading) {
 			console.log("Refresh");
 			setIsLoading(true);
@@ -72,7 +77,32 @@ const TicketDashboardComponent: React.FC<Props> = (props) => {
 					setIsLoading(false);
 				});
 		}
-	}, [countdown, isLoading, ticketAdminCtx]);
+	}, [countdown, isInitDone, isLoading, ticketAdminCtx]);
+
+	if (!isInitDone) {
+		return (
+			<Box sx={{ display: "flex", justifyItems: "center" }}>
+				<CircularProgress />
+			</Box>
+		);
+	}
+
+	if (isInitDone && ticketGroups.length === 0) {
+		return (
+			<Box>
+				<Alert severity="warning">
+					<AlertTitle>{"Setup isn't ready"}</AlertTitle>
+					Please proceed —{" "}
+					<strong>
+						<Link href="/admin/setting/ticket" variant="">
+							{lang.admin.ticketGroup.heading}
+						</Link>
+					</strong>
+				</Alert>
+				<Typography></Typography>
+			</Box>
+		);
+	}
 
 	return (
 		<Stack direction="row" justifyContent="flex-start" alignItems="flex-start" flexWrap="wrap" spacing={0}>

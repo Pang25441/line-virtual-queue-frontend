@@ -6,12 +6,13 @@ import ConfirmDialog from "../../ui/ConfirmDialog";
 import TicketGroupForm from "./TicketGroupForm";
 import TicketGroupList from "./TicketGroupList";
 import TabHeading from "../../layout/TabHeading";
-import { Alert, Box, Button, CircularProgress } from "@mui/material";
+import { Alert, Box, Button, CircularProgress, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import ProgressBackdrop from "../../ui/ProgressBackdrop";
 import { useSnackbar } from "notistack";
 import TicketGroupDetail from "./TicketGroupDetail";
 import { useContextLang } from "../../../contexts/LangContext";
+import Link from "../../ui/Link";
 
 interface Props extends OriginProps {}
 
@@ -25,6 +26,7 @@ const TicketGroupComponent: React.FC<Props> = (props) => {
 	const [deletingID, setDeletingID] = useState<number>(0);
 	const [ticketGroups, setTicketGroups] = useState<TicketGroup[]>([]);
 	const [errMessage, setErrMessage] = useState<string | null>(null);
+	const [isQueueSettingValid, setIsQueueSettingValid] = useState(false);
 
 	const ticketGroupCtx = useContextTicketGroup();
 	const lang = useContextLang();
@@ -32,10 +34,19 @@ const TicketGroupComponent: React.FC<Props> = (props) => {
 
 	const reloadTicketGroupList = useCallback(async () => {
 		const result = await ticketGroupCtx.getTicketGroupList();
-		console.log("reloadTicketGroupList", result);
-		const list = result || [];
-		setTicketGroups(list);
-		return list;
+		// console.log("reloadTicketGroupList", result);
+		if (!result) {
+			setTicketGroups([]);
+			setIsQueueSettingValid(false);
+			return [];
+		}
+
+		if (result) {
+			const list = result.ticket_groups || [];
+			setIsQueueSettingValid(true);
+			setTicketGroups(list);
+			return list;
+		}
 	}, [ticketGroupCtx]);
 
 	const handleOpenCreateForm = () => {
@@ -153,6 +164,25 @@ const TicketGroupComponent: React.FC<Props> = (props) => {
 				{heading}
 				<Box component="div" sx={{ mt: 1, display: "flex", justifyContent: "center" }}>
 					<CircularProgress color="inherit" />
+				</Box>
+			</Fragment>
+		);
+	}
+
+	if (!isQueueSettingValid) {
+		return (
+			<Fragment>
+				{heading}
+				{isQueueSettingValid && "ok"}
+				<Box sx={{ textAlign: "center" }}>
+					<Typography>Please Proceed</Typography>
+				</Box>
+				<Box component="div" sx={{ mt: 1, display: "flex", justifyContent: "center" }}>
+					{">>"} &nbsp;
+					<Link href="account" variant="">
+						{lang.admin.queueSetting.heading}
+					</Link>
+					&nbsp; {"<<"}
 				</Box>
 			</Fragment>
 		);

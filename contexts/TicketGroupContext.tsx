@@ -4,6 +4,7 @@ import TicketGroup from "../models/TicketGroup";
 import OriginProps from "../models/util/OriginProps";
 import StatusCode from "../models/util/StatusCode";
 import { useContextHttp } from "./HttpContext";
+import QueueSetting from "../models/QueueSetting";
 
 // const TICKET_GROUP_DUMMY: TicketGroup[] = [
 // 	{ id: 1, queue_setting_id: 1, ticket_group_code: "hsmdtgras", ticket_group_prefix: "A", active_count: 11, active: 0, description: "qoemsdif nvioue bnrnwn dsfa,s", updated_at: "" },
@@ -14,7 +15,7 @@ import { useContextHttp } from "./HttpContext";
 
 type TicketGroupContextObj = {
 	errMessage: string | null;
-	getTicketGroupList: () => Promise<TicketGroup[] | false>;
+	getTicketGroupList: () => Promise<QueueSetting | false>;
 	getTicketGroup: (ticketGroupId: number) => Promise<TicketGroup | false>;
 	createTicketGroup: (data: TicketGroup) => Promise<TicketGroup | false>;
 	updateTicketGroup: (data: TicketGroup) => Promise<TicketGroup | false>;

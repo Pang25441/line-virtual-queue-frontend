@@ -1,4 +1,4 @@
-import { CircularProgress, Divider, TextField, Typography } from "@mui/material";
+import { Alert, AlertTitle, CircularProgress, Divider, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 
 import OriginProps from "../../../models/util/OriginProps";
@@ -13,6 +13,7 @@ const LINE_CONFIG_DUMMY: LineConfig = {
 	channel_id: "12345678",
 	channel_access_token: "asjhqibfsbdfasfasfasf",
 	login_channel_id: "6543210",
+	queue_setting: undefined,
 };
 
 interface Props extends OriginProps {}
@@ -67,6 +68,10 @@ const LineConfigForm: React.FC<Props> = (props) => {
 		<Fragment>
 			{heading}
 			<Box component="form" noValidate sx={{ mt: 1 }}>
+				<Alert severity="info">
+					<AlertTitle>Coming Soon</AlertTitle>
+					Setup your own LINE Official Account will be here <strong>soon!</strong>
+				</Alert>
 				<Typography variant="h5" component="p" sx={{ my: fieldLabelMargin }}>
 					LINE ID
 				</Typography>

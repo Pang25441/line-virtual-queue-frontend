@@ -18,6 +18,7 @@ const QUEUE_SETTING_DUMMY: QueueSetting = {
 	display_name: "Queue Setting Dummy",
 	detail: "Queue Setting Detail",
 	line_config_id: 1,
+	ticket_groups: undefined
 };
 
 interface Props extends OriginProps {
@@ -96,6 +97,7 @@ const QueueSettingFrom: React.FC<Props> = (props) => {
 			id: queueSetting && queueSetting.id ? queueSetting.id : null,
 			display_name: data.get("display_name")?.toString() || "",
 			detail: data.get("detail")?.toString() || "",
+			ticket_groups: undefined
 		};
 		// props.onSaveQueueSetting(queueSettingData);
 
@@ -159,15 +161,15 @@ const QueueSettingFrom: React.FC<Props> = (props) => {
 		);
 	}
 
-	if (!queueSetting) {
-		return (
-			<Fragment>
-				{heading}
-				{errorFeedback}
-				{!errorFeedback && emptyOutput}
-			</Fragment>
-		);
-	}
+	// if (!queueSetting) {
+	// 	return (
+	// 		<Fragment>
+	// 			{heading}
+	// 			{errorFeedback}
+	// 			{!errorFeedback && emptyOutput}
+	// 		</Fragment>
+	// 	);
+	// }
 
 	return (
 		<Fragment>
@@ -178,7 +180,7 @@ const QueueSettingFrom: React.FC<Props> = (props) => {
 				<Typography variant="h5" component="p" sx={{ my: fieldLabelMargin }}>
 					{lang.admin.queueSetting.display_name || "Display Name"}
 				</Typography>
-				<TextField type="text" name="display_name" defaultValue={queueSetting.display_name} label="Required" variant="outlined" required fullWidth></TextField>
+				<TextField type="text" name="display_name" defaultValue={queueSetting?.display_name || ""} label="Required" variant="outlined" required fullWidth></TextField>
 				<Typography variant="subtitle2" component="p" sx={{ mt: fieldDescMargin }}>
 					{lang.admin.queueSetting.display_name}
 				</Typography>
@@ -188,7 +190,7 @@ const QueueSettingFrom: React.FC<Props> = (props) => {
 				<Typography variant="h5" component="p" sx={{ my: fieldLabelMargin }}>
 					{lang.admin.queueSetting.detail || "Description"}
 				</Typography>
-				<TextField type="text" name="detail" defaultValue={queueSetting.detail} label="Required" variant="outlined" required fullWidth></TextField>
+				<TextField type="text" name="detail" defaultValue={queueSetting?.detail || ""} label="Required" variant="outlined" required fullWidth></TextField>
 				<Typography variant="subtitle2" component="p" sx={{ mt: fieldDescMargin }}>
 					{lang.admin.queueSetting.detail}
 				</Typography>
