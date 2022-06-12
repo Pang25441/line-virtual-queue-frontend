@@ -15,7 +15,6 @@ import { useContextAuth } from "../../contexts/AuthContext";
 import { useSnackbar } from "notistack";
 import { Alert, CircularProgress } from "@mui/material";
 import { useContextLang } from "../../contexts/LangContext";
-import { useRouter } from "next/router";
 
 const LoginPage: NextPage = () => {
 	const [loginResult, setLoginResult] = useState<null | boolean>(null);

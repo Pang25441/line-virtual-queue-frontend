@@ -15,6 +15,8 @@ type AuthContextObject = {
 	onLogout: () => Promise<boolean>;
 	getCurrentUser: () => Promise<User | false>;
 	setProfile: () => Promise<User | false>;
+	onRegister: (register: any) => Promise<any>;
+	onUpdate: (userData: User) => Promise<User | false>;
 };
 
 export const AuthContext = React.createContext<AuthContextObject>({
@@ -32,6 +34,10 @@ export const AuthContext = React.createContext<AuthContextObject>({
 		return false;
 	},
 	setProfile: async () => {
+		return false;
+	},
+	onRegister: async (register: any) => {},
+	onUpdate: async (userData: User) => {
 		return false;
 	},
 });
@@ -126,6 +132,50 @@ const AuthContextProvider: React.FC<OriginProps> = (props) => {
 		return false;
 	};
 
+	const registerHandler = async (data: any) => {
+		const response = await http.post("user/register", data);
+
+		if (response.status != 200) return false;
+
+		const content = await response.data;
+
+		setMessage(content.message);
+
+		if (content.status == StatusCode.ok) {
+			return true;
+		}
+
+		if (content.status == StatusCode.bad) {
+		}
+
+		if (content.status == StatusCode.error) {
+		}
+
+		return false;
+	};
+
+	const updateHandler = async (userData: User) => {
+		const response = await http.put("profile", userData);
+
+		if (response.status != 200) return false;
+
+		const content = await response.data;
+
+		setMessage(content.message);
+
+		if (content.status == StatusCode.ok) {
+			return content.data;
+		}
+
+		if (content.status == StatusCode.bad) {
+		}
+
+		if (content.status == StatusCode.error) {
+		}
+
+		return false;
+	};
+
 	// Initial Component
 	React.useEffect(() => {
 		if (!isInit) {
@@ -150,6 +200,8 @@ const AuthContextProvider: React.FC<OriginProps> = (props) => {
 		onLogout: logoutHandler,
 		getCurrentUser: getCurrentUserHandler,
 		setProfile: setProfileHandler,
+		onRegister: registerHandler,
+		onUpdate: updateHandler,
 	};
 
 	if (!isInit) {
