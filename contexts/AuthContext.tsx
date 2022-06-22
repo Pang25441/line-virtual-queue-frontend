@@ -16,7 +16,7 @@ type AuthContextObject = {
 	getCurrentUser: () => Promise<User | false>;
 	setProfile: () => Promise<User | false>;
 	onRegister: (register: any) => Promise<any>;
-	onUpdate: (userData: User) => Promise<User | false>;
+	onUpdate: (userData: User) => Promise<any>;
 };
 
 export const AuthContext = React.createContext<AuthContextObject>({
@@ -36,9 +36,11 @@ export const AuthContext = React.createContext<AuthContextObject>({
 	setProfile: async () => {
 		return false;
 	},
-	onRegister: async (register: any) => {},
+	onRegister: async (register: any) => {
+		return [false, false];
+	},
 	onUpdate: async (userData: User) => {
-		return false;
+		return [false, null];
 	},
 });
 
@@ -135,45 +137,49 @@ const AuthContextProvider: React.FC<OriginProps> = (props) => {
 	const registerHandler = async (data: any) => {
 		const response = await http.post("user/register", data);
 
-		if (response.status != 200) return false;
+		if (response.status != 200) return [false, "Cannot connect to server"];
 
 		const content = await response.data;
 
 		setMessage(content.message);
 
 		if (content.status == StatusCode.ok) {
-			return true;
+			return [true, content.message];
 		}
 
 		if (content.status == StatusCode.bad) {
+			return [false, content.data];
 		}
 
 		if (content.status == StatusCode.error) {
+			return [false, content.message];
 		}
 
-		return false;
+		return [false, "Unknown error"];
 	};
 
 	const updateHandler = async (userData: User) => {
 		const response = await http.put("profile", userData);
 
-		if (response.status != 200) return false;
+		if (response.status != 200) return [false, "Cannot connect to server"];
 
 		const content = await response.data;
 
 		setMessage(content.message);
 
 		if (content.status == StatusCode.ok) {
-			return content.data;
+			return [true, content.data];
 		}
 
 		if (content.status == StatusCode.bad) {
+			return [false, content.data?.error || content.message];
 		}
 
 		if (content.status == StatusCode.error) {
+			return [false, content.message];
 		}
 
-		return false;
+		return [false, null];
 	};
 
 	// Initial Component

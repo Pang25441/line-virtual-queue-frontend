@@ -1,6 +1,5 @@
 import type { NextPage } from "next";
 
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
@@ -15,6 +14,7 @@ import { useContextAuth } from "../../contexts/AuthContext";
 import { useSnackbar } from "notistack";
 import { Alert, CircularProgress } from "@mui/material";
 import { useContextLang } from "../../contexts/LangContext";
+import LangChanger from "../../components/ui/LangChanger";
 
 const LoginPage: NextPage = () => {
 	const [loginResult, setLoginResult] = useState<null | boolean>(null);
@@ -120,18 +120,25 @@ const LoginPage: NextPage = () => {
 			</Head>
 			<Container component="main" maxWidth="xs">
 				<Box sx={{ marginTop: 8, display: "flex", flexDirection: "column", alignItems: "center" }}>
-					<Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-						<LockOutlinedIcon />
-					</Avatar>
+					<LockOutlinedIcon sx={{ m: 2, fontSize: "3em" }} />
 					<Typography component="h1" variant="h5">
 						{lang.common.auth.loginTitle || "Log in"}
 					</Typography>
 					{isLoading && loadingDialog}
 					{!isLoading && (
 						<Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-							<TextField margin="normal" required fullWidth id="email" label="Email Address" name="email" autoComplete="email" defaultValue={tempEmail} autoFocus={!tempEmail} />
-							<TextField margin="normal" required fullWidth name="password" label="Password" type="password" id="password" autoComplete="current-password" autoFocus={!!tempEmail} />
-							{/* <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" /> */}
+							<TextField margin="normal" required fullWidth id="email" label={lang.common.register.label.email} name="email" autoComplete="email" defaultValue={tempEmail} autoFocus={!tempEmail} />
+							<TextField
+								margin="normal"
+								required
+								fullWidth
+								name="password"
+								label={lang.common.register.label.password}
+								type="password"
+								id="password"
+								autoComplete="current-password"
+								autoFocus={!!tempEmail}
+							/>
 
 							{loginResult === false && (
 								<Alert
@@ -153,11 +160,14 @@ const LoginPage: NextPage = () => {
 									{/* <Link href="#" variant="body2">Forgot password?</Link> */}
 								</Grid>
 								<Grid item>
-									<Link href="/auth/register" variant="body2">
-										{"Don't have an account? Sign Up"}
+									<Link href="/register" variant="body2">
+										{lang.common.register.alreadyHasAccount}
 									</Link>
 								</Grid>
 							</Grid>
+							<Box sx={{ mt: 6, textAlign: "center" }}>
+								<LangChanger />
+							</Box>
 						</Box>
 					)}
 				</Box>
