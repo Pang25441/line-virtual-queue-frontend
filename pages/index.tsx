@@ -13,6 +13,7 @@ import ScienceIcon from "@mui/icons-material/Science";
 import LangChanger from "../components/ui/LangChanger";
 import lvqFlowEn from "../public/LVQ-Flow-FlowEN.drawio.svg";
 import lvqFlowTh from "../public/LVQ-Flow-FlowTH.drawio.svg";
+import Footer from "../components/layout/Footer";
 
 const Home: NextPage = () => {
 	const [isInit, setIsInit] = useState(false);
@@ -82,7 +83,14 @@ const Home: NextPage = () => {
 					</Typography>
 				</Box>
 
-				<Stack sx={{ my: 6, textAlign: "center" }} direction="row" spacing={1} justifyContent="center">
+				<Box sx={{ my: 2, textAlign: "center", cursor: "default" }}>
+					<Typography>
+						{lang.currentLanguage == "en" && <>Manage <b>Queue Ticket</b> with Web Console and notify to your customer via <b>LINE Official Account</b></>}
+						{lang.currentLanguage == "th" && <>จัดการ <b>บัตรคิว</b> ด้วยแผงควบคุมบนเว็บ และแจ้งเตือนถึงลูกค้าของท่านผ่าน <b>LINE Official Account</b></>}
+					</Typography>
+				</Box>
+
+				<Stack sx={{ my: { xs: 2, sm: 6 }, textAlign: "center" }} direction="row" spacing={1} justifyContent="center">
 					{documentBtn}
 					{getStartBtn}
 				</Stack>
@@ -91,25 +99,23 @@ const Home: NextPage = () => {
 					<MoreHorizIcon fontSize="large" />
 				</Box>
 
-				<Box sx={{ my: 6, display: "flex", justifyContent: "center", flexDirection: "column", textAlign: "center", justifyItems: "center" }}>
+				<Box sx={{ my: { xs: 2, sm: 6 }, display: "flex", justifyContent: "center", flexDirection: "column", textAlign: "center", justifyItems: "center" }}>
 					<Typography variant="h2" sx={{ mb: 3 }}>
 						Work Flow
 					</Typography>
-					<Box sx={{display: "flex",flexDirection: "row", justifyContent: "center"}}>
-						{flowImage && <Image src={flowImage} alt="Flow Chart" layout="fixed" width={571} priority />}
-					</Box>
+					<Box sx={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>{flowImage && <Image src={flowImage} alt="Flow Chart" layout="fixed" width={571} priority />}</Box>
 				</Box>
 
 				<Box sx={{ textAlign: "center" }}>
 					<MoreHorizIcon fontSize="large" />
 				</Box>
 
-				<Stack sx={{ my: 6, textAlign: "center" }} direction="row" spacing={1} justifyContent="center">
+				<Stack sx={{ my: { xs: 2, sm: 6 }, textAlign: "center" }} direction="row" spacing={1} justifyContent="center">
 					{documentBtn}
 					{getStartBtn}
 				</Stack>
 
-				<Box sx={{ textAlign: "center", py: 2, px: 2, position: "fixed", right: 0, bottom: 0 }}>
+				<Box sx={{ textAlign: "center", py: 2, px: 2, position: "fixed", display: { xs: "none", sm: "block" }, right: 0, bottom: "40px" }}>
 					<Typography variant="caption" sx={{ color: "#aaa" }}>
 						Coming Soon
 					</Typography>
@@ -125,6 +131,7 @@ const Home: NextPage = () => {
 					<LangChanger />
 				</Box>
 			</Container>
+			<Footer />
 		</>
 	);
 };

@@ -15,6 +15,7 @@ import Register from "../../models/Register";
 import { useRouter } from "next/router";
 import { useSnackbar } from "notistack";
 import LangChanger from "../../components/ui/LangChanger";
+import Footer from "../../components/layout/Footer";
 
 const verifiedObj = { error: false, message: "" };
 const inputVerifyObj = {
@@ -152,117 +153,120 @@ const RegisterPage: NextPage = () => {
 	};
 
 	return (
-		<Container component="main" maxWidth="xs">
-			<Box
-				sx={{
-					marginTop: 8,
-					display: "flex",
-					flexDirection: "column",
-					alignItems: "center",
-				}}
-			>
-				<LockOutlinedIcon sx={{ m: 2, fontSize: "3em" }} />
-				<Typography component="h1" variant="h5">
-					{lang.common.register.registerTitle}
-				</Typography>
-				<Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-					<Grid container spacing={2}>
-						<Grid item xs={12} sm={6} sx={{ mt: 2 }}>
-							<TextField
-								required
-								fullWidth
-								error={inputVerify.first_name.error}
-								helperText={inputVerify.first_name.error && inputVerify.first_name.message}
-								id="first_name"
-								label={lang.common.register.label.firstName}
-								type="text"
-								name="first_name"
-								autoComplete="given-name"
-								autoFocus
-								disabled={isSubmit}
-								onChange={(e) => resetErrorOnChange(e, "first_name")}
-							/>
-						</Grid>
-						<Grid item xs={12} sm={6} sx={{ mt: 2 }}>
-							<TextField
-								required
-								fullWidth
-								error={inputVerify.last_name.error}
-								helperText={inputVerify.last_name.error && inputVerify.last_name.message}
-								id="last_name"
-								label={lang.common.register.label.lastName}
-								type="text"
-								name="last_name"
-								autoComplete="given-name"
-								disabled={isSubmit}
-								onChange={(e) => resetErrorOnChange(e, "last_name")}
-							/>
-						</Grid>
-						<Grid item xs={12} sx={{ mt: 2 }}>
-							<TextField
-								required
-								fullWidth
-								error={inputVerify.email.error}
-								helperText={inputVerify.email.error && inputVerify.email.message}
-								id="email"
-								label={lang.common.register.label.email}
-								type="email"
-								name="email"
-								autoComplete="email"
-								disabled={isSubmit}
-								onChange={(e) => resetErrorOnChange(e, "email")}
-							/>
-						</Grid>
-						<Grid item xs={12} sx={{ mt: 4 }}>
-							<TextField
-								required
-								fullWidth
-								error={inputVerify.password.error}
-								helperText={inputVerify.password.error && inputVerify.password.message}
-								name="password"
-								label={lang.common.register.label.password}
-								type="password"
-								id="password"
-								autoComplete="false"
-								disabled={isSubmit}
-								onChange={(e) => resetErrorOnChange(e, "password")}
-							/>
-						</Grid>
-						<Grid item xs={12} sx={{ mt: 2 }}>
-							<TextField
-								required
-								fullWidth
-								error={inputVerify.password_confirmation.error}
-								helperText={inputVerify.password_confirmation.error && inputVerify.password_confirmation.message}
-								name="password_confirmation"
-								label={lang.common.register.label.confirmedPassword}
-								type="password"
-								id="password_confirmation"
-								autoComplete="false"
-								disabled={isSubmit}
-								onChange={(e) => resetErrorOnChange(e, "password_confirmation")}
-							/>
-						</Grid>
-						{/* <Grid item xs={12}>
+		<>
+			<Container component="main" maxWidth="xs" sx={{ minHeight: "calc(100vh - 150px)" }}>
+				<Box
+					sx={{
+						marginTop: 8,
+						display: "flex",
+						flexDirection: "column",
+						alignItems: "center",
+					}}
+				>
+					<LockOutlinedIcon sx={{ m: 2, fontSize: "3em" }} />
+					<Typography component="h1" variant="h5">
+						{lang.common.register.registerTitle}
+					</Typography>
+					<Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+						<Grid container spacing={2}>
+							<Grid item xs={12} sm={6} sx={{ mt: 2 }}>
+								<TextField
+									required
+									fullWidth
+									error={inputVerify.first_name.error}
+									helperText={inputVerify.first_name.error && inputVerify.first_name.message}
+									id="first_name"
+									label={lang.common.register.label.firstName}
+									type="text"
+									name="first_name"
+									autoComplete="given-name"
+									autoFocus
+									disabled={isSubmit}
+									onChange={(e) => resetErrorOnChange(e, "first_name")}
+								/>
+							</Grid>
+							<Grid item xs={12} sm={6} sx={{ mt: 2 }}>
+								<TextField
+									required
+									fullWidth
+									error={inputVerify.last_name.error}
+									helperText={inputVerify.last_name.error && inputVerify.last_name.message}
+									id="last_name"
+									label={lang.common.register.label.lastName}
+									type="text"
+									name="last_name"
+									autoComplete="given-name"
+									disabled={isSubmit}
+									onChange={(e) => resetErrorOnChange(e, "last_name")}
+								/>
+							</Grid>
+							<Grid item xs={12} sx={{ mt: 2 }}>
+								<TextField
+									required
+									fullWidth
+									error={inputVerify.email.error}
+									helperText={inputVerify.email.error && inputVerify.email.message}
+									id="email"
+									label={lang.common.register.label.email}
+									type="email"
+									name="email"
+									autoComplete="email"
+									disabled={isSubmit}
+									onChange={(e) => resetErrorOnChange(e, "email")}
+								/>
+							</Grid>
+							<Grid item xs={12} sx={{ mt: 4 }}>
+								<TextField
+									required
+									fullWidth
+									error={inputVerify.password.error}
+									helperText={inputVerify.password.error && inputVerify.password.message}
+									name="password"
+									label={lang.common.register.label.password}
+									type="password"
+									id="password"
+									autoComplete="false"
+									disabled={isSubmit}
+									onChange={(e) => resetErrorOnChange(e, "password")}
+								/>
+							</Grid>
+							<Grid item xs={12} sx={{ mt: 2 }}>
+								<TextField
+									required
+									fullWidth
+									error={inputVerify.password_confirmation.error}
+									helperText={inputVerify.password_confirmation.error && inputVerify.password_confirmation.message}
+									name="password_confirmation"
+									label={lang.common.register.label.confirmedPassword}
+									type="password"
+									id="password_confirmation"
+									autoComplete="false"
+									disabled={isSubmit}
+									onChange={(e) => resetErrorOnChange(e, "password_confirmation")}
+								/>
+							</Grid>
+							{/* <Grid item xs={12}>
 							<FormControlLabel control={<Checkbox value="allowExtraEmails" color="primary" />} label="I want to receive inspiration, marketing promotions and updates via email." />
 						</Grid> */}
-					</Grid>
-					<Button disabled={isSubmit} type="submit" fullWidth variant="contained" sx={{ mt: 4, mb: 3 }}>
-						{lang.common.register.registerTitle}
-					</Button>
-					<Grid container justifyContent="flex-end">
-						<Grid item>
-							<Link href="../auth" variant="body2">
-								{lang.common.register.alreadyHasAccount}
-							</Link>
 						</Grid>
-					</Grid>
+						<Button disabled={isSubmit} type="submit" fullWidth variant="contained" sx={{ mt: 4, mb: 3 }}>
+							{lang.common.register.registerTitle}
+						</Button>
+						<Grid container justifyContent="flex-end">
+							<Grid item>
+								<Link href="../auth" variant="body2">
+									{lang.common.register.alreadyHasAccount}
+								</Link>
+							</Grid>
+						</Grid>
+					</Box>
 				</Box>
-			</Box>
-			<Box sx={{ mt: 6, textAlign: "center" }}>
-				<LangChanger />
-			</Box>
-		</Container>
+				<Box sx={{ mt: 6, textAlign: "center" }}>
+					<LangChanger />
+				</Box>
+			</Container>
+			<Footer />
+		</>
 	);
 };
 

@@ -8,6 +8,7 @@ import { useContextLang } from "../../../contexts/LangContext";
 import TicketDashboardComponent from "../../../components/ticket-dashboard/TicketDashboardComponent";
 import TicketAdminContextProvider from "../../../contexts/TicketAdminContext";
 import Topbar from "../../../components/layout/Topbar";
+import Footer from "../../../components/layout/Footer";
 
 const TicketDashboard: NextPage = () => {
 	const [progress, setProgress] = useState<number>(0);
@@ -41,7 +42,7 @@ const TicketDashboard: NextPage = () => {
 		<Fragment>
 			<Topbar />
 			{head}
-			<Container component="main" maxWidth="lg">
+			<Container component="main" maxWidth="lg" sx={{minHeight:"calc(100vh - 180px)"}}>
 				{/* Heading */}
 				<Box sx={{ marginTop: 12, marginBottom: 4 }}>
 					<Typography component="h1" variant="h4">
@@ -55,6 +56,7 @@ const TicketDashboard: NextPage = () => {
 					<TicketDashboardComponent onCountdownUpdate={countdownHandler}></TicketDashboardComponent>
 				</TicketAdminContextProvider>
 			</Container>
+			<Footer />
 		</Fragment>
 	);
 };

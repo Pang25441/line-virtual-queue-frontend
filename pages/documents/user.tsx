@@ -2,7 +2,7 @@ import React, { MouseEventHandler, useCallback } from "react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { AppBar, Box, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemText, SxProps, Tab, Tabs, Toolbar, Typography } from "@mui/material";
+import { AppBar, Box, Container, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemText, SxProps, Tab, Tabs, Toolbar, Typography } from "@mui/material";
 
 import MenuIcon from "@mui/icons-material/Menu";
 
@@ -12,6 +12,7 @@ import UserGuide03 from "../../components/document/user/UserGuide03";
 import UserGuide04 from "../../components/document/user/UserGuide04";
 import UserGuide05 from "../../components/document/user/UserGuide05";
 import UserGuide06 from "../../components/document/user/UserGuide06";
+import Footer from "../../components/layout/Footer";
 
 const drawerWidth = 240;
 
@@ -156,7 +157,7 @@ const UserDocumentPage: NextPage = () => {
 
 	const drawerContent = (
 		<>
-			<Toolbar  sx={{ textAlign: "center" }}>
+			<Toolbar sx={{ textAlign: "center" }}>
 				<Link href={"/"} passHref>
 					<Typography variant="h6" noWrap component="div" sx={{ mr: 2, display: { xs: "none", md: "flex", cursor: "pointer" } }}>
 						LVQ
@@ -208,7 +209,7 @@ const UserDocumentPage: NextPage = () => {
 							<MenuIcon />
 						</IconButton>
 						<Typography variant="h6" noWrap component="div">
-							User Guide
+							User Guide (Demo Version)
 						</Typography>
 					</Toolbar>
 				</AppBar>
@@ -239,13 +240,14 @@ const UserDocumentPage: NextPage = () => {
 						{drawerContent}
 					</Drawer>
 				</Box>
-				<Box component="main" sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}>
+				<Box component="main" sx={{ flexGrow: 1, p: 3,pb:0, width: { sm: `calc(100% - ${drawerWidth}px)` } }}>
 					<UserGuide01 id={menus[0].id} title={menus[0].label} />
 					<UserGuide02 id={menus[1].id} title={menus[1].label} />
 					<UserGuide03 id={menus[2].id} title={menus[2].label} />
 					<UserGuide04 id={menus[3].id} title={menus[3].label} />
 					<UserGuide05 id={menus[4].id} title={menus[4].label} />
 					<UserGuide06 id={menus[5].id} title={menus[5].label} />
+					<Footer />
 				</Box>
 			</Box>
 		</>

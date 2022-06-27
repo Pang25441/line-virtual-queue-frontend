@@ -17,6 +17,7 @@ import { useContextLang } from "../../contexts/LangContext";
 import LangChanger from "../../components/ui/LangChanger";
 import InstructionStepComponent from "../../components/instruction/InstructionSteps";
 import Topbar from "../../components/layout/Topbar";
+import Footer from "../../components/layout/Footer";
 
 const LoginPage: NextPage = () => {
 	const [loginResult, setLoginResult] = useState<null | boolean>(null);
@@ -108,7 +109,7 @@ const LoginPage: NextPage = () => {
 		return (
 			<>
 				<Topbar />
-				<Container component="main" maxWidth="lg">
+				<Container component="main" maxWidth="lg" sx={{minHeight:"calc(100vh - 210px)"}}>
 					<Box sx={{ marginTop: 15, textAlign: "center" }}>
 						<Typography component="h2" variant="h2">
 							Welcome
@@ -118,6 +119,7 @@ const LoginPage: NextPage = () => {
 						</Box>
 					</Box>
 				</Container>
+				<Footer />
 			</>
 		);
 	}
@@ -128,7 +130,7 @@ const LoginPage: NextPage = () => {
 			<Head>
 				<title>LVQ - {lang.common.auth.loginTitle || "Log in"}</title>
 			</Head>
-			<Container component="main" maxWidth="xs">
+			<Container component="main" maxWidth="xs" sx={{minHeight:"calc(100vh - 150px)"}}>
 				<Box sx={{ marginTop: 8, display: "flex", flexDirection: "column", alignItems: "center" }}>
 					<LockOutlinedIcon sx={{ m: 2, fontSize: "3em" }} />
 					<Typography component="h1" variant="h5">
@@ -182,6 +184,7 @@ const LoginPage: NextPage = () => {
 					)}
 				</Box>
 			</Container>
+			<Footer />
 		</Fragment>
 	);
 };

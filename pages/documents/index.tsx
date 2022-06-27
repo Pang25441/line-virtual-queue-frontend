@@ -4,6 +4,7 @@ import { NextPage } from "next";
 import Link from "next/link";
 import GroupIcon from "@mui/icons-material/Group";
 import CodeIcon from "@mui/icons-material/Code";
+import Footer from "../../components/layout/Footer";
 
 const DocumentPage: NextPage = () => {
 	const sx = { px: "50px", py: "40px", m: 3, display: "flex", flexDirection: "column", minWidth: { xs: "auto", sm: "260px" }, maxWidth: { xs: "100%", sm: "260px" } };
@@ -35,19 +36,24 @@ const DocumentPage: NextPage = () => {
 		</>
 	);
 	return (
-		<Container sx={{ mt: 0 }}>
-			<Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh", maxWidth: { xs: "100%", sm: "auto" }, flexDirection: "column" }}>
-				<Box sx={{ display: "flex", justifyContent: "center", flexDirection: { md: "row", xs: "column" } }}>
-					{cardUser}
-					{cardDev}
+		<>
+			<Container sx={{ mt: 0,}}>
+				<Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "calc(100vh - 90px)", maxWidth: { xs: "100%", sm: "auto" }, flexDirection: "column" }}>
+					<Box sx={{ display: "flex", justifyContent: "center", flexDirection: { md: "row", xs: "column" } }}>
+						{cardUser}
+						{cardDev}
+					</Box>
+					<Box sx={{ mt: 2 }}>
+						<Link href="/" passHref>
+							<Button color="primary" variant="outlined">
+								Home
+							</Button>
+						</Link>
+					</Box>
 				</Box>
-				<Box sx={{mt:2}}>
-					<Link href="/" passHref>
-						<Button color="primary" variant="outlined">Home</Button>
-					</Link>
-				</Box>
-			</Box>
-		</Container>
+			</Container>
+			<Footer />
+		</>
 	);
 };
 

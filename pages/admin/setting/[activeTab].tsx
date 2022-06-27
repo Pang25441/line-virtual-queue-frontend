@@ -15,6 +15,7 @@ import { useContextAuth } from "../../../contexts/AuthContext";
 import { useRouter } from "next/router";
 import { useContextLang } from "../../../contexts/LangContext";
 import Topbar from "../../../components/layout/Topbar";
+import Footer from "../../../components/layout/Footer";
 
 function a11yProps(index: number) {
 	return {
@@ -63,7 +64,7 @@ const QueueSettingPage: NextPage = () => {
 	return (
 		<>
 			<Topbar />
-			<Container component="main" maxWidth="lg">
+			<Container component="main" maxWidth="lg" sx={{minHeight:"calc(100vh - 120px)"}}>
 				{head}
 				<Typography component="h1" variant="h5" sx={{ marginTop: 4 }}>
 					Account Settings
@@ -93,6 +94,7 @@ const QueueSettingPage: NextPage = () => {
 					</Box>
 				</Box>
 			</Container>
+			<Footer />
 		</>
 	);
 };
