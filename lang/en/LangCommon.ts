@@ -25,6 +25,7 @@ export const LangCommon = {
 		settings: "Settings",
 		ticketDashboard: "Ticket Dashboard",
 		bookingDashboard: "Booking Dashboard",
+		documents: "Documents",
 	},
 
 	indexPage: {

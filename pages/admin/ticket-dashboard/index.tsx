@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { useContextLang } from "../../../contexts/LangContext";
 import TicketDashboardComponent from "../../../components/ticket-dashboard/TicketDashboardComponent";
 import TicketAdminContextProvider from "../../../contexts/TicketAdminContext";
+import Topbar from "../../../components/layout/Topbar";
 
 const TicketDashboard: NextPage = () => {
 	const [progress, setProgress] = useState<number>(0);
@@ -38,6 +39,7 @@ const TicketDashboard: NextPage = () => {
 
 	return (
 		<Fragment>
+			<Topbar />
 			{head}
 			<Container component="main" maxWidth="lg">
 				{/* Heading */}

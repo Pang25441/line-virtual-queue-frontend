@@ -24,6 +24,8 @@ export const LangCommon = {
 	menu: {
 		settings: "ตั้งค่า",
 		ticketDashboard: "แผงควบคุมบัตรคิว",
+		bookingDashboard: "Booking Dashboard",
+		documents: "คู่มือการใช้งาน",
 	},
 
 	dialog: {

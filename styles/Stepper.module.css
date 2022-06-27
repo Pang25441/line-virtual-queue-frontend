@@ -1,0 +1,12 @@
+.step {
+    font-size: 2em;
+    color: tomato!important;
+}
+
+.stepComplete {
+    color: limegreen!important;
+}
+
+.stepActive {
+    color: orange!important;
+}

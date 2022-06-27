@@ -14,6 +14,7 @@ import CalendarSettingComponent from "../../../components/settings/CalendarSetti
 import { useContextAuth } from "../../../contexts/AuthContext";
 import { useRouter } from "next/router";
 import { useContextLang } from "../../../contexts/LangContext";
+import Topbar from "../../../components/layout/Topbar";
 
 function a11yProps(index: number) {
 	return {
@@ -60,36 +61,39 @@ const QueueSettingPage: NextPage = () => {
 	);
 
 	return (
-		<Container component="main" maxWidth="lg">
-			{head}
-			<Typography component="h1" variant="h5" sx={{ marginTop: 4 }}>
-				Account Settings
-			</Typography>
-			<Box sx={{ marginTop: 4, flexGrow: 1, bgcolor: "background.paper", display: "flex" }}>
-				<Tabs orientation="vertical" variant="standard" value={value} onChange={handleTabChange} aria-label="Vertical tabs example" sx={{ borderRight: 1, borderColor: "divider" }}>
-					<Tab label={lang.admin.lineConfig.heading} sx={{ alignSelf: "end" }} {...a11yProps(0)} />
-					<Tab label={lang.admin.queueSetting.heading} sx={{ alignSelf: "end" }} {...a11yProps(1)} />
-					<Tab label={lang.admin.ticketGroup.heading} sx={{ alignSelf: "end" }} {...a11yProps(2)} />
-					{/* <Tab label="Booking Calendar" sx={{ alignSelf: "end" }} {...a11yProps(3)} /> */}
-				</Tabs>
-				<Box sx={{ flexGrow: 1 }}>
-					<TabPanel value={value} index={0}>
-						<LineConfigForm />
-					</TabPanel>
-					<TabPanel value={value} index={1}>
-						<QueueSettingFrom />
-					</TabPanel>
-					<TabPanel value={value} index={2}>
-						<TicketGroupContextProvider>
-							<TicketGroupComponent></TicketGroupComponent>
-						</TicketGroupContextProvider>
-					</TabPanel>
-					<TabPanel value={value} index={3}>
-						<CalendarSettingComponent />
-					</TabPanel>
+		<>
+			<Topbar />
+			<Container component="main" maxWidth="lg">
+				{head}
+				<Typography component="h1" variant="h5" sx={{ marginTop: 4 }}>
+					Account Settings
+				</Typography>
+				<Box sx={{ marginTop: 4, flexGrow: 1, bgcolor: "background.paper", display: "flex" }}>
+					<Tabs orientation="vertical" variant="standard" value={value} onChange={handleTabChange} aria-label="Vertical tabs example" sx={{ borderRight: 1, borderColor: "divider" }}>
+						<Tab label={lang.admin.lineConfig.heading} sx={{ alignSelf: "end" }} {...a11yProps(0)} />
+						<Tab label={lang.admin.queueSetting.heading} sx={{ alignSelf: "end" }} {...a11yProps(1)} />
+						<Tab label={lang.admin.ticketGroup.heading} sx={{ alignSelf: "end" }} {...a11yProps(2)} />
+						{/* <Tab label="Booking Calendar" sx={{ alignSelf: "end" }} {...a11yProps(3)} /> */}
+					</Tabs>
+					<Box sx={{ flexGrow: 1 }}>
+						<TabPanel value={value} index={0}>
+							<LineConfigForm />
+						</TabPanel>
+						<TabPanel value={value} index={1}>
+							<QueueSettingFrom />
+						</TabPanel>
+						<TabPanel value={value} index={2}>
+							<TicketGroupContextProvider>
+								<TicketGroupComponent></TicketGroupComponent>
+							</TicketGroupContextProvider>
+						</TabPanel>
+						<TabPanel value={value} index={3}>
+							<CalendarSettingComponent />
+						</TabPanel>
+					</Box>
 				</Box>
-			</Box>
-		</Container>
+			</Container>
+		</>
 	);
 };
 

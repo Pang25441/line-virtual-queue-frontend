@@ -24,7 +24,6 @@ function MyApp({ Component, pageProps }: AppProps) {
 					<SnackbarProvider maxSnack={5} anchorOrigin={{ vertical: "bottom", horizontal: "center" }} autoHideDuration={5000}>
 						<HttpContextProvider>
 							<AuthContextProvider>
-								<Topbar />
 								<Component {...pageProps} />
 							</AuthContextProvider>
 						</HttpContextProvider>

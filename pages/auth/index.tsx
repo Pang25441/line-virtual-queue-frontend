@@ -15,6 +15,8 @@ import { useSnackbar } from "notistack";
 import { Alert, CircularProgress } from "@mui/material";
 import { useContextLang } from "../../contexts/LangContext";
 import LangChanger from "../../components/ui/LangChanger";
+import InstructionStepComponent from "../../components/instruction/InstructionSteps";
+import Topbar from "../../components/layout/Topbar";
 
 const LoginPage: NextPage = () => {
 	const [loginResult, setLoginResult] = useState<null | boolean>(null);
@@ -104,11 +106,19 @@ const LoginPage: NextPage = () => {
 	// Is already log in
 	if (auth.isLogin) {
 		return (
-			<Box sx={{ marginTop: 15, display: "flex", flexDirection: "column", alignItems: "center" }}>
-				<Typography component="h1" variant="h1">
-					Welcome
-				</Typography>
-			</Box>
+			<>
+				<Topbar />
+				<Container component="main" maxWidth="lg">
+					<Box sx={{ marginTop: 15, textAlign: "center" }}>
+						<Typography component="h2" variant="h2">
+							Welcome
+						</Typography>
+						<Box sx={{ my: 4 }}>
+							<InstructionStepComponent />
+						</Box>
+					</Box>
+				</Container>
+			</>
 		);
 	}
 
@@ -161,7 +171,7 @@ const LoginPage: NextPage = () => {
 								</Grid>
 								<Grid item>
 									<Link href="/register" variant="body2">
-										{lang.common.register.alreadyHasAccount}
+										{lang.common.auth.doNotHaveAccount}
 									</Link>
 								</Grid>
 							</Grid>

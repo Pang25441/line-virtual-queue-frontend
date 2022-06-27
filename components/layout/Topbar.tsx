@@ -24,6 +24,7 @@ const Topbar: React.FC = () => {
 		{ label: lang.common.menu.settings || "Setting", href: "/admin/setting" },
 		// { label: "Calendar", href: "/admin/calendar" },
 		{ label: lang.common.menu.ticketDashboard || "Ticket Dashboard", href: "/admin/ticket-dashboard" },
+		{ label: lang.common.menu.documents || "Documents", href: "/documents" },
 	];
 
 	React.useEffect(() => {
