@@ -101,7 +101,7 @@ const QueueSettingFrom: React.FC<Props> = (props) => {
 		};
 		// props.onSaveQueueSetting(queueSettingData);
 
-		console.log(queueSettingData);
+		// console.log(queueSettingData);
 
 		setIsLoading(true);
 		const snackKey = enqueueSnackbar("Saveing data", { variant: "default" });
@@ -114,15 +114,15 @@ const QueueSettingFrom: React.FC<Props> = (props) => {
 	useEffect(() => {
 		// Initialize Component
 		if (!isInit && !isLoading) {
-			console.log("QueueSettingFrom", "useEffect", "Initialize");
+			// console.log("QueueSettingFrom", "useEffect", "Initialize");
 			setIsLoading(true);
 			getQueueSetting()
 				.then(() => {
-					console.log("QueueSettingFrom", "useEffect ok");
+					// console.log("QueueSettingFrom", "useEffect ok");
 				})
 				.catch((e) => {
-					console.log("QueueSettingFrom", "useEffect error");
-					console.log(e);
+					// console.log("QueueSettingFrom", "useEffect error");
+					// console.log(e);
 				})
 				.finally(() => {
 					setIsLoading(false);

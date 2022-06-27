@@ -65,7 +65,7 @@ const UserGuide04: React.FC<Props> = (props) => {
 
 			<DocumentContainer id="042-calling-queue" title="4.2 Calling Queue" component="h4">
 				<Box sx={{ ml: 0 }}>
-					<Typography paragraph>
+					<Typography component="div" paragraph>
 						{"Click "}
 						<Button color="primary" variant="contained" size="small" sx={{ fontWeight: "bold" }}>
 							Next Queue
@@ -76,7 +76,7 @@ const UserGuide04: React.FC<Props> = (props) => {
 					</Typography>
 					<DocumentImage src={img017WaitingQueue} alt="Call a queue ticket" caption="Call a queue ticket" />
 
-					<Typography paragraph>
+					<Typography component="div" paragraph>
 						<Typography>
 							You can <b>Finish</b> queue
 						</Typography>
@@ -100,7 +100,7 @@ const UserGuide04: React.FC<Props> = (props) => {
 
 			<DocumentContainer id="043-re-calling-queue" title="4.3 Re-Calling Queue" component="h4">
 				<Typography paragraph>Re-Calling use for Postponed ticket</Typography>
-				<Typography paragraph>
+				<Typography component="div" paragraph>
 					Go to <Chip color="warning" label="POSTPONE" /> tab
 				</Typography>
 				<Typography paragraph>

@@ -76,7 +76,7 @@ const UserGuide06: React.FC<Props> = (props) => {
 
 				<Box sx={{ mx: 2 }}>
 					<Typography paragraph>
-						5. Click{" "}
+						6. Click{" "}
 						<Button color="primary" variant="contained" sx={{}}>
 							Get Queue Ticket
 						</Button>
@@ -88,14 +88,14 @@ const UserGuide06: React.FC<Props> = (props) => {
 
 				<Box sx={{ mx: 2 }}>
 					<Typography paragraph>
-						6. Ticket Received then click <b>Close</b>
+						7. Ticket Received then click <b>Close</b>
 					</Typography>
 					<DocumentImage src={img006TicketReceive} alt="Ticket Received" caption="Ticket Received" />
 					<Box sx={{ my: 5 }} />
 				</Box>
 
 				<Box sx={{ mx: 2 }}>
-					<Typography paragraph>7. Ticket already sent to chat</Typography>
+					<Typography paragraph>8. Ticket already sent to chat</Typography>
 					<DocumentImage
 						src={img007TicketOnChat}
 						alt="Ticket In Chat"
@@ -114,7 +114,7 @@ const UserGuide06: React.FC<Props> = (props) => {
 				</Box>
 
 				<Box sx={{ mx: 2 }}>
-					<Typography paragraph>8. Notify when queue is calling</Typography>
+					<Typography paragraph>9. Notify when queue is calling</Typography>
 					<DocumentImage
 						src={img008Calling}
 						alt="Queue Ticket Call"
@@ -133,7 +133,7 @@ const UserGuide06: React.FC<Props> = (props) => {
 				</Box>
 
 				<Box sx={{ mx: 2 }}>
-					<Typography paragraph>9. Notify when queue is re-calling after postpone</Typography>
+					<Typography paragraph>10. Notify when queue is re-calling after postpone</Typography>
 					<DocumentImage
 						src={img009ReCalling}
 						alt="Queue Ticket Re Call"

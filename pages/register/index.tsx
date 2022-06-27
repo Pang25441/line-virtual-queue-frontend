@@ -76,9 +76,9 @@ const RegisterPage: NextPage = () => {
 		setInputVerify(verify);
 
 		if (valid) {
-			console.log("Form Valid");
+			// console.log("Form Valid");
 		} else {
-			console.log("Form invalid");
+			// console.log("Form invalid");
 		}
 
 		return valid;
@@ -100,13 +100,13 @@ const RegisterPage: NextPage = () => {
 		event.preventDefault();
 		setIsSubmit(true);
 		const data = new FormData(event.currentTarget);
-		console.log({
-			first_name: data.get("first_name"),
-			last_name: data.get("last_name"),
-			email: data.get("email"),
-			password: data.get("password"),
-			password_confirmation: data.get("password_confirmation"),
-		});
+		// console.log({
+		// 	first_name: data.get("first_name"),
+		// 	last_name: data.get("last_name"),
+		// 	email: data.get("email"),
+		// 	password: data.get("password"),
+		// 	password_confirmation: data.get("password_confirmation"),
+		// });
 
 		const register: Register = {
 			first_name: data.get("first_name")?.toString() || "",

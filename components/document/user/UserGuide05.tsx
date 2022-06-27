@@ -16,7 +16,7 @@ const UserGuide05: React.FC<Props> = (props) => {
 	const { id, title } = props;
 
 	return <DocumentContainer id={id} title={title}>
-        <Typography paragraph>
+        <Typography component="div" paragraph>
             {"At "}
             <Button color="primary" variant="text" href="/auth" target="_blank">landing page</Button>
             {" after signed in"}

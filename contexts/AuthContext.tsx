@@ -112,7 +112,7 @@ const AuthContextProvider: React.FC<OriginProps> = (props) => {
 	const loginHandler = async (credential: LoginCredential) => {
 		const response = await http.post("auth/login", credential);
 
-		console.log(response);
+		// console.log(response);
 		if (response.status != 200) return false;
 
 		const content = await response.data;

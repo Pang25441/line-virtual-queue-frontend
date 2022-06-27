@@ -54,10 +54,10 @@ const TicketGroupAdminItem: React.FC<Props> = (props) => {
 	React.useEffect(() => {
 		// Initialize Component
 		if (props.ticketGroup.active !== 1) return;
-		console.log("Initialize ticket list");
+		// console.log("Initialize ticket list");
 		const ticketlang = lang.ticket;
 		const pastStatus = [ticketlang.status.calling, ticketlang.status.executed, ticketlang.status.rejected, ticketlang.status.lost];
-		console.log(ticketGroup.tickets);
+		// console.log(ticketGroup.tickets);
 		const _currentQueue = ticketGroup.tickets?.filter((ticket) => ticket.status === 2 && ticket.is_postpone === 0)[0] || null;
 
 		const _waitingQueue = ticketGroup.tickets?.filter((ticket) => ticket.ticket_status.code == ticketlang.status.pending) || [];
@@ -113,7 +113,7 @@ const TicketGroupAdminItem: React.FC<Props> = (props) => {
 	};
 
 	const nextQueueHandler = () => {
-		console.log("Next Queue Start Process");
+		// console.log("Next Queue Start Process");
 		setNextQueueDelay(true);
 		setDelayRemain(3);
 	};
@@ -154,7 +154,7 @@ const TicketGroupAdminItem: React.FC<Props> = (props) => {
 	);
 
 	const nextQueueAction = React.useCallback(async () => {
-		console.log("Execute Next Queue Trigger");
+		// console.log("Execute Next Queue Trigger");
 		if (ticketGroup.id) {
 			setNextQueueDelay(false);
 			setIsLoading((prevState) => {
@@ -193,7 +193,7 @@ const TicketGroupAdminItem: React.FC<Props> = (props) => {
 	}, [closeSnackbar, currentQueue, enqueueSnackbar, finishQueueHandler, ticketAdminCtx, ticketGroup.id, waitingQueueList.length]);
 
 	const aboartQueueHandler = () => {
-		console.log("Next Queue Abort");
+		// console.log("Next Queue Abort");
 		enqueueSnackbar("Aborted", { variant: "default" });
 		setNextQueueDelay(false);
 	};

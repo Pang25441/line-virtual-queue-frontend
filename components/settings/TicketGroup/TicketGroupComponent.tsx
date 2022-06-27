@@ -61,16 +61,16 @@ const TicketGroupComponent: React.FC<Props> = (props) => {
 
 	const handleOpenUpdateForm = (id: number) => {
 		let selected = ticketGroups.find((data) => data.id === id) || null;
-		console.log("find id ", id, !!selected);
+		// console.log("find id ", id, !!selected);
 		setSelectedTicketGroup(selected);
 		setFormOpen(true);
 	};
 
 	const handleSave = async (data: TicketGroup) => {
 		setIsLoading(true);
-		console.log("handleSave", "data", data);
+		// console.log("handleSave", "data", data);
 		const result = data.id ? await ticketGroupCtx.updateTicketGroup(data) : await ticketGroupCtx.createTicketGroup(data);
-		console.log("handleSave", "result", result);
+		// console.log("handleSave", "result", result);
 		setFormOpen(false);
 		enqueueSnackbar("Ticket Group Saved Successful", { variant: "success" });
 		if (result) {
@@ -119,16 +119,16 @@ const TicketGroupComponent: React.FC<Props> = (props) => {
 
 	useEffect(() => {
 		// Initial Component
-		console.log("Initialize Ticket Group Component");
+		// console.log("Initialize Ticket Group Component");
 		if (!isInit && !isLoading) {
-			console.log("TicketGroupComponent", "reloadTicketGroupList");
+			// console.log("TicketGroupComponent", "reloadTicketGroupList");
 			setIsLoading(true);
 			reloadTicketGroupList()
 				.then(() => {
-					console.log("TicketGroupComponent", "ok");
+					// console.log("TicketGroupComponent", "ok");
 				})
 				.finally(() => {
-					console.log("TicketGroupComponent", "finally");
+					// console.log("TicketGroupComponent", "finally");
 					setIsInit(true);
 					setIsLoading(false);
 				});

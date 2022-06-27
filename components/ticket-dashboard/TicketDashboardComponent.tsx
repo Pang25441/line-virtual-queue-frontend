@@ -28,7 +28,7 @@ const TicketDashboardComponent: React.FC<Props> = (props) => {
 	useEffect(() => {
 		if (isInit) return;
 		setIsInit(true);
-		console.log("initial");
+		// console.log("initial");
 
 		const init = async () => {
 			const result = await ticketAdminCtx.getTicketGroupList();
@@ -65,7 +65,7 @@ const TicketDashboardComponent: React.FC<Props> = (props) => {
 		// countdown finish
 		if (!isInitDone) return;
 		if (countdown === 0 && !isLoading) {
-			console.log("Refresh");
+			// console.log("Refresh");
 			setIsLoading(true);
 			ticketAdminCtx
 				.getTicketGroupList()

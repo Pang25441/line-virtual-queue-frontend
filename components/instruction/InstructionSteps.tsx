@@ -40,11 +40,11 @@ const InstructionStepComponent: React.FC = () => {
 		if (isInit) return;
 		setIsinit(true);
 
-		console.log("initial");
+		// console.log("initial");
 
 		checkSettingStatus().then((data) => {
 			if (data) {
-				console.log(data);
+				// console.log(data);
 				setSettingStatus(data);
 			} else {
 				console.log("err");
@@ -89,7 +89,7 @@ const InstructionStepComponent: React.FC = () => {
 		}
 
 		setActiveStep(activeStep);
-		console.log("activeStep =", activeStep);
+		// console.log("activeStep =", activeStep);
 	}, [settingStatus]);
 
 	const stepRender = (step: any) => {

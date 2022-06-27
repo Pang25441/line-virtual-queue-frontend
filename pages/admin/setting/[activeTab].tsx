@@ -43,7 +43,7 @@ const QueueSettingPage: NextPage = () => {
 	}, [activeTab]);
 
 	const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
-		console.log("handleTabChange", newValue);
+		// console.log("handleTabChange", newValue);
 		// setValue(newValue);
 		router.replace("/admin/setting/" + tabIdentify[newValue], undefined, { shallow: true });
 	};

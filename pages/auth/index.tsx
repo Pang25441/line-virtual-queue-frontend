@@ -72,7 +72,7 @@ const LoginPage: NextPage = () => {
 			password: data.get("password")?.toString() || "",
 		};
 
-		console.log("Clear password input");
+		// console.log("Clear password input");
 		var pwd = event.currentTarget.elements.namedItem("password") as HTMLInputElement;
 		if (pwd) pwd.value = "";
 

@@ -88,7 +88,7 @@ const UserDocumentPage: NextPage = () => {
 			}
 		});
 
-		console.log(loadedGuideObject);
+		// console.log(loadedGuideObject);
 		setLoadedGuide(loadedGuideObject);
 	}, [h]);
 

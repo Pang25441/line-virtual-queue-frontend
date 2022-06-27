@@ -32,7 +32,7 @@ const TicketGroupForm: React.FC<Props> = (props) => {
 	const lang = useContextLang();
 
 	useEffect(() => {
-		console.log("TicketGroupForm", "useEffect");
+		// console.log("TicketGroupForm", "useEffect");
 		if (open) {
 			if (ticketGroup && ticketGroup?.id) {
 				ticketGroupCtx
@@ -41,7 +41,7 @@ const TicketGroupForm: React.FC<Props> = (props) => {
 						setTicketGroupData(data);
 						if (data) {
 							setActiveStatus(data.active || 0);
-							console.log("ticketGroup", data.id);
+							// console.log("ticketGroup", data.id);
 						} else {
 							setActiveStatus(0);
 						}
