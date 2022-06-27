@@ -96,7 +96,7 @@ const Home: NextPage = () => {
 						Work Flow
 					</Typography>
 					<Box sx={{display: "flex",flexDirection: "row", justifyContent: "center"}}>
-						{flowImage && <Image src={flowImage} alt="Flow Chart" layout="fixed" width={571} />}
+						{flowImage && <Image src={flowImage} alt="Flow Chart" layout="fixed" width={571} priority />}
 					</Box>
 				</Box>
 

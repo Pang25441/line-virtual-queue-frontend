@@ -5,6 +5,7 @@ import LoginCredential from "../models/util/LoginCredential";
 import OriginProps from "../models/util/OriginProps";
 import StatusCode from "../models/util/StatusCode";
 import { useContextHttp } from "./HttpContext";
+import dayjs from "dayjs";
 
 type AuthContextObject = {
 	isInit: boolean;
@@ -53,10 +54,24 @@ const AuthContextProvider: React.FC<OriginProps> = (props) => {
 	const http = useContextHttp();
 
 	const setup = React.useCallback(async () => {
+		const csrf = localStorage.getItem("csrf");
+		const now = dayjs();
+		if (csrf) {
+			const csrfDate = dayjs(csrf);
+			if (csrfDate.diff(now, "day", true) < 1) {
+				localStorage.setItem("csrf", now.toISOString());
+				return;
+			}
+		}
+		localStorage.setItem("csrf", now.toISOString());
 		await http.getBase("sanctum/csrf-cookie");
 	}, [http]);
 
 	const getCurrentUserHandler = React.useCallback(async () => {
+		const is_login = localStorage.getItem("is_login");
+		if (is_login == null || is_login == "0") {
+			return false;
+		}
 		try {
 			const response = await http.get("profile");
 			if (response.status != 200) return false;
@@ -70,12 +85,13 @@ const AuthContextProvider: React.FC<OriginProps> = (props) => {
 					created_at: data.created_at,
 					updated_at: data.updated_at,
 				};
+				localStorage.setItem("is_login", "1");
 				return user;
 			}
 		} catch (error) {
 			console.log("Unauthenticated.");
 		}
-
+		localStorage.setItem("is_login", "0");
 		return false;
 	}, [http]);
 
@@ -105,6 +121,7 @@ const AuthContextProvider: React.FC<OriginProps> = (props) => {
 
 		if (content.status == StatusCode.ok) {
 			setIsLogin(true);
+			localStorage.setItem("is_login", "1");
 			return true;
 		}
 
@@ -114,6 +131,7 @@ const AuthContextProvider: React.FC<OriginProps> = (props) => {
 		if (content.status == StatusCode.error) {
 		}
 
+		localStorage.setItem("is_login", "0");
 		setIsLogin(false);
 		return false;
 	};
@@ -124,6 +142,9 @@ const AuthContextProvider: React.FC<OriginProps> = (props) => {
 		if (response.status != 200) return false;
 
 		const content = await response.data;
+
+		localStorage.removeItem("is_login");
+		localStorage.removeItem("csrf");
 
 		if (content.status == StatusCode.ok) {
 			setCurrentUser(null);
