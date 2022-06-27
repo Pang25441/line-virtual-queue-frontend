@@ -13,10 +13,18 @@ import LangContextProvider from "../contexts/LangContext";
 const theme = createTheme({ palette: { mode: "dark" } });
 
 function MyApp({ Component, pageProps }: AppProps) {
+	const nofollow = process.env.NEXT_PUBLIC_NO_FOLLOW;
 	return (
 		<>
 			<Head>
-				<title>LVQ</title>
+				<title>LVQ - LINE Virtual Queue</title>
+				<meta name="description" content="Manage Queue Ticket with Web Console and notify to your customer via LINE Official Account" />
+				{nofollow == "yes" && (
+					<>
+						<meta name="robots" content="noindex" />
+						<meta name="robots" content="nofollow" />
+					</>
+				)}
 			</Head>
 			<LangContextProvider>
 				<ThemeProvider theme={theme}>

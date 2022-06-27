@@ -71,7 +71,7 @@ const Home: NextPage = () => {
 	return (
 		<>
 			<Head>
-				<title>LVQ - Home</title>
+				<title>LVQ - LINE Virtual Queue</title>
 			</Head>
 			<Container maxWidth="lg">
 				<Box sx={{ mt: 6, textAlign: "center", cursor: "default" }}>
