@@ -20,10 +20,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 				<title>LVQ - LINE Virtual Queue</title>
 				<meta name="description" content="Manage Queue Ticket with Web Console and notify to your customer via LINE Official Account" />
 				{nofollow == "yes" && (
-					<>
-						<meta name="robots" content="noindex" />
-						<meta name="robots" content="nofollow" />
-					</>
+					<meta name="robots" content="noindex, nofollow" />
 				)}
 			</Head>
 			<LangContextProvider>
